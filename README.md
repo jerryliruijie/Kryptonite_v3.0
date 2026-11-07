@@ -44,3 +44,57 @@ Put your predictions in a directory called `hiddenlabels` at the top level of yo
 ### Requirements
 
 Python 3 with `numpy`, `scipy`, `scikit-learn`, `torch` and `matplotlib`. Every experiment runs on a laptop CPU.
+
+### Shared environment
+
+Use Python 3.12 and run the following commands from the repository root. The pinned dependencies in `requirements.txt` include Jupyter and ipykernel. The `.venv` directory is local to each team member and is ignored by Git.
+
+Windows PowerShell:
+
+```powershell
+python --version
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe example_shared.py
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+macOS/Linux:
+
+```bash
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python example_shared.py
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+Confirm that `python --version` reports Python 3.12 on Windows before creating the environment; use the path to a Python 3.12 executable if needed. The example reads the shared data split and evaluates example predictions. Run it and the tests on each team member's computer before starting comparable experiments. The pinned versions were verified with Python 3.12 on Windows; macOS/Linux installation remains to be verified by the team.
+
+### Shared datasets and evaluation
+
+Each labelled dataset uses a fixed, stratified **70% training / 20% validation / 10% local test** split, generated in two stages with `random_state=67`. The `splits/` directory contains the saved row indices and a manifest recording the seed, sample counts and source-data fingerprints. Use these files to ensure all members use the same rows. The original arrays retain their row order. Training seeds are recorded separately from the split seed.
+
+| Dataset | Training | Validation | Local test |
+|---|---:|---:|---:|
+| Kryptonite-20 | 8,400 | 2,400 | 1,200 |
+| Kryptonite-30 | 14,000 | 4,000 | 2,000 |
+| Kryptonite-40 | 22,400 | 6,400 | 3,200 |
+| Kryptonite-40-Adapt | 2,800 | 800 | 400 |
+
+The `common` module accepts `"20"`, `"30"`, `"40"`, or `"40-adapt"`:
+
+```python
+from common import evaluate, load_dataset, load_hidden, load_split
+
+X, y = load_dataset("20")
+X_train, y_train, X_val, y_val, X_test, y_test = load_split("20")
+X_hidden = load_hidden("20")
+metrics = evaluate([0, 0, 1, 1], [0, 1, 1, 1])
+print(metrics)
+```
+
+`evaluate` returns accuracy, precision, recall, F1, specificity and a confusion matrix ordered as `[[TN, FP], [FN, TP]]`. Class 1 is positive. Pass `y_score` to calculate ROC-AUC; it is returned as `None` when `y_true` contains only one class. Inputs to the data loader are raw; fit any preprocessing on the training set and apply it to the other splits. KryptoNet returns logits, and its provided example predicts class 1 when the logit is greater than zero.
+
+The saved splits are intended to be shared with the group. `create_splits.py` will refuse to overwrite existing shared files. If the group agrees to regenerate them, pass `--force` to the script using `.\.venv\Scripts\python.exe create_splits.py --force` on Windows or `.venv/bin/python create_splits.py --force` on macOS/Linux. Preserve the generated index files and manifest together.
+
+For each experiment, record at least the dataset, model, split version, training seed, parameter settings, validation metrics and training time. Record preprocessing, hardware, code revision and output paths as well to support comparisons and reproducibility. The hidden arrays are used to generate final predictions in their original row order.
