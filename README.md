@@ -98,3 +98,7 @@ print(metrics)
 The saved splits are intended to be shared with the group. `create_splits.py` will refuse to overwrite existing shared files. If the group agrees to regenerate them, pass `--force` to the script using `.\.venv\Scripts\python.exe create_splits.py --force` on Windows or `.venv/bin/python create_splits.py --force` on macOS/Linux. Preserve the generated index files and manifest together.
 
 For each experiment, record at least the dataset, model, split version, training seed, parameter settings, validation metrics and training time. Record preprocessing, hardware, code revision and output paths as well to support comparisons and reproducibility. The hidden arrays are used to generate final predictions in their original row order.
+
+### Baselines and learning curves
+
+See [the experiment protocol and handoff](docs/baseline_experiments.md) for the data audit, common result fields and subset usage. Run `python baselines.py --output results/baseline_runs_rerun.csv` to reproduce the validation experiments, and open `BaselineResults.ipynb` for the baseline table and learning curve.
