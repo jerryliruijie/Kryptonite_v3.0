@@ -1,0 +1,180 @@
+{
+  "groups": [
+    {
+      "dataset": "20",
+      "width": 128,
+      "n_seeds": 3,
+      "test_size": 1200,
+      "mean_test_accuracy": 0.8891666666666667,
+      "sample_std_test_accuracy": 0.0014433756729740977,
+      "mean_validation_accuracy": 0.9036111111111111,
+      "primary_configuration": false
+    },
+    {
+      "dataset": "20",
+      "width": 256,
+      "n_seeds": 3,
+      "test_size": 1200,
+      "mean_test_accuracy": 0.8941666666666667,
+      "sample_std_test_accuracy": 0.008036375634160792,
+      "mean_validation_accuracy": 0.9056944444444444,
+      "primary_configuration": true
+    },
+    {
+      "dataset": "30",
+      "width": 128,
+      "n_seeds": 3,
+      "test_size": 2000,
+      "mean_test_accuracy": 0.9075000000000001,
+      "sample_std_test_accuracy": 0.01783956277491127,
+      "mean_validation_accuracy": 0.8963333333333333,
+      "primary_configuration": false
+    },
+    {
+      "dataset": "30",
+      "width": 256,
+      "n_seeds": 3,
+      "test_size": 2000,
+      "mean_test_accuracy": 0.9186666666666667,
+      "sample_std_test_accuracy": 0.0062516664445037085,
+      "mean_validation_accuracy": 0.91025,
+      "primary_configuration": true
+    },
+    {
+      "dataset": "40",
+      "width": 128,
+      "n_seeds": 3,
+      "test_size": 3200,
+      "mean_test_accuracy": 0.9268749999999999,
+      "sample_std_test_accuracy": 0.009504316453590976,
+      "mean_validation_accuracy": 0.9308333333333333,
+      "primary_configuration": false
+    },
+    {
+      "dataset": "40",
+      "width": 256,
+      "n_seeds": 3,
+      "test_size": 3200,
+      "mean_test_accuracy": 0.9363541666666667,
+      "sample_std_test_accuracy": 0.006948002560688452,
+      "mean_validation_accuracy": 0.9348958333333334,
+      "primary_configuration": true
+    }
+  ],
+  "designated_single_models": [
+    {
+      "run_id": "p2_r1_20_w256_seed42",
+      "dataset": "20",
+      "width": 256,
+      "seed": 42,
+      "best_epoch": 39,
+      "parameter_count": 71425,
+      "primary_configuration": true,
+      "designated_single_model": true,
+      "validation_accuracy": 0.91375,
+      "test_size": 1200,
+      "test_correct": 1077,
+      "test_metrics": {
+        "accuracy": 0.8975,
+        "precision": 0.890728476821192,
+        "recall": 0.9042016806722689,
+        "f1": 0.8974145120934112,
+        "specificity": 0.8909090909090909,
+        "confusion_matrix": [
+          [
+            539,
+            66
+          ],
+          [
+            57,
+            538
+          ]
+        ],
+        "roc_auc": 0.9440433363428016,
+        "loss": 0.32008153223651853
+      },
+      "accuracy_wilson95": [
+        0.8790513267399999,
+        0.9134118277808257
+      ],
+      "checkpoint_sha256": "51370ed2c5d40ec164bc371a521408ccf7a2f903b3e8fa73155086fe9272807f",
+      "evaluation_seconds": 0.004388332999951672
+    },
+    {
+      "run_id": "p2_r1_30_w256_seed42",
+      "dataset": "30",
+      "width": 256,
+      "seed": 42,
+      "best_epoch": 34,
+      "parameter_count": 73985,
+      "primary_configuration": true,
+      "designated_single_model": true,
+      "validation_accuracy": 0.91275,
+      "test_size": 2000,
+      "test_correct": 1843,
+      "test_metrics": {
+        "accuracy": 0.9215,
+        "precision": 0.9168316831683169,
+        "recall": 0.9269269269269269,
+        "f1": 0.9218516674962668,
+        "specificity": 0.916083916083916,
+        "confusion_matrix": [
+          [
+            917,
+            84
+          ],
+          [
+            73,
+            926
+          ]
+        ],
+        "roc_auc": 0.958072958072958,
+        "loss": 0.2823196526875796
+      },
+      "accuracy_wilson95": [
+        0.9088882444698968,
+        0.9324956846720068
+      ],
+      "checkpoint_sha256": "75639a7ca42c0441b1dbd38c411e20b693e721b6b7f404146ecde855d0d0e054",
+      "evaluation_seconds": 0.00488737499972558
+    },
+    {
+      "run_id": "p2_r1_40_w256_seed42",
+      "dataset": "40",
+      "width": 256,
+      "seed": 42,
+      "best_epoch": 18,
+      "parameter_count": 76545,
+      "primary_configuration": true,
+      "designated_single_model": true,
+      "validation_accuracy": 0.931875,
+      "test_size": 3200,
+      "test_correct": 2984,
+      "test_metrics": {
+        "accuracy": 0.9325,
+        "precision": 0.9247842170160296,
+        "recall": 0.9410288582183187,
+        "f1": 0.9328358208955224,
+        "specificity": 0.9240348692403487,
+        "confusion_matrix": [
+          [
+            1484,
+            122
+          ],
+          [
+            94,
+            1500
+          ]
+        ],
+        "roc_auc": 0.9597888876562325,
+        "loss": 0.24521809402615322
+      },
+      "accuracy_wilson95": [
+        0.9232785801082121,
+        0.9406842706062789
+      ],
+      "checkpoint_sha256": "670d5702e8d3ef7094b1a237ad49fa1c4af0ed01a3946758aa4d6ea32bca31b3",
+      "evaluation_seconds": 0.0056643749999238935
+    }
+  ]
+}

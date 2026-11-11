@@ -1,0 +1,50 @@
+{
+  "runs": [
+    {
+      "run_id": "pilot_20_provenance_fix",
+      "validation_row_order_verified": true,
+      "fresh_reload_max_error": 0.0,
+      "accuracy_recomputed": 0.8958333333333334,
+      "no_test_evaluation": true
+    },
+    {
+      "run_id": "p2_r1_20_w256_seed42",
+      "validation_row_order_verified": true,
+      "fresh_reload_max_error": 0.0,
+      "accuracy_recomputed": 0.91375,
+      "no_test_evaluation": true
+    },
+    {
+      "run_id": "p2_r1_30_w128_seed42",
+      "validation_row_order_verified": true,
+      "fresh_reload_max_error": 0.0,
+      "accuracy_recomputed": 0.90825,
+      "no_test_evaluation": true
+    },
+    {
+      "run_id": "p2_r1_30_w256_seed42",
+      "validation_row_order_verified": true,
+      "fresh_reload_max_error": 0.0,
+      "accuracy_recomputed": 0.91275,
+      "no_test_evaluation": true
+    },
+    {
+      "run_id": "p2_r1_40_w128_seed42",
+      "validation_row_order_verified": true,
+      "fresh_reload_max_error": 0.0,
+      "accuracy_recomputed": 0.935625,
+      "no_test_evaluation": true
+    },
+    {
+      "run_id": "p2_r1_40_w256_seed42",
+      "validation_row_order_verified": true,
+      "fresh_reload_max_error": 0.0,
+      "accuracy_recomputed": 0.931875,
+      "no_test_evaluation": true
+    }
+  ],
+  "new_runs": 5,
+  "reused_runs": 1,
+  "tests_passed": 24,
+  "test_evaluated": false
+}

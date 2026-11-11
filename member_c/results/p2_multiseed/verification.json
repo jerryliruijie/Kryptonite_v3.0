@@ -1,0 +1,119 @@
+{
+  "tests_passed": 27,
+  "checkpoints_verified": 18,
+  "reused_artifacts_unchanged": 77,
+  "runs": [
+    {
+      "run_id": "pilot_20_provenance_fix",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_20_w128_seed123",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_20_w128_seed2026",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_r1_20_w256_seed42",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_20_w256_seed123",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_20_w256_seed2026",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_r1_30_w128_seed42",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_30_w128_seed123",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_30_w128_seed2026",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_r1_30_w256_seed42",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_30_w256_seed123",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_30_w256_seed2026",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_r1_40_w128_seed42",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_40_w128_seed123",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_40_w128_seed2026",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_r1_40_w256_seed42",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_40_w256_seed123",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    },
+    {
+      "run_id": "p2_ms_40_w256_seed2026",
+      "validation_rows_verified": true,
+      "checkpoint_reload_max_abs_error": 0.0,
+      "test_evaluated": false
+    }
+  ],
+  "new_epochs_total": 826,
+  "new_runs_all_early_stopped": true,
+  "new_process_wall_seconds_total": 67.34074083198357,
+  "test_evaluated": false
+}

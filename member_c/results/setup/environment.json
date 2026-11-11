@@ -1,0 +1,135 @@
+{
+  "recorded_at": "2026-11-09T20:56:13.245871+00:00",
+  "python": "3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "machine": "arm64",
+  "cpu": "Apple M3 Pro",
+  "logical_cpu_count": 11,
+  "memory_bytes": 19327352832,
+  "thread_environment_for_checks": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "torch_num_threads": 1,
+  "torch_num_interop_threads": 11,
+  "threadpools": [
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libomp",
+      "filepath": "/Users/hardenzhao/Kryptonite_v3.0/.venv/lib/python3.12/site-packages/torch/lib/libomp.dylib",
+      "version": null
+    }
+  ],
+  "direct_dependencies": {
+    "numpy": {
+      "expected": "2.5.4",
+      "installed": "2.5.4",
+      "matches": true
+    },
+    "scipy": {
+      "expected": "1.18.1",
+      "installed": "1.18.1",
+      "matches": true
+    },
+    "scikit-learn": {
+      "expected": "1.9.1",
+      "installed": "1.9.1",
+      "matches": true
+    },
+    "torch": {
+      "expected": "2.15.0",
+      "installed": "2.15.0",
+      "matches": true
+    },
+    "matplotlib": {
+      "expected": "3.11.2",
+      "installed": "3.11.2",
+      "matches": true
+    },
+    "jupyter": {
+      "expected": "1.1.1",
+      "installed": "1.1.1",
+      "matches": true
+    },
+    "ipykernel": {
+      "expected": "7.4.0",
+      "installed": "7.4.0",
+      "matches": true
+    },
+    "pytest": {
+      "expected": "9.2.0",
+      "installed": "9.2.0",
+      "matches": true
+    }
+  },
+  "git_head": "ee63428019daebdf0b585d94b81e23b49264994d",
+  "git_status_at_check": "?? Coursework_Team_Execution_Plan(1).pdf\n?? member_c/",
+  "source_sha256": {
+    "requirements.txt": "adfde5e6da8760f15e49b3a8d66b486b413fe632735efd767334772520f302ca",
+    "common.py": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "create_splits.py": "605b212309ca828f5bf7123afc3f187d40e695964f5b19fbaf9a5f525d6f7cbb",
+    "example_shared.py": "bbce4f410bdea8d38870b0842328bb7f969f17e63edccc976460b8171731d259",
+    "tests/test_common.py": "113484fe3f92e810100869be8ea30db93cd699b420f113027c4d69f0f1febc06",
+    "kryptonet.py": "88966fca18905d9dc0f07b95166cea5f2185c7d23dc5fefc7aa59cf9429f25d0",
+    "splits/manifest.json": "f04321a989ed6c6816d23f8a4803cbde150c898b1342bcfbae997749585a0e00"
+  },
+  "checks": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5358420420016046,
+      "log": "pip-check.log"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "example_shared.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 16.360338832997513,
+      "log": "example.log"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.153897084001073,
+      "log": "tests.log"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip",
+        "freeze",
+        "--all"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.31024566600171966,
+      "log": "requirements-resolved.txt"
+    }
+  ],
+  "data_integrity_all_passed": true,
+  "model_training_performed": false,
+  "model_test_metrics_evaluated": false,
+  "physical_cpu_count": 11,
+  "hardware_capture_note": "Read-only sysctl query outside the sandbox; sandbox initially denied CPU/memory lookup.",
+  "hardware_capture_command": "/usr/sbin/sysctl -n machdep.cpu.brand_string hw.memsize hw.physicalcpu hw.logicalcpu"
+}

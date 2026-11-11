@@ -1,0 +1,8 @@
+20: train=(8400, 20), validation=(2400, 20), test=(1200, 20)
+  validation example: {'accuracy': 0.5041666666666667, 'precision': 0.0, 'recall': 0.0, 'f1': 0.0, 'specificity': 1.0, 'confusion_matrix': [[1210, 0], [1190, 0]]}
+30: train=(14000, 30), validation=(4000, 30), test=(2000, 30)
+  validation example: {'accuracy': 0.5005, 'precision': 0.0, 'recall': 0.0, 'f1': 0.0, 'specificity': 1.0, 'confusion_matrix': [[2002, 0], [1998, 0]]}
+40: train=(22400, 40), validation=(6400, 40), test=(3200, 40)
+  validation example: {'accuracy': 0.501875, 'precision': 0.0, 'recall': 0.0, 'f1': 0.0, 'specificity': 1.0, 'confusion_matrix': [[3212, 0], [3188, 0]]}
+40-adapt: train=(2800, 40), validation=(800, 40), test=(400, 40)
+  validation example: {'accuracy': 0.48625, 'precision': 0.0, 'recall': 0.0, 'f1': 0.0, 'specificity': 1.0, 'confusion_matrix': [[389, 0], [411, 0]]}

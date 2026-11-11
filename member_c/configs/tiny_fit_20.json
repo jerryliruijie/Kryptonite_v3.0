@@ -1,0 +1,14 @@
+{
+  "dataset": "20",
+  "hidden_sizes": [128, 128],
+  "seed": 42,
+  "learning_rate": 0.001,
+  "batch_size": 128,
+  "weight_decay": 0.0,
+  "max_epochs": 300,
+  "min_epochs": 1,
+  "patience": null,
+  "threads": 1,
+  "purpose": "tiny_fit",
+  "subset_size": 128
+}

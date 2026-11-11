@@ -1,0 +1,33 @@
+{
+  "scope": "Direct Matplotlib notebook display; no figure exports, training or test rescoring",
+  "notebooks": [
+    {
+      "notebook": "member_c/notebooks/p2_multiseed.ipynb",
+      "executed_cells": 3,
+      "inline_plots": 1,
+      "sha256": "31ab3761425f4531890f10e62648f44a52ee9c4de0e5862663d63fcd29c18ff6"
+    },
+    {
+      "notebook": "member_c/notebooks/p2_round1.ipynb",
+      "executed_cells": 2,
+      "inline_plots": 1,
+      "sha256": "17e0ac826c06dcb5fcebe3238adc25464cae8cf742c070b76257788f56505633"
+    },
+    {
+      "notebook": "member_c/notebooks/p3_test.ipynb",
+      "executed_cells": 3,
+      "inline_plots": 1,
+      "sha256": "c74c7a92786dd413db6fe971eb060a68aae348319842b8f42946d822aa4d4790"
+    },
+    {
+      "notebook": "member_c/notebooks/pilot_20.ipynb",
+      "executed_cells": 2,
+      "inline_plots": 1,
+      "sha256": "156507d45d0c9e2a2d13954731f570b351c2a17fe173160e60f0238e6162b3e6"
+    }
+  ],
+  "unchanged_protected_files": 284,
+  "external_latex_required": false,
+  "removed_generated_PDFs": 4,
+  "historical_verification": "verification.json records the superseded PDF exports"
+}
