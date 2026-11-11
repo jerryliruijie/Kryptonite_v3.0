@@ -1,0 +1,57 @@
+{
+  "config": {
+    "dataset": "20",
+    "hidden_sizes": [
+      128,
+      128
+    ],
+    "seed": 42,
+    "learning_rate": 0.001,
+    "batch_size": 256,
+    "weight_decay": 0.0001,
+    "max_epochs": 150,
+    "min_epochs": 30,
+    "patience": 20,
+    "threads": 1,
+    "purpose": "pilot",
+    "subset_size": null
+  },
+  "training_size": 8400,
+  "validation_size": 2400,
+  "initial_training": {
+    "loss": 0.6934750311715262,
+    "accuracy": 0.5070238095238095
+  },
+  "best_training": {
+    "loss": 0.05687304326466151,
+    "accuracy": 0.9920238095238095
+  },
+  "best_epoch": 73,
+  "epochs_run": 93,
+  "stop_reason": "early_stopping",
+  "validation": {
+    "accuracy": 0.8958333333333334,
+    "precision": 0.8808752025931929,
+    "recall": 0.9134453781512605,
+    "f1": 0.8968646864686468,
+    "specificity": 0.8785123966942149,
+    "confusion_matrix": [
+      [
+        1063,
+        147
+      ],
+      [
+        103,
+        1087
+      ]
+    ],
+    "roc_auc": 0.9413605111466073,
+    "loss": 0.3435635646184286
+  },
+  "parameter_count": 19329,
+  "training_seconds": 2.7770781250001164,
+  "timing_scope": "epoch loop incl train/validation scoring, checkpoint and history writes",
+  "checkpoint_reload_max_abs_error": 0.0,
+  "test_evaluated": false,
+  "diagnostic_resubstitution": false
+}

@@ -1,0 +1,61 @@
+epoch=1 train_acc=0.5498 val_acc=0.5086
+epoch=10 train_acc=0.9327 val_acc=0.8938
+epoch=20 train_acc=0.9795 val_acc=0.9375
+epoch=30 train_acc=0.9981 val_acc=0.9313
+{
+  "config": {
+    "dataset": "40",
+    "hidden_sizes": [
+      256,
+      256
+    ],
+    "seed": 2026,
+    "learning_rate": 0.001,
+    "batch_size": 256,
+    "weight_decay": 0.0001,
+    "max_epochs": 150,
+    "min_epochs": 30,
+    "patience": 20,
+    "threads": 1,
+    "purpose": "width_comparison",
+    "subset_size": null
+  },
+  "training_size": 22400,
+  "validation_size": 6400,
+  "initial_training": {
+    "loss": 0.6938534702573503,
+    "accuracy": 0.5025
+  },
+  "best_training": {
+    "loss": 0.1063060131243297,
+    "accuracy": 0.9696875
+  },
+  "best_epoch": 16,
+  "epochs_run": 36,
+  "stop_reason": "early_stopping",
+  "validation": {
+    "accuracy": 0.94046875,
+    "precision": 0.936547433903577,
+    "recall": 0.9444792973651192,
+    "f1": 0.9404966421989692,
+    "specificity": 0.9364881693648817,
+    "confusion_matrix": [
+      [
+        3008,
+        204
+      ],
+      [
+        177,
+        3011
+      ]
+    ],
+    "roc_auc": 0.9589829192910525,
+    "loss": 0.23682261526584625
+  },
+  "parameter_count": 76545,
+  "training_seconds": 3.497095792001346,
+  "timing_scope": "epoch loop incl train/validation scoring, checkpoint and history writes",
+  "checkpoint_reload_max_abs_error": 0.0,
+  "test_evaluated": false,
+  "diagnostic_resubstitution": false
+}

@@ -1,0 +1,185 @@
+{
+  "manifest_sha256": "9d28532c7bacf24801156e71c5190f3ca9cea3ca9cc363612e63005e29aeb0d0",
+  "runs": [
+    {
+      "run_id": "p2_ms_20_w128_seed123",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/20_w128_seed123.json",
+        "--run-id",
+        "p2_ms_20_w128_seed123"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 4.717389416000515,
+      "log": "member_c/results/p2_multiseed/p2_ms_20_w128_seed123.log"
+    },
+    {
+      "run_id": "p2_ms_20_w128_seed2026",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/20_w128_seed2026.json",
+        "--run-id",
+        "p2_ms_20_w128_seed2026"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 4.480430958996294,
+      "log": "member_c/results/p2_multiseed/p2_ms_20_w128_seed2026.log"
+    },
+    {
+      "run_id": "p2_ms_20_w256_seed123",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/20_w256_seed123.json",
+        "--run-id",
+        "p2_ms_20_w256_seed123"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.414225374996022,
+      "log": "member_c/results/p2_multiseed/p2_ms_20_w256_seed123.log"
+    },
+    {
+      "run_id": "p2_ms_20_w256_seed2026",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/20_w256_seed2026.json",
+        "--run-id",
+        "p2_ms_20_w256_seed2026"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 4.7285929580029915,
+      "log": "member_c/results/p2_multiseed/p2_ms_20_w256_seed2026.log"
+    },
+    {
+      "run_id": "p2_ms_30_w128_seed123",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/30_w128_seed123.json",
+        "--run-id",
+        "p2_ms_30_w128_seed123"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.060752457997296,
+      "log": "member_c/results/p2_multiseed/p2_ms_30_w128_seed123.log"
+    },
+    {
+      "run_id": "p2_ms_30_w128_seed2026",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/30_w128_seed2026.json",
+        "--run-id",
+        "p2_ms_30_w128_seed2026"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 4.984153040997626,
+      "log": "member_c/results/p2_multiseed/p2_ms_30_w128_seed2026.log"
+    },
+    {
+      "run_id": "p2_ms_30_w256_seed123",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/30_w256_seed123.json",
+        "--run-id",
+        "p2_ms_30_w256_seed123"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 9.137704291002592,
+      "log": "member_c/results/p2_multiseed/p2_ms_30_w256_seed123.log"
+    },
+    {
+      "run_id": "p2_ms_30_w256_seed2026",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/30_w256_seed2026.json",
+        "--run-id",
+        "p2_ms_30_w256_seed2026"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 6.098398124995583,
+      "log": "member_c/results/p2_multiseed/p2_ms_30_w256_seed2026.log"
+    },
+    {
+      "run_id": "p2_ms_40_w128_seed123",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/40_w128_seed123.json",
+        "--run-id",
+        "p2_ms_40_w128_seed123"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.9151235000026645,
+      "log": "member_c/results/p2_multiseed/p2_ms_40_w128_seed123.log"
+    },
+    {
+      "run_id": "p2_ms_40_w128_seed2026",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/40_w128_seed2026.json",
+        "--run-id",
+        "p2_ms_40_w128_seed2026"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.52421070899436,
+      "log": "member_c/results/p2_multiseed/p2_ms_40_w128_seed2026.log"
+    },
+    {
+      "run_id": "p2_ms_40_w256_seed123",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/40_w256_seed123.json",
+        "--run-id",
+        "p2_ms_40_w256_seed123"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.860626957997738,
+      "log": "member_c/results/p2_multiseed/p2_ms_40_w256_seed123.log"
+    },
+    {
+      "run_id": "p2_ms_40_w256_seed2026",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_multiseed/40_w256_seed2026.json",
+        "--run-id",
+        "p2_ms_40_w256_seed2026"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.419133041999885,
+      "log": "member_c/results/p2_multiseed/p2_ms_40_w256_seed2026.log"
+    }
+  ]
+}

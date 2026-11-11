@@ -1,0 +1,38 @@
+{
+  "run_id": "p2_r1_40_w128_seed42",
+  "dataset": "40",
+  "width": 128,
+  "seed": 42,
+  "best_epoch": 25,
+  "parameter_count": 21889,
+  "primary_configuration": false,
+  "designated_single_model": false,
+  "validation_accuracy": 0.935625,
+  "test_size": 3200,
+  "test_correct": 2981,
+  "test_metrics": {
+    "accuracy": 0.9315625,
+    "precision": 0.9370629370629371,
+    "recall": 0.9247176913425345,
+    "f1": 0.9308493842753395,
+    "specificity": 0.9383561643835616,
+    "confusion_matrix": [
+      [
+        1507,
+        99
+      ],
+      [
+        120,
+        1474
+      ]
+    ],
+    "roc_auc": 0.9597318556042194,
+    "loss": 0.24821051209409056
+  },
+  "accuracy_wilson95": [
+    0.9222866463566098,
+    0.9398034525138467
+  ],
+  "checkpoint_sha256": "81a1023bb2dcdc48f0328f1d8d9218737f6192b84ffbfef1f529a31ceed7f045",
+  "evaluation_seconds": 0.004920499999570893
+}

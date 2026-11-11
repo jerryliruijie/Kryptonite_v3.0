@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "declared_at": "2026-11-09T21:28:16.007881+00:00",
+  "authorization": "User authorized the proposed first-round 6-cell comparison; 5 new runs plus one reused pilot.",
+  "prior_evidence": "Kryptonite-20 width128 seed42 pilot was already observed before declaration. Other 5 cells unrun.",
+  "hypothesis": "At fixed depth and training protocol, greater width may improve training fit; validation improvement is not guaranteed.",
+  "primary_metric": "best-checkpoint validation accuracy; ties lower validation BCE then earlier epoch",
+  "budget": {
+    "new_runs": 5,
+    "max_epochs_per_run": 150,
+    "max_new_epochs_total": 750,
+    "training_seed": 42,
+    "torch_threads": 1,
+    "torch_interop_threads": 1,
+    "execution": "sequential CPU; no extra configurations or learning rates in this round"
+  },
+  "interpretation": "Single training seed; exploratory comparisons, no significance claims or hidden accuracy claims. Actual epochs and compute can differ under the same stopping rule.",
+  "pending_team_agreement": [
+    "A/B shared result destination and column conventions",
+    "team-wide compute budget; this is C local round budget only"
+  ],
+  "no_test_evaluation": true,
+  "reuse": {
+    "run_id": "pilot_20_provenance_fix",
+    "reason": "Identical hyperparameters and split. Training numerical core AST and model.py match; only purpose validation and reporting extended.",
+    "original_purpose": "pilot",
+    "summary_sha256": "b24a528dd1d6d67a32d12340c88e9a70f3fd7e901278fcb55237fa24b8ee66bb"
+  },
+  "split_sha256": {
+    "20": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86",
+    "30": "f4720613364275e2f64cf47844a162222598206cecd7ad66807042c01c225709",
+    "40": "49fa11f5a8ddca92e6a26c044bea7352c7d5121650211b5b782a20b5a71ff7d8"
+  },
+  "source_sha256": {
+    "member_c/__init__.py": "0c6947fbce3e54cb8e528324e11dc00dc5d3080400b0384c7e849d7741a976d1",
+    "member_c/model.py": "18c10ea5380539c338611da799cc45a29a01b26a3d06e696e46b9c63e63271fb",
+    "member_c/summarize_round1.py": "9e8cb9beb36aa9ff963f0d4b58b4ccf119f3aedd4e3625d270de9852c9160fe7",
+    "member_c/train.py": "6cc9605f9d20d8348fcf71132b61389a26aa1f6111e7a2541afd8df1af1a9e26"
+  },
+  "experiments": [
+    {
+      "dataset": "20",
+      "width": 128,
+      "config_path": "member_c/configs/p2_round1/20_w128_seed42.json",
+      "config_sha256": "72a717cffb88df578deb02c5fa03b75b5e8cb39c6c5960058c3765e504e2b4d4",
+      "run_id": "pilot_20_provenance_fix",
+      "reuse": true
+    },
+    {
+      "dataset": "20",
+      "width": 256,
+      "config_path": "member_c/configs/p2_round1/20_w256_seed42.json",
+      "config_sha256": "f15d138588a8616cf0a60a71e4dd57714356b1f88ddf8bc6bc7bd4e2a9143cdd",
+      "run_id": "p2_r1_20_w256_seed42",
+      "reuse": false
+    },
+    {
+      "dataset": "30",
+      "width": 128,
+      "config_path": "member_c/configs/p2_round1/30_w128_seed42.json",
+      "config_sha256": "9402330cace6ba2f502359046e08024dcc7c59d88790f4951945deaddd2a4681",
+      "run_id": "p2_r1_30_w128_seed42",
+      "reuse": false
+    },
+    {
+      "dataset": "30",
+      "width": 256,
+      "config_path": "member_c/configs/p2_round1/30_w256_seed42.json",
+      "config_sha256": "a59c913573030cccd507ed6e4e3ea382d1326274e98c1e24fae5791368a008ae",
+      "run_id": "p2_r1_30_w256_seed42",
+      "reuse": false
+    },
+    {
+      "dataset": "40",
+      "width": 128,
+      "config_path": "member_c/configs/p2_round1/40_w128_seed42.json",
+      "config_sha256": "a6c618e8fcd845f1dbc59b90fae5a4494eed3264c720d6f3f22ab8199dc36d0b",
+      "run_id": "p2_r1_40_w128_seed42",
+      "reuse": false
+    },
+    {
+      "dataset": "40",
+      "width": 256,
+      "config_path": "member_c/configs/p2_round1/40_w256_seed42.json",
+      "config_sha256": "89233fbd0162d393504f4d5efe6015d38fbf351b5e377c344b6eecf72ffa62ad",
+      "run_id": "p2_r1_40_w256_seed42",
+      "reuse": false
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "locked_files_unchanged": 284,
+  "models_verified": 18,
+  "tests_passed_before_opening": 32,
+  "single_model_rule_unchanged": true,
+  "no_refitting_or_hidden_export": true,
+  "models": [
+    {
+      "run_id": "pilot_20_provenance_fix",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_20_w128_seed123",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_20_w128_seed2026",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_r1_20_w256_seed42",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_20_w256_seed123",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_20_w256_seed2026",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_r1_30_w128_seed42",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_30_w128_seed123",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_30_w128_seed2026",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_r1_30_w256_seed42",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_30_w256_seed123",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_30_w256_seed2026",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_r1_40_w128_seed42",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_40_w128_seed123",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_40_w128_seed2026",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_r1_40_w256_seed42",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_40_w256_seed123",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    },
+    {
+      "run_id": "p2_ms_40_w256_seed2026",
+      "test_rows_verified": true,
+      "metrics_recomputed": true,
+      "loss_tolerance": 1e-12
+    }
+  ]
+}

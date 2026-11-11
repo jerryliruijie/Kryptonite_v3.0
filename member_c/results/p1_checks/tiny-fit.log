@@ -1,0 +1,88 @@
+epoch=1 train_acc=0.5625 val_acc=0.5625
+epoch=10 train_acc=0.7812 val_acc=0.7812
+epoch=20 train_acc=0.8047 val_acc=0.8047
+epoch=30 train_acc=0.8359 val_acc=0.8359
+epoch=40 train_acc=0.9219 val_acc=0.9219
+epoch=50 train_acc=0.9609 val_acc=0.9609
+epoch=60 train_acc=0.9922 val_acc=0.9922
+epoch=70 train_acc=1.0000 val_acc=1.0000
+epoch=80 train_acc=1.0000 val_acc=1.0000
+epoch=90 train_acc=1.0000 val_acc=1.0000
+epoch=100 train_acc=1.0000 val_acc=1.0000
+epoch=110 train_acc=1.0000 val_acc=1.0000
+epoch=120 train_acc=1.0000 val_acc=1.0000
+epoch=130 train_acc=1.0000 val_acc=1.0000
+epoch=140 train_acc=1.0000 val_acc=1.0000
+epoch=150 train_acc=1.0000 val_acc=1.0000
+epoch=160 train_acc=1.0000 val_acc=1.0000
+epoch=170 train_acc=1.0000 val_acc=1.0000
+epoch=180 train_acc=1.0000 val_acc=1.0000
+epoch=190 train_acc=1.0000 val_acc=1.0000
+epoch=200 train_acc=1.0000 val_acc=1.0000
+epoch=210 train_acc=1.0000 val_acc=1.0000
+epoch=220 train_acc=1.0000 val_acc=1.0000
+epoch=230 train_acc=1.0000 val_acc=1.0000
+epoch=240 train_acc=1.0000 val_acc=1.0000
+epoch=250 train_acc=1.0000 val_acc=1.0000
+epoch=260 train_acc=1.0000 val_acc=1.0000
+epoch=270 train_acc=1.0000 val_acc=1.0000
+epoch=280 train_acc=1.0000 val_acc=1.0000
+epoch=290 train_acc=1.0000 val_acc=1.0000
+epoch=300 train_acc=1.0000 val_acc=1.0000
+{
+  "config": {
+    "dataset": "20",
+    "hidden_sizes": [
+      128,
+      128
+    ],
+    "seed": 42,
+    "learning_rate": 0.001,
+    "batch_size": 128,
+    "weight_decay": 0.0,
+    "max_epochs": 300,
+    "min_epochs": 1,
+    "patience": null,
+    "threads": 1,
+    "purpose": "tiny_fit",
+    "subset_size": 128
+  },
+  "training_size": 128,
+  "validation_size": 128,
+  "initial_training": {
+    "loss": 0.6917527318000793,
+    "accuracy": 0.5
+  },
+  "best_training": {
+    "loss": 0.0004951725131832063,
+    "accuracy": 1.0
+  },
+  "best_epoch": 300,
+  "epochs_run": 300,
+  "stop_reason": "max_epochs",
+  "validation": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "specificity": 1.0,
+    "confusion_matrix": [
+      [
+        69,
+        0
+      ],
+      [
+        0,
+        59
+      ]
+    ],
+    "roc_auc": 1.0,
+    "loss": 0.0004951725131832063
+  },
+  "parameter_count": 19329,
+  "training_seconds": 0.32738466699811397,
+  "timing_scope": "epoch loop incl train/validation scoring, checkpoint and history writes",
+  "checkpoint_reload_max_abs_error": 0.0,
+  "test_evaluated": false,
+  "diagnostic_resubstitution": true
+}
