@@ -77,3 +77,5 @@ The ± values are sample SD across three training seeds on the same validation s
 - `../B_Traditional_ML/results/training_loss_curves/` contains B's per-iteration histories and source fingerprints.
 - `../AdaptationResults.ipynb`, `../results/adapt_runs.csv`, `../results/adapt/` and [LoRA derivation](lora_derivation.md) contain D's evidence.
 - [C's README](../member_c/README.md), [MLP methodology](../member_c/report/mlp_methodology.md) and [findings](../member_c/report/p3_findings.md) contain C's materials, originally published at `1eee487`.
+
+C's provenance records source paths using the operating system's native separators. Its snapshot test now checks the corresponding native path on Windows as well as macOS/Linux; the training implementation and locked result files remain unchanged. This is a test portability adjustment, and cross-machine reproduction still requires an independent run.

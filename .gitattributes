@@ -3,6 +3,9 @@
 /member_c/configs/** -text
 /member_c/*.py -text
 /common.py -text
+/baselines.py -text
+/learning_subsets.py -text
+/tests/test_member_c*.py -text
 /requirements.txt -text
 /splits/** -text
 /Datasets/** -text

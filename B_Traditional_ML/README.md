@@ -2,6 +2,8 @@
 
 This directory contains B's SVM, Random Forest, XGBoost, Extra Trees, kNN and CatBoost experiments, their results, figures and meeting materials. The directory was renamed from `B_SVM` after the work expanded beyond SVM.
 
+Install B's pinned dependencies from the repository root using `python -m pip install -r B_Traditional_ML/requirements.txt`. This includes the shared requirements plus XGBoost and CatBoost.
+
 ## Start here
 
 - [Wednesday meeting brief](meeting/Wednesday_Group_Meeting_Brief.md) and [Chinese speaking notes](meeting/周三会议_B的讲解与问答.md).

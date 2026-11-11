@@ -128,7 +128,7 @@ class TestMLP(unittest.TestCase):
                     run_experiment(self.config,path,load,command=['test'])
             meta=json.loads((path/'run.json').read_text())
             self.assertEqual((path/'source/member_c/model.py').read_bytes(),b'before')
-            self.assertEqual(meta['source_sha256']['member_c/model.py'],hashlib.sha256(b'before').hexdigest())
+            self.assertEqual(meta['source_sha256'][str(Path('member_c') / 'model.py')],hashlib.sha256(b'before').hexdigest())
 
     def test_selection_ties_and_early_stopping_are_independent(self):
         selection = Selection()

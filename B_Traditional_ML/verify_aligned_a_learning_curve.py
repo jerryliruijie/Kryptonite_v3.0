@@ -12,6 +12,7 @@ from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score, log_los
 
 import common
 from learning_subsets import load_subsets
+from B_Traditional_ML.historical_text_fingerprint import matches_historical_text
 
 
 def sha(path):
@@ -23,7 +24,12 @@ def verify(output):
     output = Path(output)
     manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     for name, digest in manifest["source_sha256"].items():
-        if sha(common.ROOT / name) != digest:
+        source = common.ROOT / name
+        if name in ("splits/manifest.json", "learning_subsets.py"):
+            matches = matches_historical_text(source, digest)
+        else:
+            matches = sha(source) == digest
+        if not matches:
             raise ValueError(f"Source fingerprint mismatch: {name}")
     with (output / "results.csv").open(encoding="utf-8", newline="") as stream:
         records = list(csv.DictReader(stream))

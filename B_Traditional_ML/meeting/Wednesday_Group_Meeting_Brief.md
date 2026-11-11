@@ -153,4 +153,4 @@ Paths are relative to the coursework repository:
 - `B_Traditional_ML/pipeline_README.md` — training, model save/load and prediction instructions.
 - `PaperAndInstructions/ImpCML 2026 Coursework Instructions.pdf`, pp. 1–3; `MML_Coursework__ImpCML.pdf`, pp. 1–2 — coursework and marking requirements.
 
-**Availability:** B's work and this brief need to be committed and pushed by the repository owner before teammates can obtain them through GitHub. They can also be shared as files. Cross-machine reproduction remains to be checked.
+**Availability:** B's work and this brief are in the coursework repository. Teammates should pull the latest shared revision before running the code. Cross-machine reproduction remains to be checked.

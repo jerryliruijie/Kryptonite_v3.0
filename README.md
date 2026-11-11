@@ -50,6 +50,8 @@ Python 3 with `numpy`, `scipy`, `scikit-learn`, `torch` and `matplotlib`. Every 
 
 Use Python 3.12 and run the following commands from the repository root. The pinned dependencies in `requirements.txt` include Jupyter and ipykernel. The `.venv` directory is local to each team member and is ignored by Git.
 
+For B's traditional-model experiments, additionally run `python -m pip install -r B_Traditional_ML/requirements.txt` using the project environment. That file includes the shared requirements and the pinned XGBoost and CatBoost versions.
+
 Windows PowerShell:
 
 ```powershell

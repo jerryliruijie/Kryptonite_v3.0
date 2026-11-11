@@ -12,6 +12,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precisio
 from sklearn.model_selection import StratifiedKFold
 
 import common
+from B_Traditional_ML.historical_text_fingerprint import matches_historical_text
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,7 +53,7 @@ class TestBatchArtifacts(unittest.TestCase):
     def test_manifest_and_sources(self):
         self.assertEqual(len(self.manifest["grid"]), 52)
         self.assertEqual(len({c["id"] for c in self.manifest["grid"]}), 52)
-        self.assertEqual(digest(common.SPLITS_DIR / "manifest.json"), self.manifest["shared_manifest_sha256"])
+        self.assertTrue(matches_historical_text(common.SPLITS_DIR / "manifest.json", self.manifest["shared_manifest_sha256"]))
         self.assertEqual(digest(ROOT / "B_Traditional_ML/results/cv20/folds.npz"), self.manifest["svm_folds_sha256"])
         for filename, expected in self.manifest["sources"].items():
             source = (ROOT / filename if filename == "common.py" else

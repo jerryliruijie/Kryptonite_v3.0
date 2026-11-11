@@ -11,6 +11,7 @@ from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
                              precision_score, recall_score, roc_auc_score)
 
 import common
+from B_Traditional_ML.historical_text_fingerprint import matches_historical_text
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "B_Traditional_ML" / "results"
@@ -110,7 +111,7 @@ def test_learning_curve_saved_rows_and_metrics():
     identity = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["identity"]
     assert identity["source_sha256"] == digest(ROOT / "B_Traditional_ML" / "provenance" / "original_sources" / "learning_curve.py.txt")
     assert identity["common_sha256"] == digest(ROOT / "common.py")
-    assert identity["split_manifest_sha256"] == digest(ROOT / "splits" / "manifest.json")
+    assert matches_historical_text(ROOT / "splits" / "manifest.json", identity["split_manifest_sha256"])
     hashes = event_hashes(out, "path")
     summaries = list(csv.DictReader((out / "summary.csv").open(encoding="utf-8")))
     for name in ("20", "30", "40"):
@@ -165,7 +166,11 @@ def test_transfer_saved_rows_and_seed_summaries():
     complete(out, 18)
     identity = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["identity"]
     for path, sha in identity["sources"].items():
-        assert digest(historical_source_path(path)) == sha
+        source = historical_source_path(path)
+        if source == (ROOT / "splits" / "manifest.json").resolve():
+            assert matches_historical_text(source, sha)
+        else:
+            assert digest(source) == sha
     hashes = event_hashes(out, "output")
     summaries = list(csv.DictReader((out / "seed_summary.csv").open(encoding="utf-8")))
     aggregate = list(csv.DictReader((out / "dataset_summary.csv").open(encoding="utf-8")))

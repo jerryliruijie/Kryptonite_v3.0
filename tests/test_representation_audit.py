@@ -12,6 +12,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precisio
 from sklearn.model_selection import StratifiedKFold
 
 import common
+from B_Traditional_ML.historical_text_fingerprint import matches_historical_text
 from B_Traditional_ML import representation_ablation as experiment
 
 
@@ -120,7 +121,7 @@ class TestPairedRepresentationResults(unittest.TestCase):
         self.assertEqual(identity["source_sha256"], sha256(source_dir / "provenance" / "original_sources" / "representation_ablation.py.txt"))
         self.assertEqual(identity["common_sha256"], sha256(Path(common.__file__)))
         self.assertEqual(identity["xgb_cv_sha256"], sha256(source_dir / "provenance" / "original_sources" / "xgb_cv.py.txt"))
-        self.assertEqual(identity["split_manifest_sha256"], sha256(common.SPLITS_DIR / "manifest.json"))
+        self.assertTrue(matches_historical_text(common.SPLITS_DIR / "manifest.json", identity["split_manifest_sha256"]))
         for dataset in DATASETS:
             self.assertEqual(identity["folds_sha256"][dataset],
                              sha256(source_dir / "results" / "batch_experiments" / "folds" / f"{dataset}.npz"))

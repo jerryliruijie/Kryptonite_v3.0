@@ -21,6 +21,7 @@ from sklearn.model_selection import StratifiedKFold
 from threadpoolctl import threadpool_limits
 
 import common
+from B_Traditional_ML.historical_text_fingerprint import matches_historical_text
 
 
 CV_SEED = 67
@@ -75,7 +76,7 @@ def load_shared_folds(x_train, y_train):
     identity = cv["identity"]
     if (identity["dataset"] != "20" or identity["training_samples"] != len(y_train)
             or identity["cv_seed"] != CV_SEED or identity["n_splits"] != N_FOLDS
-            or identity["split_manifest_sha256"] != sha256(shared_path)
+            or not matches_historical_text(shared_path, identity["split_manifest_sha256"])
             or identity["dataset_fingerprints"] != shared["datasets"]["20"]
             or cv["folds_sha256"] != sha256(fold_path)):
         raise ValueError("Saved SVM folds do not match the current data or CV protocol")

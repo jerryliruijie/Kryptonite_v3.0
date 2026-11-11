@@ -6,7 +6,7 @@
 ## 会前准备
 
 1. 打开英文会议材料、learning curve 图和原始结果记录。建议以 5–7 分钟介绍 B，再留时间讨论。
-2. 确认组员能否拿到当前版本：`B_Traditional_ML/` 目前在本机尚未被 Git 跟踪，组员直接 pull 现有远端不会自动得到这些结果。可自行检查后 commit/push，或单独发送会议材料和图。
+2. 确认组员已经 pull 到包含 `B_Traditional_ML/` 的共同版本，或单独分享会议材料和图。
 3. 找到 `B_Traditional_ML/results/learning_curve/subsets/`，准备向 A 展示它包含的 25%、50%、100% training 嵌套子集索引。
 4. 留出时间让 A、C、D 各自汇报；请一人记录决定、负责人和下一次更新时间。
 
