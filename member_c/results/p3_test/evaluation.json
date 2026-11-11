@@ -1,0 +1,38 @@
+{
+  "started_at": "2026-11-10T12:25:20.287374+00:00",
+  "lock_path": "member_c/configs/p3_lock.json",
+  "lock_sha256": "096ae5d7e7ca0493804aff0cc5b1f8b7c89314a6276f1f86cd66bdd4e62fcfba",
+  "status": "completed",
+  "test_opened": true,
+  "completed_models": [
+    "pilot_20_provenance_fix",
+    "p2_ms_20_w128_seed123",
+    "p2_ms_20_w128_seed2026",
+    "p2_r1_20_w256_seed42",
+    "p2_ms_20_w256_seed123",
+    "p2_ms_20_w256_seed2026",
+    "p2_r1_30_w128_seed42",
+    "p2_ms_30_w128_seed123",
+    "p2_ms_30_w128_seed2026",
+    "p2_r1_30_w256_seed42",
+    "p2_ms_30_w256_seed123",
+    "p2_ms_30_w256_seed2026",
+    "p2_r1_40_w128_seed42",
+    "p2_ms_40_w128_seed123",
+    "p2_ms_40_w128_seed2026",
+    "p2_r1_40_w256_seed42",
+    "p2_ms_40_w256_seed123",
+    "p2_ms_40_w256_seed2026"
+  ],
+  "command": [
+    "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+    "-m",
+    "member_c.evaluate",
+    "--lock",
+    "member_c/configs/p3_lock.json",
+    "--lock-sha256",
+    "096ae5d7e7ca0493804aff0cc5b1f8b7c89314a6276f1f86cd66bdd4e62fcfba"
+  ],
+  "finished_at": "2026-11-10T12:25:21.031772+00:00",
+  "elapsed_seconds": 0.7445915829998739
+}

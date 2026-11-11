@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "run_id": "p2_r1_40_w256_seed42",
+  "started_at": "2026-11-09T21:28:50.558458+00:00",
+  "config": {
+    "dataset": "40",
+    "hidden_sizes": [
+      256,
+      256
+    ],
+    "seed": 42,
+    "learning_rate": 0.001,
+    "batch_size": 256,
+    "weight_decay": 0.0001,
+    "max_epochs": 150,
+    "min_epochs": 30,
+    "patience": 20,
+    "threads": 1,
+    "purpose": "width_comparison",
+    "subset_size": null
+  },
+  "command": [
+    "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+    "-m",
+    "member_c.train",
+    "--config",
+    "member_c/configs/p2_round1/40_w256_seed42.json",
+    "--run-id",
+    "p2_r1_40_w256_seed42"
+  ],
+  "entrypoint": "cli",
+  "status": "completed",
+  "stage": "finished",
+  "elapsed_seconds": 4.481266875001893,
+  "elapsed_scope": "run directory reservation through finalization; excludes interpreter startup/imports",
+  "training_attempt_seconds": 3.9688720000049216,
+  "recorded_at": "2026-11-09T21:28:51.031150+00:00",
+  "python": "3.12.4 (v3.12.4:8e8a4baf65, Jun  6 2024, 17:33:18) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "machine": "arm64",
+  "git_commit": "ee63428019daebdf0b585d94b81e23b49264994d",
+  "source_sha256": {
+    "common.py": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "requirements.txt": "adfde5e6da8760f15e49b3a8d66b486b413fe632735efd767334772520f302ca",
+    "splits/manifest.json": "f04321a989ed6c6816d23f8a4803cbde150c898b1342bcfbae997749585a0e00",
+    "member_c/__init__.py": "0c6947fbce3e54cb8e528324e11dc00dc5d3080400b0384c7e849d7741a976d1",
+    "member_c/model.py": "18c10ea5380539c338611da799cc45a29a01b26a3d06e696e46b9c63e63271fb",
+    "member_c/summarize_round1.py": "9e8cb9beb36aa9ff963f0d4b58b4ccf119f3aedd4e3625d270de9852c9160fe7",
+    "member_c/train.py": "6cc9605f9d20d8348fcf71132b61389a26aa1f6111e7a2541afd8df1af1a9e26"
+  },
+  "split_id": "shared-seed67-v1",
+  "split_sha256": "49fa11f5a8ddca92e6a26c044bea7352c7d5121650211b5b782a20b5a71ff7d8",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "torch": "2.15.0"
+  },
+  "torch_threads": 1,
+  "torch_interop_threads": 1,
+  "deterministic_algorithms": true,
+  "device": "cpu",
+  "hardware_setup_record": "member_c/results/setup/environment.json",
+  "training_size": 22400,
+  "validation_size": 6400,
+  "ended_at": "2026-11-09T21:28:55.039602+00:00"
+}

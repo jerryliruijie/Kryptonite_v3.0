@@ -1,0 +1,21 @@
+test_hand_calculated_metrics_and_auc (test_common.TestMetrics.test_hand_calculated_metrics_and_auc) ... ok
+test_invalid_input_is_rejected (test_common.TestMetrics.test_invalid_input_is_rejected) ... ok
+test_zero_predictions_and_one_class_auc (test_common.TestMetrics.test_zero_predictions_and_one_class_auc) ... ok
+test_changed_source_data_is_rejected (test_common.TestSavedSplits.test_changed_source_data_is_rejected)
+Even a valid-looking changed input must not silently reuse old row splits. ... ok
+test_changed_split_file_is_rejected (test_common.TestSavedSplits.test_changed_split_file_is_rejected) ... ok
+test_generation_cli_rejects_accidental_overwrite (test_common.TestSavedSplits.test_generation_cli_rejects_accidental_overwrite) ... ok
+test_generation_does_not_overwrite_without_force (test_common.TestSavedSplits.test_generation_does_not_overwrite_without_force)
+An accidental rerun leaves published splits intact; force is explicit. ... ok
+test_generation_is_deterministic_and_matches_saved_splits (test_common.TestSavedSplits.test_generation_is_deterministic_and_matches_saved_splits)
+An independent regeneration with seed 67 agrees with the shared files. ... ok
+test_hidden_loader_preserves_original_row_order (test_common.TestSavedSplits.test_hidden_loader_preserves_original_row_order) ... ok
+test_saved_split_counts_integrity_stratification_and_rows (test_common.TestSavedSplits.test_saved_split_counts_integrity_stratification_and_rows)
+Saved indices partition the original data and all returned rows match. ... ok
+test_split_policy_uses_two_stratified_seed_67_stages (test_common.TestSavedSplits.test_split_policy_uses_two_stratified_seed_67_stages) ... ok
+test_real_pretrained_model_loads_and_runs_on_cpu (test_common.TestStarterModel.test_real_pretrained_model_loads_and_runs_on_cpu) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.777s
+
+OK

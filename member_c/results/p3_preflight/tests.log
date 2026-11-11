@@ -1,0 +1,53 @@
+test_hand_calculated_metrics_and_auc (test_common.TestMetrics.test_hand_calculated_metrics_and_auc) ... ok
+test_invalid_input_is_rejected (test_common.TestMetrics.test_invalid_input_is_rejected) ... ok
+test_zero_predictions_and_one_class_auc (test_common.TestMetrics.test_zero_predictions_and_one_class_auc) ... ok
+test_changed_source_data_is_rejected (test_common.TestSavedSplits.test_changed_source_data_is_rejected)
+Even a valid-looking changed input must not silently reuse old row splits. ... ok
+test_changed_split_file_is_rejected (test_common.TestSavedSplits.test_changed_split_file_is_rejected) ... ok
+test_generation_cli_rejects_accidental_overwrite (test_common.TestSavedSplits.test_generation_cli_rejects_accidental_overwrite) ... ok
+test_generation_does_not_overwrite_without_force (test_common.TestSavedSplits.test_generation_does_not_overwrite_without_force)
+An accidental rerun leaves published splits intact; force is explicit. ... ok
+test_generation_is_deterministic_and_matches_saved_splits (test_common.TestSavedSplits.test_generation_is_deterministic_and_matches_saved_splits)
+An independent regeneration with seed 67 agrees with the shared files. ... ok
+test_hidden_loader_preserves_original_row_order (test_common.TestSavedSplits.test_hidden_loader_preserves_original_row_order) ... ok
+test_saved_split_counts_integrity_stratification_and_rows (test_common.TestSavedSplits.test_saved_split_counts_integrity_stratification_and_rows)
+Saved indices partition the original data and all returned rows match. ... ok
+test_split_policy_uses_two_stratified_seed_67_stages (test_common.TestSavedSplits.test_split_policy_uses_two_stratified_seed_67_stages) ... ok
+test_real_pretrained_model_loads_and_runs_on_cpu (test_common.TestStarterModel.test_real_pretrained_model_loads_and_runs_on_cpu) ... ok
+test_can_learn_a_separable_problem (test_member_c.TestMLP.test_can_learn_a_separable_problem) ... epoch=1 train_acc=0.5703 val_acc=0.5556
+epoch=10 train_acc=0.9766 val_acc=0.8444
+epoch=20 train_acc=1.0000 val_acc=0.8667
+epoch=30 train_acc=1.0000 val_acc=0.8667
+epoch=40 train_acc=1.0000 val_acc=0.8889
+epoch=50 train_acc=1.0000 val_acc=0.8667
+epoch=60 train_acc=1.0000 val_acc=0.8667
+ok
+test_data_load_failure_and_keyboard_interrupt_are_recorded (test_member_c.TestMLP.test_data_load_failure_and_keyboard_interrupt_are_recorded) ... ok
+test_fit_reloads_selected_epoch_instead_of_last_epoch (test_member_c.TestMLP.test_fit_reloads_selected_epoch_instead_of_last_epoch) ... epoch=1 train_acc=0.4531 val_acc=0.5556
+epoch=1 train_acc=0.4531 val_acc=0.5556
+ok
+test_invalid_data_and_config_fail_before_training (test_member_c.TestMLP.test_invalid_data_and_config_fail_before_training) ... ok
+test_optimizer_failure_has_preexisting_provenance_and_elapsed_cost (test_member_c.TestMLP.test_optimizer_failure_has_preexisting_provenance_and_elapsed_cost) ... ok
+test_output_dimensions_gradients_and_update_for_all_datasets (test_member_c.TestMLP.test_output_dimensions_gradients_and_update_for_all_datasets) ... ok
+test_same_seed_has_identical_history_metrics_and_predictions (test_member_c.TestMLP.test_same_seed_has_identical_history_metrics_and_predictions) ... epoch=1 train_acc=0.4531 val_acc=0.5556
+epoch=1 train_acc=0.4531 val_acc=0.5556
+ok
+test_scaler_uses_training_rows_only_and_reload_matches (test_member_c.TestMLP.test_scaler_uses_training_rows_only_and_reload_matches) ... epoch=1 train_acc=0.4531 val_acc=0.5333
+ok
+test_scoring_weights_partial_batch_by_sample_count (test_member_c.TestMLP.test_scoring_weights_partial_batch_by_sample_count) ... ok
+test_selection_ties_and_early_stopping_are_independent (test_member_c.TestMLP.test_selection_ties_and_early_stopping_are_independent) ... ok
+test_snapshot_is_not_recaptured_after_source_changes (test_member_c.TestMLP.test_snapshot_is_not_recaptured_after_source_changes) ... ok
+test_width_comparison_uses_shared_validation_not_training_subset (test_member_c.TestMLP.test_width_comparison_uses_shared_validation_not_training_subset) ... ok
+test_changed_checkpoint_rejected_before_test_loading (test_member_c_evaluate.TestFinalEvaluation.test_changed_checkpoint_rejected_before_test_loading) ... ok
+test_changed_lock_rejected_before_test_loading_and_recorded (test_member_c_evaluate.TestFinalEvaluation.test_changed_lock_rejected_before_test_loading_and_recorded) ... ok
+test_incomplete_or_duplicate_model_set_rejected (test_member_c_evaluate.TestFinalEvaluation.test_incomplete_or_duplicate_model_set_rejected) ... ok
+test_summary_keeps_fixed_sample_count_and_training_variability (test_member_c_evaluate.TestFinalEvaluation.test_summary_keeps_fixed_sample_count_and_training_variability) ... ok
+test_wilson_known_values_and_boundaries (test_member_c_evaluate.TestFinalEvaluation.test_wilson_known_values_and_boundaries) ... ok
+test_candidate_is_based_on_mean_not_best_seed (test_member_c_summary.TestMultiSeedSummary.test_candidate_is_based_on_mean_not_best_seed) ... ok
+test_missing_duplicate_or_unexpected_seeds_rejected (test_member_c_summary.TestMultiSeedSummary.test_missing_duplicate_or_unexpected_seeds_rejected) ... ok
+test_sample_standard_deviation_and_complete_seed_accounting (test_member_c_summary.TestMultiSeedSummary.test_sample_standard_deviation_and_complete_seed_accounting) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 1.771s
+
+OK

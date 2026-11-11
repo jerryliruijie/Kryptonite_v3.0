@@ -1,0 +1,80 @@
+{
+  "manifest_sha256": "e6db7771a8abd03b38b534b68d776ae8b8d1cf7662ca4db6e216cea08d5cd66d",
+  "runs": [
+    {
+      "run_id": "p2_r1_20_w256_seed42",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_round1/20_w256_seed42.json",
+        "--run-id",
+        "p2_r1_20_w256_seed42"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 4.418937874994299,
+      "log": "member_c/results/p2_round1/p2_r1_20_w256_seed42.log"
+    },
+    {
+      "run_id": "p2_r1_30_w128_seed42",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_round1/30_w128_seed42.json",
+        "--run-id",
+        "p2_r1_30_w128_seed42"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.333419292001054,
+      "log": "member_c/results/p2_round1/p2_r1_30_w128_seed42.log"
+    },
+    {
+      "run_id": "p2_r1_30_w256_seed42",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_round1/30_w256_seed42.json",
+        "--run-id",
+        "p2_r1_30_w256_seed42"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.411512124999717,
+      "log": "member_c/results/p2_round1/p2_r1_30_w256_seed42.log"
+    },
+    {
+      "run_id": "p2_r1_40_w128_seed42",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_round1/40_w128_seed42.json",
+        "--run-id",
+        "p2_r1_40_w128_seed42"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.645083290997718,
+      "log": "member_c/results/p2_round1/p2_r1_40_w128_seed42.log"
+    },
+    {
+      "run_id": "p2_r1_40_w256_seed42",
+      "command": [
+        "/Users/hardenzhao/Kryptonite_v3.0/.venv/bin/python",
+        "-m",
+        "member_c.train",
+        "--config",
+        "member_c/configs/p2_round1/40_w256_seed42.json",
+        "--run-id",
+        "p2_r1_40_w256_seed42"
+      ],
+      "returncode": 0,
+      "wall_seconds_including_process_startup": 5.93973795799684,
+      "log": "member_c/results/p2_round1/p2_r1_40_w256_seed42.log"
+    }
+  ]
+}

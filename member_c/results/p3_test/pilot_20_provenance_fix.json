@@ -1,0 +1,38 @@
+{
+  "run_id": "pilot_20_provenance_fix",
+  "dataset": "20",
+  "width": 128,
+  "seed": 42,
+  "best_epoch": 73,
+  "parameter_count": 19329,
+  "primary_configuration": false,
+  "designated_single_model": false,
+  "validation_accuracy": 0.8958333333333334,
+  "test_size": 1200,
+  "test_correct": 1066,
+  "test_metrics": {
+    "accuracy": 0.8883333333333333,
+    "precision": 0.873581847649919,
+    "recall": 0.9058823529411765,
+    "f1": 0.8894389438943895,
+    "specificity": 0.8710743801652893,
+    "confusion_matrix": [
+      [
+        527,
+        78
+      ],
+      [
+        56,
+        539
+      ]
+    ],
+    "roc_auc": 0.9338259601361206,
+    "loss": 0.3757332486245435
+  },
+  "accuracy_wilson95": [
+    0.8692595337970105,
+    0.9049287890681986
+  ],
+  "checkpoint_sha256": "898c85e9324d30f9dd0369ce125a82d882fd56fa0dff3d3d9d1324f112047420",
+  "evaluation_seconds": 0.008499708999806899
+}
