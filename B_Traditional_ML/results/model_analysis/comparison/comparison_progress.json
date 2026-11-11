@@ -1,0 +1,19 @@
+{
+  "status": "complete",
+  "methods": [
+    "svm",
+    "xgb",
+    "extra",
+    "knn",
+    "catboost"
+  ],
+  "samples": 8400,
+  "pairs": 10,
+  "bitmask_order": [
+    "svm",
+    "xgb",
+    "extra",
+    "knn",
+    "catboost"
+  ]
+}

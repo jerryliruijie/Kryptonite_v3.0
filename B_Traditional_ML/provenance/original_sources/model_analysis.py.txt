@@ -1,0 +1,209 @@
+"""Reproduce fixed K20 tree candidates and analyse held-out folds.
+
+From repository root: python -m B_SVM.model_analysis --mode features
+All permutations and leave-one-feature-out refits are exploratory. They are
+never used to select inputs within the same held-out fold.
+"""
+
+import argparse
+import csv
+import hashlib
+import json
+import pickle
+import platform
+import time
+import warnings
+from pathlib import Path
+
+import numpy as np
+import scipy
+import sklearn
+import xgboost
+from threadpoolctl import threadpool_limits
+
+import common
+from B_SVM import batch_models, xgb_cv
+
+ROOT = Path(__file__).resolve().parent
+DEFAULT_OUTPUT = ROOT / 'results' / 'model_analysis'
+CHECKPOINTS = ROOT / 'results' / 'batch_experiments' / 'runs' / 'screen' / '20'
+IDS = ('xgb_sign_child1_s1', 'extra_leaf2_features1.0')
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for block in iter(lambda: f.read(1024 * 1024), b''):
+            h.update(block)
+    return h.hexdigest()
+
+
+def save_json(path, data):
+    xgb_cv.atomic_json(path, data)
+
+
+def accuracy(y, pred):
+    return float(np.mean(np.asarray(y) == np.asarray(pred)))
+
+
+def permutation_drops(model, validation, truth, repeats=5, seed=67):
+    """Accuracy change for each column; each permutation uses only held-out X."""
+    base = accuracy(truth, model.predict(validation))
+    rng = np.random.default_rng(seed)
+    drops = np.empty((validation.shape[1], repeats), dtype=float)
+    for feature in range(validation.shape[1]):
+        modified = validation.copy()
+        for repeat in range(repeats):
+            modified[:, feature] = validation[rng.permutation(len(validation)), feature]
+            drops[feature, repeat] = base - accuracy(truth, model.predict(modified))
+    return base, drops
+
+
+def tree_complexity(model, family, n_features):
+    """Count all fitted nodes and feature use across the ensemble."""
+    use = np.zeros(n_features, dtype=np.int64)
+    if family == 'extra':
+        splits = leaves = 0
+        for tree in model.estimators_:
+            ids = tree.tree_.feature
+            ids = ids[ids >= 0]
+            splits += len(ids)
+            leaves += tree.tree_.n_leaves
+            use += np.bincount(ids, minlength=n_features)
+        size = len(pickle.dumps(model, protocol=5))
+        size_format = 'Python pickle protocol 5'
+    else:
+        booster = model.get_booster()
+        splits = leaves = 0
+        for tree in booster.get_dump(dump_format='json'):
+            stack = [json.loads(tree)]
+            while stack:
+                node = stack.pop()
+                if 'leaf' in node:
+                    leaves += 1
+                else:
+                    splits += 1
+                    feature = str(node['split'])
+                    index = int(feature[1:] if feature.startswith('f') else feature)
+                    use[index] += 1
+                    stack.extend(node['children'])
+        size = len(booster.save_raw(raw_format='ubj'))
+        size_format = 'XGBoost UBJSON'
+    return dict(trees=int(model.n_estimators), split_nodes=int(splits), leaf_nodes=int(leaves),
+                used_features=int(np.count_nonzero(use)), split_counts=use.tolist(),
+                serialized_bytes=size, serialized_format=size_format)
+
+
+def write_csv(path, rows):
+    if not rows:
+        return
+    tmp = path.with_suffix(path.suffix + '.tmp')
+    with tmp.open('w', encoding='utf-8', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+    tmp.replace(path)
+
+
+def feature_analysis(out=DEFAULT_OUTPUT, repeats=5):
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    x, y, *_ = common.load_split('20')
+    folds, shared_path, shared, cv_path, fold_path = xgb_cv.load_shared_folds(x, y)
+    configs = {c['id']: c for c in batch_models.make_configs()}
+    identity = {'script_sha256': sha256(__file__), 'batch_models_sha256': sha256(batch_models.__file__),
+                'common_sha256': sha256(common.__file__), 'folds_sha256': sha256(fold_path),
+                'shared_manifest_sha256': sha256(shared_path), 'svm_manifest_sha256': sha256(cv_path),
+                'data_fingerprints': shared['datasets']['20'], 'models': [configs[i] for i in IDS],
+                'prediction_checkpoints_sha256': {f'{i}_fold{j}': sha256(CHECKPOINTS / i / f'fold{j}.npz')
+                                                  for i in IDS for j in range(3)},
+                'seed': 67, 'permutation_repeats': repeats, 'python': platform.python_version(),
+                'numpy': np.__version__, 'scipy': scipy.__version__, 'sklearn': sklearn.__version__,
+                'xgboost': xgboost.__version__, 'platform': platform.platform()}
+    manifest_path = out / 'feature_manifest.json'
+    if manifest_path.exists():
+        if json.loads(manifest_path.read_text(encoding='utf-8'))['identity'] != identity:
+            raise ValueError('Analysis identity changed; use a fresh output directory')
+    else:
+        save_json(manifest_path, {'identity': identity,
+                  'note': 'Previously selected candidates; importance and all 20 ablations are exploratory. '
+                          'Use no feature selection based on these held-out folds.'})
+    records = []
+    with threadpool_limits(limits=1):
+        for model_id in IDS:
+            config = configs[model_id]
+            for fold, (tr, va) in enumerate(folds):
+                print(f'{model_id} fold {fold + 1}/3', flush=True)
+                record_path = out / f'feature_{model_id}_fold{fold}.json'
+                if record_path.exists():
+                    records.append(json.loads(record_path.read_text(encoding='utf-8')))
+                    continue
+                train_x = batch_models.transform_features(x[tr], config)
+                val_x = batch_models.transform_features(x[va], config)
+                with warnings.catch_warnings(record=True) as caught:
+                    warnings.simplefilter('always')
+                    model = batch_models.make_model(config)
+                    start = time.perf_counter()
+                    model.fit(train_x, y[tr])
+                    fit_seconds = time.perf_counter() - start
+                    pred = model.predict(val_x)
+                    proba = model.predict_proba(val_x)[:, np.flatnonzero(model.classes_ == 1)[0]]
+                    with np.load(CHECKPOINTS / model_id / f'fold{fold}.npz', allow_pickle=False) as prior:
+                        if not (np.array_equal(prior['val_positions'], va)
+                                and np.array_equal(prior['predictions'], pred)
+                                and np.array_equal(prior['scores'], proba)):
+                            raise ValueError(f'Reconstructed model does not match saved predictions: {model_id} fold {fold}')
+                    base, drops = permutation_drops(model, val_x, y[va], repeats=repeats, seed=67 + fold)
+                    ablations = []
+                    for feature in range(x.shape[1]):
+                        start = time.perf_counter()
+                        keep = np.arange(x.shape[1]) != feature
+                        ablated = batch_models.make_model(config)
+                        ablated.fit(train_x[:, keep], y[tr])
+                        changed = ablated.predict(val_x[:, keep])
+                        measured = accuracy(y[va], changed)
+                        ablations.append({'feature_zero_based': feature, 'feature_one_based': feature + 1,
+                                          'accuracy': measured, 'accuracy_drop': base - measured,
+                                          'fit_predict_seconds': time.perf_counter() - start})
+                    record = {'id': model_id, 'fold': fold, 'base_accuracy': base,
+                              'base_fit_seconds': fit_seconds, 'complexity': tree_complexity(model, config['family'], x.shape[1]),
+                              'permutation_accuracy_drops': drops.tolist(), 'leave_one_out': ablations,
+                              'warnings': [f'{w.category.__name__}: {w.message}' for w in caught],
+                              'prediction_match': True, 'timing_note': 'Concurrent workloads may affect timing.'}
+                save_json(record_path, record)
+                records.append(record)
+                print(f'  base accuracy {base:.6f}; permutation + 20 ablations saved', flush=True)
+    perm_rows, lofo_rows, complexity_rows = [], [], []
+    for record in records:
+        matrix = np.asarray(record['permutation_accuracy_drops'])
+        for i, row in enumerate(matrix):
+            for repeat, delta in enumerate(row):
+                perm_rows.append(dict(id=record['id'], fold=record['fold'], feature_zero_based=i,
+                                      feature_one_based=i+1, repeat=repeat, accuracy_drop=float(delta)))
+        for row in record['leave_one_out']:
+            lofo_rows.append(dict(id=record['id'], fold=record['fold'], **row))
+        complexity = record['complexity']
+        complexity_rows.append(dict(id=record['id'], fold=record['fold'], base_accuracy=record['base_accuracy'],
+                                    used_features=complexity['used_features'], trees=complexity['trees'],
+                                    split_nodes=complexity['split_nodes'], leaf_nodes=complexity['leaf_nodes'],
+                                    serialized_bytes=complexity['serialized_bytes'],
+                                    serialized_format=complexity['serialized_format'], fit_seconds=record['base_fit_seconds']))
+    write_csv(out / 'permutation_importance.csv', perm_rows)
+    write_csv(out / 'leave_one_feature_out.csv', lofo_rows)
+    write_csv(out / 'complexity.csv', complexity_rows)
+    save_json(out / 'feature_progress.json', {'status': 'complete', 'folds': len(records),
+                                              'permutation_rows': len(perm_rows), 'ablation_rows': len(lofo_rows)})
+    return records
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--mode', choices=['features'], default='features')
+    parser.add_argument('--output-dir', type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument('--repeats', type=int, default=5)
+    args = parser.parse_args()
+    feature_analysis(args.output_dir, args.repeats)
+
+
+if __name__ == '__main__':
+    main()

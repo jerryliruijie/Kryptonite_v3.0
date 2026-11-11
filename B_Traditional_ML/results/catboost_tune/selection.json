@@ -1,0 +1,11 @@
+{
+  "selected": {
+    "id": "cat_sign_d10_n600_l10",
+    "family": "catboost",
+    "representation": "sign",
+    "depth": 10,
+    "iterations": 600,
+    "l2_leaf_reg": 10
+  },
+  "rule": "highest three-fold accuracy; ties F1 then id"
+}

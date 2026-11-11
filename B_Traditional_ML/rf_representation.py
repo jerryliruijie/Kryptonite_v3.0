@@ -1,0 +1,278 @@
+"""Paired raw/sign Random Forest on the saved training CV splits."""
+
+import argparse
+import csv
+import importlib.metadata
+import json
+import os
+import platform
+import subprocess
+import sys
+import time
+import warnings
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+from catboost import CatBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import StratifiedKFold
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from threadpoolctl import threadpool_limits
+from xgboost import XGBClassifier
+
+import common
+from B_Traditional_ML import xgb_cv
+
+METHODS = ("rf",)
+REPS = ("raw", "sign")
+DATASETS = ("20", "30", "40")
+SEED = 67
+TIMEOUT = 1800
+METRICS = ("accuracy", "precision", "recall", "f1", "specificity", "roc_auc")
+SETTINGS = {
+    "rf": {"n_estimators": 200, "max_features": "sqrt", "max_depth": None,
+           "min_samples_leaf": 1, "bootstrap": True, "n_jobs": 1,
+           "random_state": 67, "scaler": None},
+}
+
+
+def transform(x, representation):
+    if representation == "raw":
+        return np.asarray(x, dtype=np.float64)
+    if representation == "sign":
+        return np.where(x >= 0, 1., -1.)
+    raise ValueError(f"Unexpected representation: {representation}")
+
+
+def build(method):
+    if method != "rf":
+        raise ValueError(f"Unexpected method: {method}")
+    return RandomForestClassifier(n_estimators=200, max_features="sqrt", max_depth=None,
+                                  min_samples_leaf=1, bootstrap=True, n_jobs=1, random_state=SEED)
+
+
+def evaluate(method, representation, x, y, train, val):
+    if np.intersect1d(train, val).size:
+        raise ValueError("Overlapping training and evaluation positions")
+    with threadpool_limits(limits=1), warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        start = time.perf_counter()
+        train_x, val_x = transform(x[train], representation), transform(x[val], representation)
+        if SETTINGS[method]["scaler"] == "standard":
+            scaler = StandardScaler().fit(train_x)
+            train_x, val_x = scaler.transform(train_x), scaler.transform(val_x)
+        model = build(method)
+        model.fit(train_x, y[train])
+        fit_seconds = time.perf_counter() - start
+        start = time.perf_counter()
+        if method in ("knn", "catboost"):
+            probability = model.predict_proba(val_x)
+            pred = np.asarray(model.classes_)[np.argmax(probability, axis=1)].astype(int)
+            score = probability[:, np.flatnonzero(model.classes_ == 1)[0]]
+        else:
+            pred = np.asarray(model.predict(val_x)).reshape(-1).astype(int)
+            score = model.decision_function(val_x) if method == "svm" else model.predict_proba(val_x)[:, 1]
+        predict_seconds = time.perf_counter() - start
+        start = time.perf_counter()
+        train_pred = np.asarray(model.predict(train_x)).reshape(-1).astype(int)
+        train_predict_seconds = time.perf_counter() - start
+    return {"method": method, "representation": representation, "settings": SETTINGS[method], "seed": SEED,
+            "metrics": common.evaluate(y[val], pred, score), "train_metrics": common.evaluate(y[train], train_pred),
+            "fit_seconds": fit_seconds, "predict_seconds": predict_seconds,
+            "train_predict_seconds": train_predict_seconds,
+            "warnings": [f"{item.category.__name__}: {item.message}" for item in caught]}, pred, score, train_pred
+
+
+def dataset_folds(out, name):
+    x, y, *_ = common.load_split(name)
+    folds = list(StratifiedKFold(n_splits=3, shuffle=True, random_state=SEED).split(x, y))
+    source = Path(__file__).parent / "results" / "representation_ablation" / "folds" / f"{name}.npz"
+    with np.load(source, allow_pickle=False) as saved:
+        arrays = {f"{kind}_{i}": np.array(a) for i, pair in enumerate(folds) for kind, a in zip(("train", "val"), pair)}
+        if set(saved.files) != set(arrays) or any(not np.array_equal(saved[k], v) for k, v in arrays.items()):
+            raise ValueError(f"Saved {name} CV splits do not match seed {SEED}")
+    if name == "20":
+        old, *_ = xgb_cv.load_shared_folds(x, y)
+        if any(not np.array_equal(a, c) or not np.array_equal(b, d) for (a, b), (c, d) in zip(folds, old)):
+            raise ValueError("K20 folds differ from original SVM study")
+    path = out / "folds" / f"{name}.npz"
+    if path.exists():
+        with np.load(path, allow_pickle=False) as saved:
+            if set(saved.files) != set(arrays) or any(not np.array_equal(saved[k], v) for k, v in arrays.items()):
+                raise ValueError("Checkpoint folds changed")
+    else:
+        xgb_cv.atomic_npz(path, **arrays)
+    return path
+
+
+def worker(method, representation, dataset, folds_path, fold, output):
+    x, y, *_ = common.load_split(dataset)
+    with np.load(folds_path, allow_pickle=False) as saved:
+        train, val = saved[f"train_{fold}"], saved[f"val_{fold}"]
+    with np.load(common.SPLITS_DIR / f"{dataset}.npz", allow_pickle=False) as saved:
+        original = saved["train"][val]
+    result, pred, score, train_pred = evaluate(method, representation, x, y, train, val)
+    result.update(status="ok", dataset=dataset, fold=fold, training_samples=len(train), validation_samples=len(val))
+    xgb_cv.atomic_npz(output, record_json=np.array(json.dumps(result, sort_keys=True)),
+                      train_positions=train, val_positions=val, original_rows=original, y_true=y[val],
+                      predictions=pred, scores=score, train_y_true=y[train], train_predictions=train_pred)
+
+
+def load_record(path, method, rep, name, fold, folds):
+    _, y, *_ = common.load_split(name)
+    with np.load(path, allow_pickle=False) as data, np.load(folds, allow_pickle=False) as saved, np.load(
+        common.SPLITS_DIR / f"{name}.npz", allow_pickle=False
+    ) as shared:
+        record = json.loads(data["record_json"].item())
+        train, val = saved[f"train_{fold}"], saved[f"val_{fold}"]
+        if (record["status"] != "ok" or record["method"] != method or record["representation"] != rep
+                or record["dataset"] != name or record["fold"] != fold or record["seed"] != SEED
+                or record["settings"] != SETTINGS[method] or not np.array_equal(data["train_positions"], train)
+                or not np.array_equal(data["val_positions"], val) or not np.array_equal(data["original_rows"], shared["train"][val])
+                or not np.array_equal(data["y_true"], y[val]) or not np.array_equal(data["train_y_true"], y[train])
+                or common.evaluate(y[val], data["predictions"], data["scores"]) != record["metrics"]
+                or common.evaluate(y[train], data["train_predictions"]) != record["train_metrics"]):
+            raise ValueError(f"Invalid checkpoint: {path}")
+    return record
+
+
+def event_records(out):
+    path = out / "events.jsonl"
+    return [json.loads(s) for s in path.read_text(encoding="utf-8").splitlines()] if path.exists() else []
+
+
+def run_fit(out, name, method, rep, fold, fold_path):
+    path = out / "runs" / name / method / rep / f"fold{fold}.npz"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    relative = path.relative_to(out).as_posix()
+    if path.exists():
+        matching = [e for e in event_records(out) if e["output"] == relative and e["status"] == "ok"]
+        if not matching or matching[-1]["sha256"] != xgb_cv.sha256(path):
+            raise ValueError(f"Missing or changed checkpoint event: {path}")
+        return load_record(path, method, rep, name, fold, fold_path)
+    env = os.environ.copy()
+    for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        env[key] = "1"
+    cmd = [sys.executable, "-m", "B_Traditional_ML.rf_representation", "--worker", "--method", method,
+           "--representation", rep, "--dataset", name, "--folds", str(fold_path), "--fold", str(fold), "--output", str(path)]
+    start = time.perf_counter()
+    try:
+        proc = subprocess.run(cmd, cwd=common.ROOT, env=env, text=True, encoding="utf-8", errors="replace",
+                              capture_output=True, timeout=TIMEOUT)
+        if proc.returncode or not path.exists():
+            raise RuntimeError(f"worker exit {proc.returncode}: {(proc.stderr or proc.stdout)[-4000:]}")
+        record = load_record(path, method, rep, name, fold, fold_path)
+        status, error = "ok", None
+    except (subprocess.TimeoutExpired, RuntimeError) as exc:
+        status, error, record = "failed", str(exc), None
+    entry = {"dataset": name, "method": method, "representation": rep, "fold": fold,
+             "output": relative, "status": status, "error": error, "wall_seconds": time.perf_counter() - start,
+             "sha256": xgb_cv.sha256(path) if path.exists() else None}
+    with (out / "events.jsonl").open("a", encoding="utf-8") as f:
+        f.write(json.dumps(entry) + "\n")
+    print(json.dumps(entry), flush=True)
+    return record
+
+
+def write_csv(path, rows):
+    if not rows:
+        return
+    temp = path.with_name(path.name + ".tmp")
+    with temp.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    os.replace(temp, path)
+
+
+def summaries(out, data):
+    folds = []
+    paired = []
+    for name in DATASETS:
+        for method in METHODS:
+            pair = {}
+            for rep in REPS:
+                records = [data.get((name, method, rep, i)) for i in range(3)]
+                good = [r for r in records if r is not None]
+                for rec in good:
+                    folds.append({"dataset": name, "method": method, "representation": rep, "fold": rec["fold"],
+                                  **{metric: rec["metrics"][metric] for metric in METRICS},
+                                  "train_accuracy": rec["train_metrics"]["accuracy"],
+                                  "fit_seconds": rec["fit_seconds"], "predict_seconds": rec["predict_seconds"]})
+                pair[rep] = records
+            good = all(r is not None for rep in REPS for r in pair[rep])
+            raw = [r["metrics"]["accuracy"] for r in pair["raw"] if r is not None]
+            sign = [r["metrics"]["accuracy"] for r in pair["sign"] if r is not None]
+            diffs = [b - a for a, b in zip(raw, sign)] if good else []
+            paired.append({"dataset": name, "method": method,
+                           "raw_completed": len(raw), "sign_completed": len(sign),
+                           "raw_mean_accuracy": float(np.mean(raw)) if raw else "",
+                           "sign_mean_accuracy": float(np.mean(sign)) if sign else "",
+                           "mean_sign_minus_raw": float(np.mean(diffs)) if diffs else "",
+                           "sample_sd_paired_difference": float(np.std(diffs, ddof=1)) if len(diffs) > 1 else "",
+                           "fold0_difference": diffs[0] if diffs else "", "fold1_difference": diffs[1] if diffs else "",
+                           "fold2_difference": diffs[2] if diffs else "", "pair_complete": good})
+    write_csv(out / "fold_metrics.csv", folds)
+    write_csv(out / "summary.csv", paired)
+
+
+def run(out):
+    out = Path(out).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "folds").mkdir(exist_ok=True)
+    baseline = Path(__file__).parent / "results" / "representation_ablation" / "folds"
+    identity = {"datasets": list(DATASETS), "methods": list(METHODS), "representations": list(REPS),
+                "settings": SETTINGS, "train_and_cv_seed": SEED, "timeout_seconds": TIMEOUT,
+                "source_sha256": xgb_cv.sha256(__file__), "common_sha256": xgb_cv.sha256(common.__file__),
+                "xgb_cv_sha256": xgb_cv.sha256(xgb_cv.__file__),
+                "split_manifest_sha256": xgb_cv.sha256(common.SPLITS_DIR / "manifest.json"),
+                "folds_sha256": {name: xgb_cv.sha256(baseline / f"{name}.npz") for name in DATASETS},
+                "versions": {n: importlib.metadata.version(n) for n in ("numpy", "scipy", "scikit-learn", "xgboost", "catboost", "threadpoolctl")},
+                "python": platform.python_version(), "platform": platform.platform(), "processor": platform.processor()}
+    manifest = out / "manifest.json"
+    if manifest.exists():
+        if json.loads(manifest.read_text(encoding="utf-8"))["identity"] != identity:
+            raise ValueError("Resume rejected: source, data, settings or environment changed")
+    else:
+        xgb_cv.atomic_json(manifest, {"identity": identity, "created_at_utc": datetime.now(timezone.utc).isoformat(),
+                           "git_head": xgb_cv.git_output("rev-parse", "HEAD"),
+                           "git_status": xgb_cv.git_output("status", "--porcelain", "--untracked-files=all"),
+                           "caveat": "These models/features were selected during prior development; test/hidden are not evaluated.",
+                           "comparison": "Random Forest with the same parameters on raw and sign inputs; splits are shared."})
+    data = {}
+    for name in DATASETS:
+        fold_path = dataset_folds(out, name)
+        for method in METHODS:
+            for rep in REPS:
+                for i in range(3):
+                    data[(name, method, rep, i)] = run_fit(out, name, method, rep, i, fold_path)
+                    summaries(out, data)
+    completed = sum(r is not None for r in data.values())
+    xgb_cv.atomic_json(out / "progress.json", {"state": "complete" if completed == 18 else "partial", "completed": completed,
+                       "expected": 18, "finished_at_utc": datetime.now(timezone.utc).isoformat()})
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--worker", action="store_true")
+    parser.add_argument("--method", choices=METHODS)
+    parser.add_argument("--representation", choices=REPS)
+    parser.add_argument("--dataset", choices=DATASETS)
+    parser.add_argument("--folds", type=Path)
+    parser.add_argument("--fold", type=int)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    if args.worker:
+        worker(args.method, args.representation, args.dataset, args.folds, args.fold, args.output)
+    else:
+        if args.output_dir is None:
+            parser.error("--output-dir is required")
+        run(args.output_dir)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,62 @@
+{
+  "config": {
+    "id": "cat_sign_d10_n600_l10",
+    "family": "catboost",
+    "representation": "sign",
+    "depth": 10,
+    "iterations": 600,
+    "l2_leaf_reg": 10
+  },
+  "seed": 67,
+  "dataset": "20",
+  "fold": 0,
+  "note": "Reconstructed from source and training split; predictions and probabilities exactly match stored fold.",
+  "resolved_parameters": {
+    "nan_mode": "Min",
+    "eval_metric": "Logloss",
+    "iterations": 600,
+    "sampling_frequency": "PerTree",
+    "leaf_estimation_method": "Newton",
+    "random_score_type": "NormalWithModelSizeDecrease",
+    "grow_policy": "SymmetricTree",
+    "penalties_coefficient": 1,
+    "boosting_type": "Plain",
+    "model_shrink_mode": "Constant",
+    "feature_border_type": "GreedyLogSum",
+    "bayesian_matrix_reg": 0.10000000149011612,
+    "eval_fraction": 0,
+    "force_unit_auto_pair_weights": false,
+    "l2_leaf_reg": 10,
+    "random_strength": 1,
+    "rsm": 1,
+    "boost_from_average": false,
+    "model_size_reg": 0.5,
+    "pool_metainfo_options": {
+      "tags": {}
+    },
+    "subsample": 0.800000011920929,
+    "use_best_model": false,
+    "class_names": [
+      0,
+      1
+    ],
+    "random_seed": 67,
+    "depth": 10,
+    "posterior_sampling": false,
+    "border_count": 254,
+    "classes_count": 0,
+    "auto_class_weights": "None",
+    "sparse_features_conflict_fraction": 0,
+    "leaf_estimation_backtracking": "AnyImprovement",
+    "best_model_min_trees": 1,
+    "model_shrink_rate": 0,
+    "min_data_in_leaf": 1,
+    "loss_function": "Logloss",
+    "learning_rate": 0.05000000074505806,
+    "score_function": "Cosine",
+    "task_type": "CPU",
+    "leaf_estimation_iterations": 10,
+    "bootstrap_type": "MVS",
+    "max_leaves": 1024
+  }
+}

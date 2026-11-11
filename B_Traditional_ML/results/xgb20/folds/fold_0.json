@@ -1,0 +1,27 @@
+{
+  "fold": 0,
+  "training_samples": 5600,
+  "validation_samples": 2800,
+  "fit_seconds": 0.45733240000117803,
+  "predict_seconds": 0.010317200001736637,
+  "warnings": [],
+  "metrics": {
+    "accuracy": 0.5392857142857143,
+    "precision": 0.5359765051395007,
+    "recall": 0.5259365994236311,
+    "f1": 0.5309090909090909,
+    "specificity": 0.5524079320113314,
+    "confusion_matrix": [
+      [
+        780,
+        632
+      ],
+      [
+        658,
+        730
+      ]
+    ],
+    "roc_auc": 0.5570256182086847
+  },
+  "predictions_sha256": "8dccde7be30f4380449bbf65bfad0d356f44c21bac715f08e7a1c32347a071d5"
+}

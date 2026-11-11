@@ -1,0 +1,161 @@
+"""Tune sign CatBoost, transfer the winner, and assess K20 seed stability."""
+
+import argparse
+import csv
+import importlib.metadata
+import json
+import os
+import platform
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+from catboost import CatBoostClassifier
+from sklearn.model_selection import StratifiedKFold
+
+import common
+from B_Traditional_ML import new_methods as nm, xgb_cv
+
+
+SEEDS = (67, 123, 314)
+TIMEOUT = 1800
+
+
+def configs():
+    return [dict(id=f"cat_sign_d{depth}_n{iterations}_l{reg}", family="catboost", representation="sign",
+                 depth=depth, iterations=iterations, l2_leaf_reg=reg)
+            for depth in (6, 8, 10) for iterations in (600, 1200) for reg in (1, 10)]
+
+
+def make_model(config, seed=67):
+    return CatBoostClassifier(iterations=config["iterations"], depth=config["depth"], learning_rate=.05,
+                              l2_leaf_reg=config["l2_leaf_reg"], loss_function="Logloss", thread_count=1,
+                              random_seed=seed, task_type="CPU", grow_policy="SymmetricTree", verbose=False,
+                              allow_writing_files=False)
+
+
+def stability_folds(out, split_seed):
+    x, y, *_ = common.load_split("20")
+    splits = list(StratifiedKFold(n_splits=3, shuffle=True, random_state=split_seed).split(x, y))
+    arrays = {f"{kind}_{i}": a for i, fold in enumerate(splits) for kind, a in zip(("train", "val"), fold)}
+    path = out / "folds" / f"stability_{split_seed}.npz"
+    if path.exists():
+        with np.load(path, allow_pickle=False) as saved:
+            if set(saved.files) != set(arrays) or any(not np.array_equal(saved[k], v) for k, v in arrays.items()):
+                raise ValueError("Saved stability folds differ")
+    else:
+        xgb_cv.atomic_npz(path, **arrays)
+    return path
+
+
+def one(out, name, fold_path, fold, config, seed, path, stage):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        return nm.load_record(path, config, name, fold, fold_path)
+    env = os.environ.copy()
+    for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        env[key] = "1"
+    cmd = [sys.executable, "-m", "B_Traditional_ML.catboost_tune", "--worker", "--config", json.dumps(config),
+           "--dataset", name, "--fold-file", str(fold_path), "--fold", str(fold), "--train-seed", str(seed),
+           "--output", str(path)]
+    started = time.perf_counter()
+    try:
+        proc = subprocess.run(cmd, cwd=common.ROOT, env=env, capture_output=True, text=True,
+                              encoding="utf-8", errors="replace", timeout=TIMEOUT)
+        status, info = ("ok", proc.stdout[-2000:]) if proc.returncode == 0 and path.exists() else (
+            "failed", f"exit {proc.returncode}: {proc.stderr[-6000:]}")
+    except subprocess.TimeoutExpired:
+        status, info = "timeout", f"exceeded {TIMEOUT}s"
+    event = {"stage": stage, "dataset": name, "config": config["id"], "fold": fold, "model_seed": seed,
+             "status": status, "wall_seconds": time.perf_counter() - started, "info": info,
+             "sha256": xgb_cv.sha256(path) if path.exists() else None}
+    with (out / "events.jsonl").open("a", encoding="utf-8") as f:
+        f.write(json.dumps(event) + "\n")
+    print(json.dumps(event), flush=True)
+    return nm.load_record(path, config, name, fold, fold_path) if status == "ok" else None
+
+
+def run(out):
+    out = Path(out).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "folds").mkdir(exist_ok=True)
+    grid = configs()
+    versions = {v: importlib.metadata.version(v) for v in ("catboost", "numpy", "scipy", "scikit-learn", "pandas", "graphviz", "plotly", "threadpoolctl")}
+    identity = {"grid": grid, "model_and_split_seeds": list(SEEDS), "timeout_seconds": TIMEOUT,
+                "source_sha256": xgb_cv.sha256(__file__), "new_methods_sha256": xgb_cv.sha256(nm.__file__),
+                "common_sha256": xgb_cv.sha256(common.__file__), "xgb_cv_sha256": xgb_cv.sha256(xgb_cv.__file__),
+                "split_manifest_sha256": xgb_cv.sha256(common.SPLITS_DIR / "manifest.json"),
+                "folds20_sha256": xgb_cv.sha256(Path(__file__).parent / "results" / "cv20" / "folds.npz"),
+                "versions": versions, "python": platform.python_version(), "platform": platform.platform(),
+                "processor": platform.processor()}
+    path = out / "manifest.json"
+    if path.exists():
+        if json.loads(path.read_text(encoding="utf-8"))["identity"] != identity:
+            raise ValueError("Resume rejected: code, data, grid or environment changed")
+    else:
+        xgb_cv.atomic_json(path, {"identity": identity, "created_at_utc": datetime.now(timezone.utc).isoformat(),
+                                 "git_head": xgb_cv.git_output("rev-parse", "HEAD"),
+                                 "git_status": xgb_cv.git_output("status", "--porcelain", "--untracked-files=all"),
+                                 "note": "Frozen K20 selection evaluated on training CV; multiple seeds use same shared training and are dependent. Runtime may be contended."})
+    for name in ("20", "30", "40"):
+        _, folds = nm.dataset_folds(out, name)
+        candidates = grid if name == "20" else [json.loads((out / "selection.json").read_text(encoding="utf-8"))["selected"]]
+        for config in candidates:
+            for fold in range(3):
+                path = out / "runs" / name / config["id"] / f"fold{fold}.npz"
+                one(out, name, folds, fold, config, 67, path, "screen" if name == "20" else "transfer")
+        rows = nm.write_summary(out, name, candidates, folds)
+        if name == "20":
+            good = [r for r in rows if r["status"] == "complete"]
+            if not good:
+                raise RuntimeError("No complete CatBoost tuning configuration")
+            winner = next(c for c in grid if c["id"] == good[0]["id"])
+            xgb_cv.atomic_json(out / "selection.json", {"selected": winner, "rule": "highest three-fold accuracy; ties F1 then id"})
+            print("SELECTED " + json.dumps(winner), flush=True)
+        xgb_cv.atomic_json(out / "progress.json", {"finished_dataset": name, "complete_configs": sum(r["status"] == "complete" for r in rows), "total_configs": len(rows)})
+    winner = json.loads((out / "selection.json").read_text(encoding="utf-8"))["selected"]
+    rows = []
+    for split_seed in SEEDS:
+        fold_path = stability_folds(out, split_seed)
+        for model_seed in SEEDS:
+            for fold in range(3):
+                path = out / "runs" / "stability" / f"split{split_seed}" / f"model{model_seed}" / f"fold{fold}.npz"
+                rec = one(out, "20", fold_path, fold, winner, model_seed, path, f"stability_split{split_seed}")
+                if rec is not None:
+                    rows.append({"split_seed": split_seed, "model_seed": model_seed, "fold": fold,
+                                 **{k: rec["metrics"][k] for k in nm.METRICS},
+                                 "train_accuracy": rec["train_metrics"]["accuracy"], "fit_seconds": rec["fit_seconds"]})
+    if rows:
+        with (out / "stability.csv").open("w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+            writer.writeheader()
+            writer.writerows(rows)
+    xgb_cv.atomic_json(out / "progress.json", {"state": "finished", "finished_dataset": "40", "stability_completed_folds": len(rows),
+                                               "stability_expected_folds": 27, "updated_at_utc": datetime.now(timezone.utc).isoformat()})
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--worker", action="store_true")
+    parser.add_argument("--config")
+    parser.add_argument("--dataset")
+    parser.add_argument("--fold-file", type=Path)
+    parser.add_argument("--fold", type=int)
+    parser.add_argument("--train-seed", type=int, default=67)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    if args.worker:
+        nm.build = lambda config: make_model(config, args.train_seed)
+        nm.worker(json.loads(args.config), args.dataset, args.fold_file, args.fold, args.output)
+    else:
+        if args.output_dir is None:
+            parser.error("--output-dir required")
+        run(args.output_dir)
+
+
+if __name__ == "__main__":
+    main()

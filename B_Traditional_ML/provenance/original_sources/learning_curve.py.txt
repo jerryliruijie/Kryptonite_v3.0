@@ -1,0 +1,240 @@
+"""Run a reproducible CatBoost learning curve on proposed nested training subsets."""
+
+import argparse
+import csv
+import importlib.metadata
+import json
+import os
+import platform
+import subprocess
+import sys
+import time
+import warnings
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+from catboost import CatBoostClassifier
+from sklearn.model_selection import train_test_split
+from threadpoolctl import threadpool_limits
+
+import common
+from B_SVM import xgb_cv
+
+
+SUBSET_SEEDS = (67, 123, 314)
+MODEL_SEED = 67
+DATASETS = ("20", "30", "40")
+FRACTIONS = (25, 50, 100)
+TIMEOUT = 1800
+METRICS = ("accuracy", "precision", "recall", "f1", "specificity", "roc_auc")
+PARAMS = {"depth": 10, "iterations": 600, "learning_rate": 0.05, "l2_leaf_reg": 10,
+          "loss_function": "Logloss", "thread_count": 1, "random_seed": MODEL_SEED,
+          "task_type": "CPU", "grow_policy": "SymmetricTree", "verbose": False,
+          "allow_writing_files": False}
+
+
+def make_subsets(y, seed):
+    """Select nested, stratified positions within the shared training array."""
+    y = np.asarray(y)
+    if y.ndim != 1 or len(y) == 0 or len(y) % 4:
+        raise ValueError("Training labels must be 1D with sample count divisible by four")
+    positions = np.arange(len(y), dtype=np.int64)
+    half, _ = train_test_split(positions, train_size=len(y)//2, stratify=y, random_state=seed)
+    quarter, _ = train_test_split(half, train_size=len(y)//4, stratify=y[half], random_state=seed)
+    return {25: np.sort(quarter), 50: np.sort(half), 100: positions}
+
+
+def save_subsets(out, dataset, seed):
+    """Persist both shared-training positions and original input row indices."""
+    x, y, xv, yv, *_ = common.load_split(dataset)
+    with np.load(common.SPLITS_DIR / f"{dataset}.npz", allow_pickle=False) as data:
+        train_rows, val_rows, test_rows = (data[k].copy() for k in ("train", "validation", "test"))
+    subsets = make_subsets(y, seed)
+    arrays = {f"positions_{k}": v for k, v in subsets.items()}
+    arrays.update({f"original_rows_{k}": train_rows[v] for k, v in subsets.items()})
+    arrays["validation_rows"] = val_rows
+    if (np.intersect1d(train_rows, val_rows).size or np.intersect1d(train_rows, test_rows).size
+            or np.intersect1d(val_rows, test_rows).size):
+        raise ValueError("Shared splits overlap")
+    path = Path(out) / "subsets" / f"{dataset}_subset_seed{seed}.npz"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        with np.load(path, allow_pickle=False) as saved:
+            if set(saved.files) != set(arrays) or any(not np.array_equal(saved[k], v) for k, v in arrays.items()):
+                raise ValueError(f"Saved subset indices differ: {path}")
+    else:
+        xgb_cv.atomic_npz(path, **arrays)
+    return path
+
+
+def fit_evaluate(x, y, xv, yv, positions):
+    train_x = np.where(x[positions] >= 0, 1.0, -1.0)
+    val_x = np.where(xv >= 0, 1.0, -1.0)
+    with threadpool_limits(limits=1), warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        model = CatBoostClassifier(**PARAMS)
+        started = time.perf_counter()
+        model.fit(train_x, y[positions])
+        fit_seconds = time.perf_counter() - started
+        started = time.perf_counter()
+        probabilities = model.predict_proba(val_x)
+        predictions = np.asarray(model.classes_)[np.argmax(probabilities, axis=1)].astype(int)
+        scores = probabilities[:, np.flatnonzero(model.classes_ == 1)[0]]
+        predict_seconds = time.perf_counter() - started
+        train_predictions = np.asarray(model.predict(train_x)).reshape(-1).astype(int)
+    return {"metrics": common.evaluate(yv, predictions, scores),
+            "train_metrics": common.evaluate(y[positions], train_predictions),
+            "fit_seconds": fit_seconds, "predict_seconds": predict_seconds,
+            "warnings": [f"{w.category.__name__}: {w.message}" for w in caught]}, predictions, scores, train_predictions
+
+
+def worker(dataset, subset_seed, fraction, subset_path, output):
+    x, y, xv, yv, *_ = common.load_split(dataset)
+    with np.load(subset_path, allow_pickle=False) as s:
+        positions, original, val_rows = (s[f"positions_{fraction}"].copy(), s[f"original_rows_{fraction}"].copy(),
+                                         s["validation_rows"].copy())
+    rec, pred, scores, train_pred = fit_evaluate(x, y, xv, yv, positions)
+    rec.update(dataset=dataset, fraction=fraction, subset_seed=subset_seed, model_seed=MODEL_SEED,
+               n_train=len(positions), n_validation=len(yv), status="ok")
+    xgb_cv.atomic_npz(output, record_json=np.array(json.dumps(rec, sort_keys=True, allow_nan=False)),
+                      train_positions=positions, original_train_rows=original, validation_rows=val_rows,
+                      y_true=yv, predictions=pred, scores=scores, train_y_true=y[positions], train_predictions=train_pred)
+
+
+def validate_checkpoint(path, dataset, subset_seed, fraction, subset_path):
+    x, y, xv, yv, *_ = common.load_split(dataset)
+    with np.load(path, allow_pickle=False) as a, np.load(subset_path, allow_pickle=False) as s:
+        rec = json.loads(a["record_json"].item())
+        if (rec["dataset"] != dataset or rec["subset_seed"] != subset_seed or rec["fraction"] != fraction
+                or rec["model_seed"] != MODEL_SEED or rec["status"] != "ok"
+                or not np.array_equal(a["train_positions"], s[f"positions_{fraction}"])
+                or not np.array_equal(a["original_train_rows"], s[f"original_rows_{fraction}"])
+                or not np.array_equal(a["validation_rows"], s["validation_rows"])
+                or not np.array_equal(a["y_true"], yv)
+                or not np.array_equal(a["train_y_true"], y[a["train_positions"]])
+                or common.evaluate(yv, a["predictions"], a["scores"]) != rec["metrics"]
+                or common.evaluate(a["train_y_true"], a["train_predictions"]) != rec["train_metrics"]):
+            raise ValueError(f"Checkpoint does not match training, validation or metrics: {path}")
+    return rec
+
+
+def run_fit(out, dataset, subset_seed, fraction, subset_path):
+    path = Path(out) / "runs" / dataset / f"subset_seed{subset_seed}" / f"train{fraction}.npz"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rel = path.relative_to(out).as_posix()
+    events_path = Path(out) / "events.jsonl"
+    if path.exists():
+        events = [json.loads(v) for v in events_path.read_text(encoding="utf-8").splitlines()] if events_path.exists() else []
+        matches = [e for e in events if e.get("path") == rel and e.get("status") == "ok"]
+        if not matches or matches[-1]["sha256"] != xgb_cv.sha256(path):
+            raise ValueError(f"Checkpoint event missing or changed: {path}")
+        return validate_checkpoint(path, dataset, subset_seed, fraction, subset_path)
+    env = os.environ.copy()
+    for name in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        env[name] = "1"
+    command = [sys.executable, "-m", "B_SVM.learning_curve", "--worker", "--dataset", dataset,
+               "--subset-seed", str(subset_seed), "--fraction", str(fraction), "--subset-path", str(subset_path), "--output", str(path)]
+    started = time.monotonic()
+    try:
+        completed = subprocess.run(command, cwd=common.ROOT, env=env, capture_output=True, text=True,
+                                   encoding="utf-8", errors="replace", timeout=TIMEOUT)
+        if completed.returncode or not path.exists():
+            raise RuntimeError(f"worker exit {completed.returncode}: {(completed.stderr or completed.stdout)[-5000:]}")
+        rec = validate_checkpoint(path, dataset, subset_seed, fraction, subset_path)
+        status, error = "ok", None
+    except (subprocess.TimeoutExpired, RuntimeError) as error_value:
+        status, error, rec = "failed", str(error_value), None
+    event = {"dataset": dataset, "subset_seed": subset_seed, "fraction": fraction, "model_seed": MODEL_SEED,
+             "path": rel, "status": status, "error": error, "wall_seconds": time.monotonic() - started,
+             "sha256": xgb_cv.sha256(path) if path.exists() else None}
+    with events_path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(event) + "\n")
+    print(json.dumps(event), flush=True)
+    return rec
+
+
+def write_csv(path, rows):
+    if not rows:
+        return
+    tmp = path.with_name(path.name + ".tmp")
+    with tmp.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    os.replace(tmp, path)
+
+
+def run(output_dir):
+    out = Path(output_dir).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    identity = {"datasets": DATASETS, "subset_seeds": SUBSET_SEEDS, "model_seed": MODEL_SEED,
+                "fractions": FRACTIONS, "parameters": PARAMS, "timeout_seconds": TIMEOUT,
+                "source_sha256": xgb_cv.sha256(__file__), "common_sha256": xgb_cv.sha256(common.__file__),
+                "split_manifest_sha256": xgb_cv.sha256(common.SPLITS_DIR / "manifest.json"),
+                "versions": {v: importlib.metadata.version(v) for v in ("catboost", "numpy", "scipy", "scikit-learn", "threadpoolctl")},
+                "python": platform.python_version(), "platform": platform.platform(), "processor": platform.processor()}
+    identity = json.loads(json.dumps(identity))
+    manifest = out / "manifest.json"
+    if manifest.exists():
+        if json.loads(manifest.read_text(encoding="utf-8"))["identity"] != identity:
+            raise ValueError("Resume rejected: source, settings, data or environment differ")
+    else:
+        xgb_cv.atomic_json(manifest, {"identity": identity, "created_at_utc": datetime.now(timezone.utc).isoformat(),
+            "git_head": xgb_cv.git_output("rev-parse", "HEAD"),
+            "git_status": xgb_cv.git_output("status", "--porcelain", "--untracked-files=all"),
+            "note": "Proposed shared subsets; A and the group have not yet verified or accepted them. Fixed external validation used for development; K20 was used previously. Local test and hidden are not used for scoring. Timing may be contended."})
+    records = []
+    for dataset in DATASETS:
+        for seed in SUBSET_SEEDS:
+            subset_path = save_subsets(out, dataset, seed)
+            for fraction in FRACTIONS:
+                rec = run_fit(out, dataset, seed, fraction, subset_path)
+                if rec is not None:
+                    records.append(rec)
+                    row = {"dataset": dataset, "subset_seed": seed, "model_seed": MODEL_SEED,
+                           "fraction": fraction, "n_train": rec["n_train"], "n_validation": rec["n_validation"],
+                           **{k: rec["metrics"][k] for k in METRICS},
+                           "train_accuracy": rec["train_metrics"]["accuracy"],
+                           "fit_seconds": rec["fit_seconds"], "predict_seconds": rec["predict_seconds"]}
+                    existing = list(csv.DictReader((out / "run_metrics.csv").open(encoding="utf-8"))) if (out / "run_metrics.csv").exists() else []
+                    existing = [r for r in existing if not (r["dataset"] == dataset and int(r["subset_seed"]) == seed and int(r["fraction"]) == fraction)]
+                    write_csv(out / "run_metrics.csv", existing + [row])
+    rows = []
+    for dataset in DATASETS:
+        for fraction in FRACTIONS:
+            selected = [r for r in records if r["dataset"] == dataset and r["fraction"] == fraction]
+            row = {"dataset": dataset, "fraction": fraction, "n_train": selected[0]["n_train"] if selected else "",
+                   "completed_seeds": len(selected)}
+            for metric in METRICS:
+                vals = [r["metrics"][metric] for r in selected if r["metrics"][metric] is not None]
+                row[f"mean_{metric}"] = float(np.mean(vals)) if vals else ""
+                row[f"std_{metric}"] = float(np.std(vals, ddof=1)) if len(vals) > 1 else ""
+            row["mean_train_accuracy"] = float(np.mean([r["train_metrics"]["accuracy"] for r in selected])) if selected else ""
+            rows.append(row)
+    write_csv(out / "summary.csv", rows)
+    xgb_cv.atomic_json(out / "progress.json", {"state": "complete" if len(records) == 27 else "incomplete", "completed": len(records),
+                                               "expected": 27, "finished_at_utc": datetime.now(timezone.utc).isoformat()})
+    return rows
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--output-dir", type=Path)
+    p.add_argument("--worker", action="store_true")
+    p.add_argument("--dataset")
+    p.add_argument("--subset-seed", type=int)
+    p.add_argument("--fraction", type=int)
+    p.add_argument("--subset-path", type=Path)
+    p.add_argument("--output", type=Path)
+    a = p.parse_args()
+    if a.worker:
+        worker(a.dataset, a.subset_seed, a.fraction, a.subset_path, a.output)
+    elif a.output_dir:
+        run(a.output_dir)
+    else:
+        p.error("--output-dir required")
+
+
+if __name__ == "__main__":
+    main()

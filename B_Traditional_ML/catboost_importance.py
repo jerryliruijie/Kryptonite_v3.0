@@ -1,0 +1,75 @@
+"""Evaluate held-out K20 feature permutation for the tuned CatBoost candidate."""
+
+import json
+from pathlib import Path
+
+import numpy as np
+from threadpoolctl import threadpool_limits
+
+import common
+from B_Traditional_ML import catboost_tune, model_analysis, new_methods, xgb_cv
+
+
+class ProbabilityPredictor:
+    def __init__(self, model):
+        self.model = model
+
+    def predict(self, x):
+        p = self.model.predict_proba(x)
+        return np.asarray(self.model.classes_)[np.argmax(p, axis=1)].astype(int)
+
+
+def run():
+    base = Path(__file__).resolve().parent
+    selection = base / 'results' / 'catboost_tune' / 'selection.json'
+    config = json.loads(selection.read_text(encoding='utf-8'))['selected']
+    out = base / 'results' / 'model_analysis'
+    x, y, *_ = common.load_split('20')
+    folds, shared, _, _, fold_path = xgb_cv.load_shared_folds(x, y)
+    paths = [base / 'results' / 'catboost_tune' / 'runs' / '20' / config['id'] / f'fold{i}.npz' for i in range(3)]
+    identity = {'config': config, 'script_sha256': model_analysis.sha256(__file__),
+                'analysis_sha256': model_analysis.sha256(model_analysis.__file__),
+                'tuning_sha256': model_analysis.sha256(catboost_tune.__file__),
+                'selection_sha256': model_analysis.sha256(selection), 'fold_sha256': model_analysis.sha256(fold_path),
+                'shared_sha256': model_analysis.sha256(shared), 'prediction_sha256': [model_analysis.sha256(p) for p in paths],
+                'seed': 67, 'repeats': 5}
+    mpath = out / 'tuned_catboost_manifest.json'
+    if mpath.exists():
+        if json.loads(mpath.read_text(encoding='utf-8'))['identity'] != identity:
+            raise ValueError('CatBoost importance input identity changed')
+    else:
+        xgb_cv.atomic_json(mpath, {'identity': identity, 'note': 'Exploratory held-out permutation after K20 selection.'})
+    rows = []
+    with threadpool_limits(limits=1):
+        for fold, (tr, va) in enumerate(folds):
+            path = out / f'tuned_catboost_fold{fold}.json'
+            if path.exists():
+                rec = json.loads(path.read_text(encoding='utf-8'))
+            else:
+                model = catboost_tune.make_model(config, seed=67)
+                a = new_methods.transform(x[tr], config['representation'])
+                b = new_methods.transform(x[va], config['representation'])
+                model.fit(a, y[tr])
+                probabilities = model.predict_proba(b)
+                pred = np.asarray(model.classes_)[np.argmax(probabilities, axis=1)].astype(int)
+                scores = probabilities[:, np.flatnonzero(model.classes_ == 1)[0]]
+                with np.load(paths[fold], allow_pickle=False) as saved:
+                    if not (np.array_equal(saved['val_positions'], va) and np.array_equal(saved['predictions'], pred)
+                            and np.allclose(saved['scores'], scores, atol=1e-12, rtol=1e-12)):
+                        raise ValueError(f'CatBoost reconstruction differs on fold {fold}')
+                accuracy, drops = model_analysis.permutation_drops(ProbabilityPredictor(model), b, y[va], repeats=5, seed=67 + fold)
+                rec = {'config': config, 'fold': fold, 'base_accuracy': accuracy, 'prediction_match': True,
+                       'importance': drops.tolist(), 'trees': model.tree_count_,
+                       'total_leaf_nodes': int(np.sum(model.get_tree_leaf_counts()))}
+                xgb_cv.atomic_json(path, rec)
+            for feature, effects in enumerate(rec['importance']):
+                for repeat, effect in enumerate(effects):
+                    rows.append({'id': config['id'], 'fold': fold, 'feature_zero_based': feature,
+                                 'feature_one_based': feature + 1, 'repeat': repeat, 'accuracy_drop': effect})
+            print(f'tuned CatBoost fold {fold+1} matched; permutation saved', flush=True)
+    model_analysis.write_csv(out / 'tuned_catboost_permutation.csv', rows)
+    xgb_cv.atomic_json(out / 'tuned_catboost_progress.json', {'status': 'complete', 'folds': 3, 'rows': len(rows)})
+
+
+if __name__ == '__main__':
+    run()

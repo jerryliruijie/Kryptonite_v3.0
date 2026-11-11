@@ -1,0 +1,56 @@
+{
+  "identity": {
+    "script_sha256": "c57ce7ed59cb34dc7dfe7da76431653c0381ab741892b58714522e57d1df9eaa",
+    "batch_models_sha256": "f905214f3d8bdac836022d21a8a5ccbbeaedf592a88e2ba50626e1d3c4523866",
+    "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "shared_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "svm_manifest_sha256": "4d5c28dc23dd3f7ed9691b809c46eef5183949288be1fda5e41bf116ff5fdc4f",
+    "data_fingerprints": {
+      "samples": 12000,
+      "features": 20,
+      "sizes": {
+        "train": 8400,
+        "validation": 2400,
+        "test": 1200
+      },
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+    },
+    "models": [
+      {
+        "id": "xgb_sign_child1_s1",
+        "family": "xgb",
+        "representation": "sign",
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      {
+        "id": "extra_leaf2_features1.0",
+        "family": "extra",
+        "representation": "raw",
+        "min_samples_leaf": 2,
+        "max_features": 1.0
+      }
+    ],
+    "prediction_checkpoints_sha256": {
+      "xgb_sign_child1_s1_fold0": "c8b9c538e57d709909910298aa0b4070d19df6cc40f4f20c7c66feb7eeb98b40",
+      "xgb_sign_child1_s1_fold1": "110e7a983fc13b91aacae7eb2f1f286d71befce60e9010c44e48e18b7fdec3df",
+      "xgb_sign_child1_s1_fold2": "1eeec94613fa18c15d67d3e3608ca6781d3ebb7d889a622427a0312f6598b750",
+      "extra_leaf2_features1.0_fold0": "ebc3cfb0f7489f41b800f31791dcc3ad064bcb75ee5fd3cfbf0f960655224766",
+      "extra_leaf2_features1.0_fold1": "a804d18d8a73a1c306161f81a9b6523584957e7893242930865844be02e0f67e",
+      "extra_leaf2_features1.0_fold2": "b81398c1e6aa9c26bba25c10e69dc079b98405df883bf5ea6c261805c70b0fea"
+    },
+    "seed": 67,
+    "permutation_repeats": 5,
+    "python": "3.12.5",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "xgboost": "3.4.1",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "note": "Previously selected candidates; importance and all 20 ablations are exploratory. Use no feature selection based on these held-out folds."
+}

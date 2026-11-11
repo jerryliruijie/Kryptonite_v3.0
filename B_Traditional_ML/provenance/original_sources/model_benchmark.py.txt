@@ -1,0 +1,144 @@
+"""Benchmark fixed K20 candidates on the same CPU, one model at a time.
+
+Run after other experiments have stopped. Measurements include fold-local
+preprocessing and only compare this implementation, hardware and environment.
+"""
+
+import argparse
+import csv
+import hashlib
+import json
+import pickle
+import platform
+import time
+from pathlib import Path
+
+import catboost
+import numpy as np
+import scipy
+import sklearn
+import xgboost
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from threadpoolctl import threadpool_limits
+
+import common
+from B_SVM import catboost_tune, new_methods, tree_tuning, xgb_cv
+
+
+def digest(path):
+    h = hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def write_csv(path, rows):
+    temp = path.with_suffix(path.suffix + '.tmp')
+    with temp.open('w', encoding='utf-8', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    temp.replace(path)
+
+
+def benchmark(paths, output):
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=True)
+    x, y, *_ = common.load_split('20')
+    folds, shared, _, cv_manifest, fold_file = xgb_cv.load_shared_folds(x, y)
+    identity = {'sources': {Path(p).name: digest(p) for p in
+                            (__file__, catboost_tune.__file__, new_methods.__file__, tree_tuning.__file__, common.__file__)},
+                'shared_manifest': digest(shared), 'svm_manifest': digest(cv_manifest), 'folds': digest(fold_file),
+                'predictions': {name: [digest(p) for p in checkpoints] for name, checkpoints in paths.items()},
+                'python': platform.python_version(), 'platform': platform.platform(), 'processor': platform.processor(),
+                'numpy': np.__version__, 'scipy': scipy.__version__, 'sklearn': sklearn.__version__,
+                'xgboost': xgboost.__version__, 'catboost': catboost.__version__, 'seed': 67, 'threads': 1}
+    manifest = output / 'benchmark_manifest.json'
+    if manifest.exists():
+        if json.loads(manifest.read_text(encoding='utf-8'))['identity'] != identity:
+            raise ValueError('Benchmark identity changed; choose a new output directory')
+    else:
+        xgb_cv.atomic_json(manifest, {'identity': identity,
+              'notes': 'Run each fold sequentially. Timings include transformation/scaling; inference includes '
+                       'category prediction and score/probability. Sizes are Python pickle protocol 5 of model + scaler '
+                       'in bytes; library-specific serialization internals differ. No external-load or cold-start time.'})
+    records = []
+    with threadpool_limits(limits=1):
+        for name, checkpoints in paths.items():
+            if len(checkpoints) != 3:
+                raise ValueError('Exactly three checkpoints required per model')
+            for fold, ((train, val), path) in enumerate(zip(folds, checkpoints)):
+                with np.load(path, allow_pickle=False) as f:
+                    saved = json.loads(f['record_json'].item())
+                    if not np.array_equal(f['val_positions'], val):
+                        raise ValueError(f'Changed fold: {path}')
+                    expected_pred, expected_scores = f['predictions'].copy(), f['scores'].copy()
+                config = saved.get('config', {})
+                start = time.perf_counter()
+                a = x[train]
+                scaler = None
+                if name == 'svm':
+                    scaler = StandardScaler().fit(a)
+                    a = scaler.transform(a)
+                    model = SVC(C=100.0, gamma=.2, kernel='rbf', random_state=67)
+                elif name in ('xgb', 'extra'):
+                    if name == 'xgb':
+                        a = np.where(a >= 0, 1., -1.)
+                    model = tree_tuning.model(config, 67)
+                elif name in ('knn', 'catboost'):
+                    a = new_methods.transform(a, config['representation'])
+                    if name == 'knn' and config['representation'] == 'raw':
+                        scaler = StandardScaler().fit(a)
+                        a = scaler.transform(a)
+                    model = (catboost_tune.make_model(config, seed=67)
+                             if name == 'catboost' and 'l2_leaf_reg' in config
+                             else new_methods.build(config))
+                else:
+                    raise ValueError(f'Unexpected model name: {name}')
+                model.fit(a, y[train])
+                fit_seconds = time.perf_counter() - start
+                start = time.perf_counter()
+                b = x[val]
+                if name == 'xgb':
+                    b = np.where(b >= 0, 1., -1.)
+                elif name in ('knn', 'catboost'):
+                    b = new_methods.transform(b, config['representation'])
+                if scaler is not None:
+                    b = scaler.transform(b)
+                if name in ('knn', 'catboost'):
+                    probabilities = model.predict_proba(b)
+                    pred = np.asarray(model.classes_)[np.argmax(probabilities, axis=1)].astype(int)
+                    scores = probabilities[:, np.flatnonzero(model.classes_ == 1)[0]]
+                else:
+                    pred = np.asarray(model.predict(b)).reshape(-1)
+                    scores = (model.decision_function(b) if name == 'svm' else
+                              model.predict_proba(b)[:, np.flatnonzero(model.classes_ == 1)[0]])
+                predict_seconds = time.perf_counter() - start
+                if not np.array_equal(pred, expected_pred) or not np.allclose(scores, expected_scores, atol=1e-12, rtol=1e-12):
+                    raise ValueError(f'Benchmark predictions do not reproduce saved result: {name} fold{fold}')
+                representation = ('sign' if name == 'xgb' else 'raw' if name in ('svm', 'extra')
+                                  else config['representation'])
+                size = len(pickle.dumps({'model': model, 'scaler': scaler,
+                                         'representation': representation}, protocol=5))
+                records.append({'method': name, 'config_id': config.get('id', 'svm_previous_rbf_c100_g0.2'),
+                                'fold': fold, 'fit_seconds': fit_seconds, 'predict_score_seconds': predict_seconds,
+                                'per_sample_seconds': predict_seconds / len(val), 'validation_samples': len(val),
+                                'pickle_protocol5_bytes': size, 'predictions_match': True})
+                print(f'{name} fold {fold+1}: fit {fit_seconds:.3f}s predict {predict_seconds:.3f}s bytes {size}', flush=True)
+    write_csv(output / 'benchmark_folds.csv', records)
+    xgb_cv.atomic_json(output / 'benchmark_progress.json', {'status': 'complete', 'methods': list(paths), 'folds': len(records)})
+    return records
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--input-manifest', type=Path, required=True)
+    p.add_argument('--output-dir', type=Path, required=True)
+    a = p.parse_args()
+    benchmark(json.loads(a.input_manifest.read_text(encoding='utf-8')), a.output_dir)
+
+
+if __name__ == '__main__':
+    main()

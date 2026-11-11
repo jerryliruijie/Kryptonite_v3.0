@@ -1,0 +1,57 @@
+{
+  "description": "Fixed sign-CatBoost on A's nested subsets, evaluated on shared validation",
+  "data_boundary": "Only shared training labels enter fit; shared validation used for scoring",
+  "subset_seed": 42,
+  "model_seed": 67,
+  "parameters": {
+    "depth": 10,
+    "iterations": 600,
+    "learning_rate": 0.05,
+    "l2_leaf_reg": 10,
+    "loss_function": "Logloss",
+    "thread_count": 1,
+    "random_seed": 67,
+    "task_type": "CPU",
+    "grow_policy": "SymmetricTree",
+    "verbose": false,
+    "allow_writing_files": false
+  },
+  "datasets": [
+    "20",
+    "30",
+    "40"
+  ],
+  "training_percentages": [
+    25,
+    50,
+    100
+  ],
+  "source_sha256": {
+    "B_Traditional_ML/aligned_a_learning_curve.py": "3f3309ac9d7df9eeda3c2503a797bc96018864d8cf4a42b9968e7369a6568f26",
+    "common.py": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "learning_subsets.py": "ef7f2c60fb1aa3e011c448c3a4cd021c601af37b38a2d25c6b7d564d749f8889",
+    "splits/learning_subsets.npz": "3ae3e5065a6c7bd4eb5a5ccf35bff3fc07e1c2752cc3eb818534164af8ffbbd7",
+    "splits/manifest.json": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "Datasets/kryptonite-20-X.npy": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+    "Datasets/kryptonite-20-y.npy": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+    "splits/20.npz": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86",
+    "Datasets/kryptonite-30-X.npy": "dbc08c9214902db64346c8a15eb677ac0ba4f02f78363d9a14eab619b1b42292",
+    "Datasets/kryptonite-30-y.npy": "de658c1f402016d0bdfca381673c2fb2675fb7dc10fb81d7d0f6891c58375b75",
+    "splits/30.npz": "f4720613364275e2f64cf47844a162222598206cecd7ad66807042c01c225709",
+    "Datasets/kryptonite-40-X.npy": "d365e89ea5075bb6232a184f043df415032e4ac0171e2f799efd33ebd75aaccf",
+    "Datasets/kryptonite-40-y.npy": "45721fd073e61e460f3dd03d4b9ab0b6eb4eb5729deed99b43a9567f01e76b26",
+    "splits/40.npz": "49fa11f5a8ddca92e6a26c044bea7352c7d5121650211b5b782a20b5a71ff7d8"
+  },
+  "python": "3.12.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+  "libraries": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "catboost": "1.2.10",
+    "threadpoolctl": "3.8.0"
+  },
+  "git_head": "f7073ba0439df5993482e2ec6e8b6bd18e590e5c",
+  "caveat": "Single subset seed; validation previously used in development; no final test estimate."
+}

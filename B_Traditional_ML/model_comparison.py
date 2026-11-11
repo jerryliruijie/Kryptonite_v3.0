@@ -1,0 +1,144 @@
+"""Compare saved K20 out-of-fold predictions for fixed model candidates.
+
+The input JSON maps method names to lists of three NPZ checkpoint paths.
+All metrics are computed on shared training rows held out in their own fold.
+"""
+
+import argparse
+import csv
+import hashlib
+import json
+from itertools import combinations
+from pathlib import Path
+
+import numpy as np
+
+import common
+from B_Traditional_ML import xgb_cv
+
+
+def file_hash(path):
+    h = hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def assemble(paths, truth, original_rows, folds):
+    """Align checkpoint predictions with the canonical shared-training order."""
+    if len(paths) != len(folds):
+        raise ValueError('Exactly one prediction checkpoint is required per fold')
+    pred = np.full(len(truth), -1, dtype=int)
+    scores = np.full(len(truth), np.nan, dtype=float)
+    seen = np.zeros(len(truth), dtype=int)
+    for path, (_, val) in zip(paths, folds):
+        with np.load(path, allow_pickle=False) as f:
+            if not np.array_equal(f['val_positions'], val):
+                raise ValueError(f'Fold positions do not match: {path}')
+            if 'y_true' in f and not np.array_equal(f['y_true'], truth[val]):
+                raise ValueError(f'Fold labels do not match: {path}')
+            if 'original_rows' in f and not np.array_equal(f['original_rows'], original_rows[val]):
+                raise ValueError(f'Original rows do not match: {path}')
+            labels, values = f['predictions'], f['scores']
+            if labels.shape != val.shape or values.shape != val.shape or not np.isin(labels, (0, 1)).all() or not np.isfinite(values).all():
+                raise ValueError(f'Invalid predictions: {path}')
+            pred[val], scores[val] = labels, values
+            seen[val] += 1
+    if not np.all(seen == 1):
+        raise ValueError('Fold positions must cover each training sample exactly once')
+    return pred, scores
+
+
+def write_csv(path, rows):
+    if not rows:
+        return
+    tmp = path.with_suffix(path.suffix + '.tmp')
+    with tmp.open('w', encoding='utf-8', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+    tmp.replace(path)
+
+
+def compare(model_paths, output_dir):
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    x, y, *_ = common.load_split('20')
+    folds, shared, _, cv_manifest, fold_file = xgb_cv.load_shared_folds(x, y)
+    with np.load(common.SPLITS_DIR / '20.npz', allow_pickle=False) as f:
+        original_rows = f['train'].copy()
+    source = {name: [{'path': Path(p).resolve().relative_to(common.ROOT).as_posix(), 'sha256': file_hash(p)} for p in paths]
+              for name, paths in model_paths.items()}
+    identity = {'script_sha256': file_hash(__file__), 'common_sha256': file_hash(common.__file__),
+                'shared_manifest_sha256': file_hash(shared), 'cv_manifest_sha256': file_hash(cv_manifest),
+                'folds_sha256': file_hash(fold_file), 'models': source}
+    manifest_path = output_dir / 'comparison_manifest.json'
+    if manifest_path.exists():
+        prior = json.loads(manifest_path.read_text(encoding='utf-8'))
+        if prior['identity'] != identity:
+            raise ValueError('Source identity changed; choose a new output directory')
+    else:
+        xgb_cv.atomic_json(manifest_path, {'identity': identity,
+                            'note': 'Development OOF comparison after prior model selection; not final test.'})
+    predictions = {}
+    metrics, fold_metrics = [], []
+    for name, paths in model_paths.items():
+        pred, scores = assemble(paths, y, original_rows, folds)
+        predictions[name] = pred
+        result = common.evaluate(y, pred, scores)
+        fold_results = []
+        for fold, (_, validation) in enumerate(folds):
+            r = common.evaluate(y[validation], pred[validation], scores[validation])
+            fold_results.append(r)
+            fold_metrics.append({'method': name, 'fold': fold, 'samples': len(validation),
+                                 **{k: v for k, v in r.items() if k != 'confusion_matrix'},
+                                 'confusion_matrix': json.dumps(r['confusion_matrix'])})
+        m = {'method': name, 'samples': len(y)}
+        for metric in ('accuracy', 'precision', 'recall', 'f1', 'specificity', 'roc_auc'):
+            values = [r[metric] for r in fold_results]
+            m[f'mean_fold_{metric}'] = float(np.mean(values))
+            m[f'std_fold_{metric}'] = float(np.std(values, ddof=1))
+            m[f'pooled_{metric}'] = result[metric]
+        m['pooled_confusion_matrix'] = json.dumps(result['confusion_matrix'])
+        metrics.append(m)
+        predictions[f'{name}_score'] = scores
+    overlaps = []
+    for left, right in combinations(model_paths, 2):
+        e1, e2 = predictions[left] != y, predictions[right] != y
+        overlaps.append({'method_a': left, 'method_b': right,
+                         'both_wrong': int(np.sum(e1 & e2)),
+                         'only_a_wrong': int(np.sum(e1 & ~e2)),
+                         'only_b_wrong': int(np.sum(~e1 & e2)),
+                         'both_correct': int(np.sum(~e1 & ~e2)),
+                         'different_prediction': int(np.sum(predictions[left] != predictions[right]))})
+    errors = {name: predictions[name] != y for name in model_paths}
+    patterns = {}
+    for i in range(len(y)):
+        key = ''.join('1' if errors[name][i] else '0' for name in model_paths)
+        patterns[key] = patterns.get(key, 0) + 1
+    write_csv(output_dir / 'oof_metrics.csv', metrics)
+    write_csv(output_dir / 'oof_fold_metrics.csv', fold_metrics)
+    write_csv(output_dir / 'error_overlap.csv', overlaps)
+    write_csv(output_dir / 'error_patterns.csv', [{'error_bitmask': k, 'samples': v}
+                                                   for k, v in sorted(patterns.items(), key=lambda x: (-x[1], x[0]))])
+    xgb_cv.atomic_npz(output_dir / 'oof_predictions.npz', truth=y, original_rows=original_rows,
+                      **{f'{k}_pred': predictions[k] for k in model_paths},
+                      **{f'{k}_score': predictions[f'{k}_score'] for k in model_paths})
+    xgb_cv.atomic_json(output_dir / 'comparison_progress.json', {'status': 'complete', 'methods': list(model_paths),
+                                                                  'samples': len(y), 'pairs': len(overlaps),
+                                                                  'bitmask_order': list(model_paths)})
+    return metrics, overlaps
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--input-manifest', type=Path, required=True)
+    parser.add_argument('--output-dir', type=Path, required=True)
+    args = parser.parse_args()
+    paths = json.loads(args.input_manifest.read_text(encoding='utf-8'))
+    compare(paths, args.output_dir)
+
+
+if __name__ == '__main__':
+    main()

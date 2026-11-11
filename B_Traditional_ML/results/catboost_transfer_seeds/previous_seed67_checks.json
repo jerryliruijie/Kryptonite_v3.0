@@ -1,0 +1,44 @@
+[
+  {
+    "dataset": "30",
+    "fold": 0,
+    "original_sha256": "583ee36885062f0df2d2fa4e8d4de95a23ffa35e9ee206a43beb0997559d54b4",
+    "retrained_sha256": "679a55e5ec16610f3bbd21483db4f9453bea2c0090f3ebaf327e0f359e4b81f2",
+    "prediction_and_probability_exact": true
+  },
+  {
+    "dataset": "30",
+    "fold": 1,
+    "original_sha256": "b69aed3bedb99fb03be467977daf0289c9e60d796885f3d4da81f3ed7d402abf",
+    "retrained_sha256": "88c8f646d1a2725ecc611fd657a034f6efce86225ae1fae2e5d57a84a674671f",
+    "prediction_and_probability_exact": true
+  },
+  {
+    "dataset": "30",
+    "fold": 2,
+    "original_sha256": "15f5b007002ba3fcc53d02b559010a4caad25eaef5b36229e5d49ad6b08dde23",
+    "retrained_sha256": "502a7461cddfbfe8c141108f259714567b5ffade7dd8b386739590040ed4b0b2",
+    "prediction_and_probability_exact": true
+  },
+  {
+    "dataset": "40",
+    "fold": 0,
+    "original_sha256": "b40d6dfa0066299a1ab233238d3f2ba4107f0447c4076e75d6c4d6a954723009",
+    "retrained_sha256": "a65daafeab49b028e271093606fc00a46c71500e7020048847774c81898944bb",
+    "prediction_and_probability_exact": true
+  },
+  {
+    "dataset": "40",
+    "fold": 1,
+    "original_sha256": "8664c2088f116eb0a86d8e034e46ce1c482d2ae9c3b809b97b48c49050024095",
+    "retrained_sha256": "3afb0798d0ef9f68ce9f7b5b266556256200e8d577d7d06d0e1acb8b5241791b",
+    "prediction_and_probability_exact": true
+  },
+  {
+    "dataset": "40",
+    "fold": 2,
+    "original_sha256": "e7769680236cb6c675a3705c665295c01a737368f273d492b482384fc40cfb62",
+    "retrained_sha256": "bd60286803c13f126e9c9d7036ea75841edf6093901387546d30dff6c3e82246",
+    "prediction_and_probability_exact": true
+  }
+]

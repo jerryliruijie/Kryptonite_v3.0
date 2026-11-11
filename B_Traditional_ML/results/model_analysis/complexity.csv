@@ -1,0 +1,7 @@
+id,fold,base_accuracy,used_features,trees,split_nodes,leaf_nodes,serialized_bytes,serialized_format,fit_seconds
+xgb_sign_child1_s1,0,0.7975,20,200,68373,68573,4788941,XGBoost UBJSON,0.3290495999990526
+xgb_sign_child1_s1,1,0.705,20,200,72731,72931,5085285,XGBoost UBJSON,0.23341319999963162
+xgb_sign_child1_s1,2,0.755,20,200,70076,70276,4904745,XGBoost UBJSON,0.24655560000064725
+extra_leaf2_features1.0,0,0.9146428571428571,20,200,208128,208328,33377216,Python pickle protocol 5,1.966130200000407
+extra_leaf2_features1.0,1,0.6225,20,200,295200,295400,47308736,Python pickle protocol 5,2.3490536999997857
+extra_leaf2_features1.0,2,0.7085714285714285,20,200,285156,285356,45701696,Python pickle protocol 5,2.371395799998936

@@ -1,0 +1,26 @@
+{
+  "identity": {
+    "config": {
+      "id": "extra_feat1_leaf1_dNone",
+      "family": "extra",
+      "max_features": 1.0,
+      "min_samples_leaf": 1,
+      "max_depth": null,
+      "n_estimators": 200
+    },
+    "script_sha256": "e3cd93935a91f660fc0ce9f3ef0c133a230917d8f816d1584c0f7394c6681d79",
+    "analysis_code_sha256": "c57ce7ed59cb34dc7dfe7da76431653c0381ab741892b58714522e57d1df9eaa",
+    "tuning_code_sha256": "9aac6547660cb3c5a56fea6204b33308a6ccb25d595fb996892f7769d5c58660",
+    "selection_sha256": "cfa117e2ab406f28d8bc61105e7230dbdec898522c631b6442644eb22288120e",
+    "folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "shared_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "prediction_sha256": [
+      "700fbfd2a066bfa3d25118c84d305b74c4cc0f33774347a3f7636cf60ac171bd",
+      "0d6f3623217ac507a621816b44f78e894716338d5887d21b4d9ca4d4248fd238",
+      "f71456fd1ae13fc859a86833b8bc6365d4155b489981ad98029e0d3fa40d9918"
+    ],
+    "repeats": 5,
+    "seed": 67
+  },
+  "note": "Exploratory held-out permutation after tuning selection."
+}

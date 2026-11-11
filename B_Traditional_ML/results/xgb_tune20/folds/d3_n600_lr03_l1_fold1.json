@@ -1,0 +1,46 @@
+{
+  "config_id": "d3_n600_lr03_l1",
+  "fold": 1,
+  "training_samples": 5600,
+  "validation_samples": 2800,
+  "fit_seconds": 0.2939265999998497,
+  "predict_seconds": 0.018391999999948894,
+  "train_predict_seconds": 0.015607199999976729,
+  "warnings": [],
+  "metrics": {
+    "accuracy": 0.4932142857142857,
+    "precision": 0.4878811571540266,
+    "recall": 0.4495677233429395,
+    "f1": 0.46794150731158607,
+    "specificity": 0.5361189801699717,
+    "confusion_matrix": [
+      [
+        757,
+        655
+      ],
+      [
+        764,
+        624
+      ]
+    ],
+    "roc_auc": 0.49948057408299384
+  },
+  "training_metrics": {
+    "accuracy": 0.7548214285714285,
+    "precision": 0.7707448861443458,
+    "recall": 0.7193804034582133,
+    "f1": 0.7441773802869387,
+    "specificity": 0.7896600566572238,
+    "confusion_matrix": [
+      [
+        2230,
+        594
+      ],
+      [
+        779,
+        1997
+      ]
+    ]
+  },
+  "predictions_sha256": "2c184586c29b6c0646cbd1f1bd4bf5787a973ea73425a6227cecc600e1ffc944"
+}

@@ -1,0 +1,230 @@
+{
+  "identity": {
+    "configs": [
+      {
+        "id": "knn_sign_k3_uniform",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 3,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_sign_k3_distance",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 3,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_sign_k7_uniform",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 7,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_sign_k7_distance",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 7,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_sign_k15_uniform",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 15,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_sign_k15_distance",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 15,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_sign_k31_uniform",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 31,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_sign_k31_distance",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 31,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_raw_k3_uniform",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 3,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_raw_k3_distance",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 3,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_raw_k7_uniform",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 7,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_raw_k7_distance",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 7,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_raw_k15_uniform",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 15,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_raw_k15_distance",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 15,
+        "weights": "distance"
+      },
+      {
+        "id": "knn_raw_k31_uniform",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 31,
+        "weights": "uniform"
+      },
+      {
+        "id": "knn_raw_k31_distance",
+        "family": "knn",
+        "representation": "raw",
+        "n_neighbors": 31,
+        "weights": "distance"
+      },
+      {
+        "id": "cat_sign_d4_n300",
+        "family": "catboost",
+        "representation": "sign",
+        "depth": 4,
+        "iterations": 300
+      },
+      {
+        "id": "cat_sign_d4_n600",
+        "family": "catboost",
+        "representation": "sign",
+        "depth": 4,
+        "iterations": 600
+      },
+      {
+        "id": "cat_sign_d6_n300",
+        "family": "catboost",
+        "representation": "sign",
+        "depth": 6,
+        "iterations": 300
+      },
+      {
+        "id": "cat_sign_d6_n600",
+        "family": "catboost",
+        "representation": "sign",
+        "depth": 6,
+        "iterations": 600
+      },
+      {
+        "id": "cat_sign_d8_n300",
+        "family": "catboost",
+        "representation": "sign",
+        "depth": 8,
+        "iterations": 300
+      },
+      {
+        "id": "cat_sign_d8_n600",
+        "family": "catboost",
+        "representation": "sign",
+        "depth": 8,
+        "iterations": 600
+      },
+      {
+        "id": "cat_raw_d4_n300",
+        "family": "catboost",
+        "representation": "raw",
+        "depth": 4,
+        "iterations": 300
+      },
+      {
+        "id": "cat_raw_d4_n600",
+        "family": "catboost",
+        "representation": "raw",
+        "depth": 4,
+        "iterations": 600
+      },
+      {
+        "id": "cat_raw_d6_n300",
+        "family": "catboost",
+        "representation": "raw",
+        "depth": 6,
+        "iterations": 300
+      },
+      {
+        "id": "cat_raw_d6_n600",
+        "family": "catboost",
+        "representation": "raw",
+        "depth": 6,
+        "iterations": 600
+      },
+      {
+        "id": "cat_raw_d8_n300",
+        "family": "catboost",
+        "representation": "raw",
+        "depth": 8,
+        "iterations": 300
+      },
+      {
+        "id": "cat_raw_d8_n600",
+        "family": "catboost",
+        "representation": "raw",
+        "depth": 8,
+        "iterations": 600
+      }
+    ],
+    "seed": 67,
+    "source_sha256": "558c31851024710754e18fdf8c40c2ddc937065c3a89c9874b81ea3bd7af48d2",
+    "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "xgb_cv_sha256": "9b4bf26cdb8c59e98170e2e273eea8f9900ca207157ef46aa4f987f56915f3c3",
+    "split_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "previous_folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "catboost": "1.2.10",
+      "pandas": "3.1.1",
+      "graphviz": "0.21",
+      "plotly": "7.1.0",
+      "matplotlib": "3.11.2",
+      "six": "1.17.0",
+      "threadpoolctl": "3.8.0"
+    },
+    "python": "3.12.5",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+    "timeout_seconds": 1800
+  },
+  "created_at_utc": "2026-11-08T13:23:38.495459+00:00",
+  "git_head": "d59daedabe7d1fcc3579671da605848379f58a06",
+  "git_status": "M requirements.txt\n?? .idea/.gitignore\n?? \".idea/Math for ML CW.iml\"\n?? .idea/inspectionProfiles/Project_Default.xml\n?? .idea/inspectionProfiles/profiles_settings.xml\n?? .idea/misc.xml\n?? .idea/modules.xml\n?? .idea/vcs.xml\n?? B_SVM/README.md\n?? B_SVM/batch_models.py\n?? B_SVM/batch_report.py\n?? B_SVM/batch_run.py\n?? B_SVM/batch_worker.py\n?? B_SVM/model_analysis.py\n?? B_SVM/model_comparison.py\n?? B_SVM/new_methods.py\n?? B_SVM/plot_batch_experiments.ipynb\n?? B_SVM/plot_svm_cv.ipynb\n?? B_SVM/results/batch_experiments/events.jsonl\n?? B_SVM/results/batch_experiments/figures/batch_accuracy.pdf\n?? B_SVM/results/batch_experiments/figures/batch_accuracy.png\n?? B_SVM/results/batch_experiments/fold_metrics.csv\n?? B_SVM/results/batch_experiments/folds/20.npz\n?? B_SVM/results/batch_experiments/folds/30.npz\n?? B_SVM/results/batch_experiments/folds/40.npz\n?? B_SVM/results/batch_experiments/folds/nested_outer0.npz\n?? B_SVM/results/batch_experiments/folds/nested_outer1.npz\n?? B_SVM/results/batch_experiments/folds/nested_outer2.npz\n?? B_SVM/results/batch_experiments/manifest.json\n?? B_SVM/results/batch_experiments/progress.json\n?? B_SVM/results/batch_experiments/runs/30/30/extra_leaf2_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/30/30/extra_leaf2_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/30/30/extra_leaf2_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/30/30/svm_previous_rbf_c100_g0.2/fold0.npz\n?? B_SVM/results/batch_experiments/runs/30/30/svm_previous_rbf_c100_g0.2/fold1.npz\n?? B_SVM/results/batch_experiments/runs/30/30/svm_previous_rbf_c100_g0.2/fold2.npz\n?? B_SVM/results/batch_experiments/runs/30/30/xgb_sign_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/30/30/xgb_sign_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/30/30/xgb_sign_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/40/40/extra_leaf2_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/40/40/extra_leaf2_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/40/40/extra_leaf2_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/40/40/svm_previous_rbf_c100_g0.2/fold0.npz\n?? B_SVM/results/batch_experiments/runs/40/40/svm_previous_rbf_c100_g0.2/fold1.npz\n?? B_SVM/results/batch_experiments/runs/40/40/svm_previous_rbf_c100_g0.2/fold2.npz\n?? B_SVM/results/batch_experiments/runs/40/40/xgb_sign_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/40/40/xgb_sign_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/40/40/xgb_sign_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf10_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf10_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf10_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf10_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf10_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf10_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf2_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf2_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf2_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf2_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf2_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner/extra_leaf2_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/inner_summary.csv\n?? B_SVM/results/batch_experiments/runs/nested/outer0/extra/outer.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child10_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child10_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child10_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child10_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child10_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child10_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child1_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child1_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child1_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner/xgb_sign_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/inner_summary.csv\n?? B_SVM/results/batch_experiments/runs/nested/outer0/xgb/outer.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf10_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf10_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf10_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf10_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf10_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf10_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf2_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf2_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf2_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf2_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf2_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner/extra_leaf2_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/inner_summary.csv\n?? B_SVM/results/batch_experiments/runs/nested/outer1/extra/outer.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child10_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child10_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child10_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child10_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child10_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child10_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child1_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child1_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child1_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner/xgb_sign_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/inner_summary.csv\n?? B_SVM/results/batch_experiments/runs/nested/outer1/xgb/outer.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf10_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf10_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf10_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf10_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf10_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf10_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf2_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf2_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf2_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf2_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf2_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner/extra_leaf2_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/inner_summary.csv\n?? B_SVM/results/batch_experiments/runs/nested/outer2/extra/outer.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child10_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child10_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child10_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child10_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child10_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child10_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child1_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child1_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child1_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner/xgb_sign_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/inner_summary.csv\n?? B_SVM/results/batch_experiments/runs/nested/outer2/xgb/outer.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf10_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf10_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf10_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf10_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf10_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf10_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf2_features1.0/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf2_features1.0/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf2_features1.0/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf2_featuressqrt/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf2_featuressqrt/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/extra_leaf2_featuressqrt/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d1_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d2_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_d3_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_raw_sign_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d1_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d2_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_d3_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/log_sign_magnitude_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c100_g0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c100_g0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c100_g0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c100_gscale/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c100_gscale/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c100_gscale/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c10_g0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c10_g0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c10_g0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c10_gscale/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c10_gscale/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c10_gscale/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c1_g0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c1_g0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c1_g0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c1_gscale/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c1_gscale/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_raw_rbf_c1_gscale/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d2_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d2_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d2_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d2_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d2_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d2_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d3_c1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d3_c1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d3_c1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d3_c10/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d3_c10/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_poly_d3_c10/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c100_g0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c100_g0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c100_g0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c100_gscale/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c100_gscale/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c100_gscale/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c10_g0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c10_g0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c10_g0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c10_gscale/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c10_gscale/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c10_gscale/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c1_g0.1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c1_g0.1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c1_g0.1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c1_gscale/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c1_gscale/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/svm_sign_rbf_c1_gscale/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child10_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child10_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child10_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child10_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child10_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child10_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child1_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child1_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child1_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_raw_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child10_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child10_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child10_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child10_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child10_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child10_s1/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child1_s0.8/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child1_s0.8/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child1_s0.8/fold2.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child1_s1/fold0.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child1_s1/fold1.npz\n?? B_SVM/results/batch_experiments/runs/screen/20/xgb_sign_child1_s1/fold2.npz\n?? B_SVM/results/batch_experiments/selection.json\n?? B_SVM/results/batch_experiments/summary_30.csv\n?? B_SVM/results/batch_experiments/summary_40.csv\n?? B_SVM/results/batch_experiments/summary_nested.csv\n?? B_SVM/results/batch_experiments/summary_screen.csv\n?? \"B_SVM/results/batch_experiments/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/cv20/cv_summary.csv\n?? B_SVM/results/cv20/figures/rbf_cv_accuracy.pdf\n?? B_SVM/results/cv20/figures/rbf_cv_accuracy.png\n?? B_SVM/results/cv20/fold_results.csv\n?? B_SVM/results/cv20/fold_results/linear_c1_fold0.json\n?? B_SVM/results/cv20/fold_results/linear_c1_fold1.json\n?? B_SVM/results/cv20/fold_results/linear_c1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold2.json\n?? B_SVM/results/cv20/folds.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold0.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold1.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold2.npz\n?? B_SVM/results/cv20/progress.json\n?? B_SVM/results/cv20/run_manifest.json\n?? B_SVM/results/cv20/selection.json\n?? B_SVM/results/cv20/validation.json\n?? B_SVM/results/cv20/validation_predictions.npz\n?? \"B_SVM/results/cv20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/grid/grid_results.csv\n?? B_SVM/results/grid/grid_results.json\n?? B_SVM/results/grid/validation_predictions.npz\n?? \"B_SVM/results/grid/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/initial/svm20_validation.json\n?? B_SVM/results/initial/svm20_validation_predictions.npz\n?? \"B_SVM/results/initial/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/model_analysis/feature_extra_leaf2_features1.0_fold0.json\n?? B_SVM/results/model_analysis/feature_manifest.json\n?? B_SVM/results/model_analysis/feature_xgb_sign_child1_s1_fold0.json\n?? B_SVM/results/model_analysis/feature_xgb_sign_child1_s1_fold1.json\n?? B_SVM/results/model_analysis/feature_xgb_sign_child1_s1_fold2.json\n?? B_SVM/results/rf20/fold_results.csv\n?? B_SVM/results/rf20/folds/fold_0.json\n?? B_SVM/results/rf20/folds/fold_0.npz\n?? B_SVM/results/rf20/folds/fold_1.json\n?? B_SVM/results/rf20/folds/fold_1.npz\n?? B_SVM/results/rf20/folds/fold_2.json\n?? B_SVM/results/rf20/folds/fold_2.npz\n?? B_SVM/results/rf20/progress.json\n?? B_SVM/results/rf20/run_manifest.json\n?? B_SVM/results/rf20/summary.json\n?? \"B_SVM/results/rf20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/tree_tuning/events.jsonl\n?? B_SVM/results/tree_tuning/folds/20_split67.npz\n?? B_SVM/results/tree_tuning/manifest.json\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child1_s0.8/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child1_s0.8/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child1_s0.8/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child1_s1/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child1_s1/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child1_s1/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child5_s0.8/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child5_s0.8/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child5_s0.8/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child5_s1/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child5_s1/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n200_lr0.1_child5_s1/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child1_s0.8/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child1_s0.8/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child1_s0.8/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child1_s1/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child1_s1/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child1_s1/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child5_s0.8/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child5_s0.8/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child5_s0.8/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child5_s1/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child5_s1/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d6_n500_lr0.05_child5_s1/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s0.8/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s0.8/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s0.8/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold1.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold2.npz\n?? B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child5_s1/seed67_fold0.npz\n?? B_SVM/results/tree_tuning/screen_summary.csv\n?? B_SVM/results/xgb20/fold_results.csv\n?? B_SVM/results/xgb20/folds/fold_0.json\n?? B_SVM/results/xgb20/folds/fold_0.npz\n?? B_SVM/results/xgb20/folds/fold_1.json\n?? B_SVM/results/xgb20/folds/fold_1.npz\n?? B_SVM/results/xgb20/folds/fold_2.json\n?? B_SVM/results/xgb20/folds/fold_2.npz\n?? B_SVM/results/xgb20/progress.json\n?? B_SVM/results/xgb20/run_manifest.json\n?? B_SVM/results/xgb20/summary.json\n?? \"B_SVM/results/xgb20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/xgb20_initial_checkpoint/fold_results.csv\n?? B_SVM/results/xgb20_initial_checkpoint/folds/fold_0.json\n?? B_SVM/results/xgb20_initial_checkpoint/folds/fold_0.npz\n?? B_SVM/results/xgb20_initial_checkpoint/progress.json\n?? B_SVM/results/xgb20_initial_checkpoint/run_manifest.json\n?? B_SVM/results/xgb20_initial_checkpoint/source_snapshot.py\n?? B_SVM/results/xgb_tune20/fold_results.csv\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/progress.json\n?? B_SVM/results/xgb_tune20/run_manifest.json\n?? B_SVM/results/xgb_tune20/summary.csv\n?? \"B_SVM/results/xgb_tune20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/rf_cv.py\n?? B_SVM/svm_cv.py\n?? B_SVM/svm_grid.py\n?? B_SVM/svm_pilot.py\n?? B_SVM/tree_tuning.py\n?? B_SVM/xgb_cv.py\n?? B_SVM/xgb_tune.py\n?? tests/test_batch_audit.py\n?? tests/test_batch_models.py\n?? tests/test_batch_run.py\n?? tests/test_model_analysis.py\n?? tests/test_new_methods.py\n?? tests/test_rf_cv.py\n?? tests/test_svm_cv.py\n?? tests/test_tree_tuning.py\n?? tests/test_xgb_cv.py\n?? tests/test_xgb_tune.py",
+  "note": "Train/test arrays are loaded by common but only shared training is used; timing may be contended.",
+  "installation": "python -m pip install -r requirements.txt",
+  "knn_ties": "Equal neighbor distances may depend on ordered training rows, saved in each checkpoint."
+}

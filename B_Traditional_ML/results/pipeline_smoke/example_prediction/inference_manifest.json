@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "dataset": "20",
+  "input_file": "C:\\Users\\ROG\\OneDrive\\\u684c\u9762\\\u5b66\u4e60\u52a9\u624b\\Math for ML CW\\B_SVM\\results\\pipeline_smoke\\example_training_input.npy",
+  "input_sha256": "9f4764c313185a2f11fabff3c26e2ec1ebefc577ad406415420728ed20f3d90e",
+  "input_shape": [
+    5,
+    20
+  ],
+  "model_sha256": "55a302008ae48eac67a5da25451b8ffc29b686858666d7e8eb1a2e3b814413fa",
+  "training_scope": "training",
+  "labels_file": "predictions.npy",
+  "labels_sha256": "34708a3c48ca9dd03e029db2625b7a9f20df08f9a2a3c5f94ef2a053abe3cc29",
+  "scores_file": "scores.npy",
+  "scores_sha256": "8584daaecfd576a6889c8e3b7df3dd18901a13736cbd51ea9e7bd946564ff1ff",
+  "row_order": "Output row i corresponds to input row i.",
+  "score": "Probability of class 1",
+  "prediction_rule": "argmax over model classes"
+}

@@ -1,0 +1,7 @@
+{
+  "state": "complete",
+  "completed_folds": 39,
+  "total_folds": 39,
+  "selected_run_id": "rbf_c2_g2",
+  "validation_accuracy": 0.5908333333333333
+}

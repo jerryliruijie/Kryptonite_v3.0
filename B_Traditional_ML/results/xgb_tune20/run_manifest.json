@@ -1,0 +1,143 @@
+{
+  "identity": {
+    "dataset": "20",
+    "training_samples": 8400,
+    "dataset_fingerprints": {
+      "samples": 12000,
+      "features": 20,
+      "sizes": {
+        "train": 8400,
+        "validation": 2400,
+        "test": 1200
+      },
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+    },
+    "cv_seed": 67,
+    "training_seed": 67,
+    "grid": [
+      {
+        "id": "d3_n200_lr10_l1",
+        "max_depth": 3,
+        "n_estimators": 200,
+        "learning_rate": 0.1,
+        "reg_lambda": 1
+      },
+      {
+        "id": "d3_n200_lr10_l10",
+        "max_depth": 3,
+        "n_estimators": 200,
+        "learning_rate": 0.1,
+        "reg_lambda": 10
+      },
+      {
+        "id": "d3_n600_lr03_l1",
+        "max_depth": 3,
+        "n_estimators": 600,
+        "learning_rate": 0.03,
+        "reg_lambda": 1
+      },
+      {
+        "id": "d3_n600_lr03_l10",
+        "max_depth": 3,
+        "n_estimators": 600,
+        "learning_rate": 0.03,
+        "reg_lambda": 10
+      },
+      {
+        "id": "d6_n200_lr10_l1",
+        "max_depth": 6,
+        "n_estimators": 200,
+        "learning_rate": 0.1,
+        "reg_lambda": 1
+      },
+      {
+        "id": "d6_n200_lr10_l10",
+        "max_depth": 6,
+        "n_estimators": 200,
+        "learning_rate": 0.1,
+        "reg_lambda": 10
+      },
+      {
+        "id": "d6_n600_lr03_l1",
+        "max_depth": 6,
+        "n_estimators": 600,
+        "learning_rate": 0.03,
+        "reg_lambda": 1
+      },
+      {
+        "id": "d6_n600_lr03_l10",
+        "max_depth": 6,
+        "n_estimators": 600,
+        "learning_rate": 0.03,
+        "reg_lambda": 10
+      },
+      {
+        "id": "d9_n200_lr10_l1",
+        "max_depth": 9,
+        "n_estimators": 200,
+        "learning_rate": 0.1,
+        "reg_lambda": 1
+      },
+      {
+        "id": "d9_n200_lr10_l10",
+        "max_depth": 9,
+        "n_estimators": 200,
+        "learning_rate": 0.1,
+        "reg_lambda": 10
+      },
+      {
+        "id": "d9_n600_lr03_l1",
+        "max_depth": 9,
+        "n_estimators": 600,
+        "learning_rate": 0.03,
+        "reg_lambda": 1
+      },
+      {
+        "id": "d9_n600_lr03_l10",
+        "max_depth": 9,
+        "n_estimators": 600,
+        "learning_rate": 0.03,
+        "reg_lambda": 10
+      }
+    ],
+    "base_parameters": {
+      "objective": "binary:logistic",
+      "n_estimators": 200,
+      "max_depth": 6,
+      "learning_rate": 0.1,
+      "subsample": 1.0,
+      "colsample_bytree": 1.0,
+      "tree_method": "hist",
+      "device": "cpu",
+      "n_jobs": 1,
+      "random_state": 67
+    },
+    "source_hashes": {
+      "tuning_script_sha256": "6f5d3bdcd0334c699c27bbce584047fcdbbe133432b8885a7cf7a4c19754296d",
+      "xgb_cv_script_sha256": "9b4bf26cdb8c59e98170e2e273eea8f9900ca207157ef46aa4f987f56915f3c3",
+      "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+      "split_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+      "svm_cv_manifest_sha256": "4d5c28dc23dd3f7ed9691b809c46eef5183949288be1fda5e41bf116ff5fdc4f",
+      "folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309"
+    },
+    "versions": {
+      "python": "3.12.5",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "scikit_learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "threadpoolctl": "3.8.0"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+    "thread_limit": 1
+  },
+  "source_commit": "d59daedabe7d1fcc3579671da605848379f58a06",
+  "worktree_status": "M requirements.txt\n?? .idea/.gitignore\n?? \".idea/Math for ML CW.iml\"\n?? .idea/inspectionProfiles/Project_Default.xml\n?? .idea/inspectionProfiles/profiles_settings.xml\n?? .idea/misc.xml\n?? .idea/modules.xml\n?? .idea/vcs.xml\n?? B_SVM/README.md\n?? B_SVM/plot_svm_cv.ipynb\n?? B_SVM/results/cv20/cv_summary.csv\n?? B_SVM/results/cv20/figures/rbf_cv_accuracy.pdf\n?? B_SVM/results/cv20/figures/rbf_cv_accuracy.png\n?? B_SVM/results/cv20/fold_results.csv\n?? B_SVM/results/cv20/fold_results/linear_c1_fold0.json\n?? B_SVM/results/cv20/fold_results/linear_c1_fold1.json\n?? B_SVM/results/cv20/fold_results/linear_c1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold2.json\n?? B_SVM/results/cv20/folds.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold0.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold1.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold2.npz\n?? B_SVM/results/cv20/progress.json\n?? B_SVM/results/cv20/run_manifest.json\n?? B_SVM/results/cv20/selection.json\n?? B_SVM/results/cv20/validation.json\n?? B_SVM/results/cv20/validation_predictions.npz\n?? \"B_SVM/results/cv20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/grid/grid_results.csv\n?? B_SVM/results/grid/grid_results.json\n?? B_SVM/results/grid/validation_predictions.npz\n?? \"B_SVM/results/grid/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/initial/svm20_validation.json\n?? B_SVM/results/initial/svm20_validation_predictions.npz\n?? \"B_SVM/results/initial/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/rf20/fold_results.csv\n?? B_SVM/results/rf20/folds/fold_0.json\n?? B_SVM/results/rf20/folds/fold_0.npz\n?? B_SVM/results/rf20/folds/fold_1.json\n?? B_SVM/results/rf20/folds/fold_1.npz\n?? B_SVM/results/rf20/folds/fold_2.json\n?? B_SVM/results/rf20/folds/fold_2.npz\n?? B_SVM/results/rf20/progress.json\n?? B_SVM/results/rf20/run_manifest.json\n?? B_SVM/results/rf20/summary.json\n?? \"B_SVM/results/rf20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/xgb20/fold_results.csv\n?? B_SVM/results/xgb20/folds/fold_0.json\n?? B_SVM/results/xgb20/folds/fold_0.npz\n?? B_SVM/results/xgb20/folds/fold_1.json\n?? B_SVM/results/xgb20/folds/fold_1.npz\n?? B_SVM/results/xgb20/folds/fold_2.json\n?? B_SVM/results/xgb20/folds/fold_2.npz\n?? B_SVM/results/xgb20/progress.json\n?? B_SVM/results/xgb20/run_manifest.json\n?? B_SVM/results/xgb20/summary.json\n?? \"B_SVM/results/xgb20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/xgb20_initial_checkpoint/fold_results.csv\n?? B_SVM/results/xgb20_initial_checkpoint/folds/fold_0.json\n?? B_SVM/results/xgb20_initial_checkpoint/folds/fold_0.npz\n?? B_SVM/results/xgb20_initial_checkpoint/progress.json\n?? B_SVM/results/xgb20_initial_checkpoint/run_manifest.json\n?? B_SVM/results/xgb20_initial_checkpoint/source_snapshot.py\n?? B_SVM/rf_cv.py\n?? B_SVM/svm_cv.py\n?? B_SVM/svm_grid.py\n?? B_SVM/svm_pilot.py\n?? B_SVM/xgb_cv.py\n?? B_SVM/xgb_tune.py\n?? tests/test_rf_cv.py\n?? tests/test_svm_cv.py\n?? tests/test_xgb_cv.py\n?? tests/test_xgb_tune.py",
+  "created_at_utc": "2026-11-08T11:30:37.272241+00:00",
+  "selection": "Highest mean validation accuracy; ties by mean F1, lower max_depth, fewer estimators, higher reg_lambda, then id.",
+  "preprocessing": "Raw features; no scaling.",
+  "evaluation": "Training split only; outer validation and test loaded by common loader but not evaluated."
+}

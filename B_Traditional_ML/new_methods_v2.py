@@ -1,0 +1,274 @@
+"""Run KNN and CatBoost experiments with hash-verified checkpoint reuse."""
+
+import argparse
+import csv
+import importlib.metadata
+import json
+import os
+import platform
+import subprocess
+import sys
+import time
+import warnings
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+from catboost import CatBoostClassifier
+from sklearn.model_selection import StratifiedKFold
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from threadpoolctl import threadpool_limits
+
+import common
+from B_Traditional_ML import xgb_cv
+
+
+SEED = 67
+METRICS = ("accuracy", "precision", "recall", "f1", "specificity", "roc_auc")
+TIMEOUT = 1800
+
+
+def configs():
+    knn = [dict(id=f"knn_{rep}_k{k}_{weight}", family="knn", representation=rep,
+                n_neighbors=k, weights=weight)
+           for rep in ("sign", "raw") for k in (3, 7, 15, 31)
+           for weight in ("uniform", "distance")]
+    cat = [dict(id=f"cat_{rep}_d{depth}_n{iterations}", family="catboost", representation=rep,
+                depth=depth, iterations=iterations)
+           for rep in ("sign", "raw") for depth in (4, 6, 8) for iterations in (300, 600)]
+    return knn + cat
+
+
+def transform(x, representation):
+    return np.where(x >= 0, 1., -1.) if representation == "sign" else np.asarray(x, dtype=float)
+
+
+def build(config):
+    if config["family"] == "knn":
+        return KNeighborsClassifier(n_neighbors=config["n_neighbors"], weights=config["weights"],
+                                    metric="hamming" if config["representation"] == "sign" else "euclidean",
+                                    algorithm="brute", n_jobs=1)
+    return CatBoostClassifier(iterations=config["iterations"], depth=config["depth"], learning_rate=.05,
+                              l2_leaf_reg=3, loss_function="Logloss", thread_count=1, random_seed=SEED,
+                              task_type="CPU", grow_policy="SymmetricTree", verbose=False,
+                              allow_writing_files=False)
+
+
+def evaluate(config, x, y, train, val):
+    """Fit on train indices only and return predictions and diagnostics."""
+    if len(np.intersect1d(train, val)):
+        raise ValueError("Training and evaluation positions overlap")
+    with threadpool_limits(limits=1), warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        start = time.perf_counter()
+        a, b = transform(x[train], config["representation"]), transform(x[val], config["representation"])
+        if config["family"] == "knn" and config["representation"] == "raw":
+            scale = StandardScaler().fit(a)
+            a, b = scale.transform(a), scale.transform(b)
+        model = build(config)
+        model.fit(a, y[train])
+        fit_seconds = time.perf_counter() - start
+        start = time.perf_counter()
+        probability = model.predict_proba(b)
+        predict_seconds = time.perf_counter() - start
+        pred = np.asarray(model.classes_)[np.argmax(probability, axis=1)].astype(int)
+        scores = probability[:, np.flatnonzero(model.classes_ == 1)[0]]
+        start = time.perf_counter()
+        train_predictions = np.asarray(model.predict(a)).reshape(-1).astype(int)
+        train_predict_seconds = time.perf_counter() - start
+        tie_info = None
+        if config["family"] == "knn":
+            k = config["n_neighbors"]
+            start = time.perf_counter()
+            distance, _ = model.kneighbors(b, n_neighbors=k + 1)
+            tie_info = {"boundary_tie_count": int(np.count_nonzero(np.isclose(distance[:, k - 1], distance[:, k], atol=1e-12, rtol=0))),
+                        "zero_distance_count": int(np.count_nonzero(distance[:, 0] == 0)),
+                        "samples": len(val), "diagnostic_seconds": time.perf_counter() - start,
+                        "tie_policy": "scikit-learn brute neighbors; equal boundary distances may depend on saved training row order"}
+    return {"config": config, "metrics": common.evaluate(y[val], pred, scores),
+            "train_metrics": common.evaluate(y[train], train_predictions), "fit_seconds": fit_seconds,
+            "predict_seconds": predict_seconds, "train_predict_seconds": train_predict_seconds,
+            "tie_info": tie_info, "warnings": [f"{w.category.__name__}: {w.message}" for w in caught]}, pred, scores, train_predictions
+
+
+def dataset_folds(out, name):
+    x, y, *_ = common.load_split(name)
+    folds = xgb_cv.load_shared_folds(x, y)[0] if name == "20" else list(
+        StratifiedKFold(n_splits=3, shuffle=True, random_state=SEED).split(x, y))
+    path = out / "folds" / f"{name}.npz"
+    arrays = {f"{kind}_{i}": v for i, fold in enumerate(folds) for kind, v in zip(("train", "val"), fold)}
+    if path.exists():
+        with np.load(path, allow_pickle=False) as saved:
+            if set(saved.files) != set(arrays) or any(not np.array_equal(saved[k], v) for k, v in arrays.items()):
+                raise ValueError(f"Saved folds differ: {name}")
+    else:
+        xgb_cv.atomic_npz(path, **arrays)
+    return folds, path
+
+
+def worker(config, name, fold_file, fold, output):
+    x, y, *_ = common.load_split(name)
+    with np.load(fold_file, allow_pickle=False) as saved:
+        train, val = saved[f"train_{fold}"].copy(), saved[f"val_{fold}"].copy()
+    with np.load(common.SPLITS_DIR / f"{name}.npz", allow_pickle=False) as saved:
+        original_rows = saved["train"].copy()
+    rec, pred, scores, train_predictions = evaluate(config, x, y, train, val)
+    rec.update(dataset=name, fold=fold, status="ok", training_samples=len(train), validation_samples=len(val))
+    xgb_cv.atomic_npz(output, record_json=np.array(json.dumps(rec, sort_keys=True)), train_positions=train,
+                      val_positions=val, original_rows=original_rows[val], y_true=y[val], predictions=pred,
+                      scores=scores, train_y_true=y[train], train_predictions=train_predictions)
+    print(json.dumps({"id": config["id"], "accuracy": rec["metrics"]["accuracy"],
+                      "fit_seconds": rec["fit_seconds"], "predict_seconds": rec["predict_seconds"]}), flush=True)
+
+
+def load_record(path, config, name, fold, fold_path):
+    x, y, *_ = common.load_split(name)
+    with np.load(path, allow_pickle=False) as data, np.load(fold_path, allow_pickle=False) as folds, np.load(
+        common.SPLITS_DIR / f"{name}.npz", allow_pickle=False
+    ) as shared:
+        rec = json.loads(data["record_json"].item())
+        if rec["config"] != config or rec["dataset"] != name or rec["fold"] != fold:
+            raise ValueError(f"Checkpoint config differs: {path}")
+        train, val = folds[f"train_{fold}"], folds[f"val_{fold}"]
+        if (not np.array_equal(data["train_positions"], train) or not np.array_equal(data["val_positions"], val)
+                or not np.array_equal(data["original_rows"], shared["train"][val])
+                or not np.array_equal(data["y_true"], y[val]) or not np.array_equal(data["train_y_true"], y[train])
+                or common.evaluate(data["y_true"], data["predictions"], data["scores"]) != rec["metrics"]
+                or common.evaluate(data["train_y_true"], data["train_predictions"]) != rec["train_metrics"]):
+            raise ValueError(f"Checkpoint predictions or row mapping differ: {path}")
+        return rec
+
+
+def verify_checkpoint_event(out, path, name, config, fold):
+    """Require an existing successful event and the exact checkpoint digest."""
+    event_path = Path(out) / "events.jsonl"
+    if not event_path.exists():
+        raise ValueError(f"Missing event log for checkpoint: {path}")
+    matches = []
+    for line in event_path.read_text(encoding="utf-8").splitlines():
+        event = json.loads(line)
+        if (event.get("status") == "ok" and event.get("dataset") == name
+                and event.get("config") == config["id"] and event.get("fold") == fold):
+            matches.append(event)
+    if not matches or matches[-1].get("sha256") != xgb_cv.sha256(path):
+        raise ValueError(f"Missing or mismatched successful checkpoint event: {path}")
+
+
+def write_summary(out, name, candidates, fold_path):
+    rows = []
+    for config in candidates:
+        paths = [out / "runs" / name / config["id"] / f"fold{i}.npz" for i in range(3)]
+        records = [load_record(p, config, name, i, fold_path) for i, p in enumerate(paths) if p.exists()]
+        row = {"id": config["id"], "family": config["family"], "representation": config["representation"],
+               "completed_folds": len(records), "status": "complete" if len(records) == 3 else "incomplete"}
+        for metric in METRICS:
+            values = [r["metrics"][metric] for r in records]
+            row[f"mean_{metric}"] = float(np.mean(values)) if values else ""
+            row[f"std_{metric}"] = float(np.std(values, ddof=1)) if len(values) > 1 else ""
+        row["mean_train_accuracy"] = float(np.mean([r["train_metrics"]["accuracy"] for r in records])) if records else ""
+        row["total_fit_seconds"] = sum(r["fit_seconds"] for r in records)
+        row["total_predict_seconds"] = sum(r["predict_seconds"] for r in records)
+        rows.append(row)
+    rows.sort(key=lambda r: (r["status"] != "complete", -(r["mean_accuracy"] or -1), -(r["mean_f1"] or -1), r["id"]))
+    path = out / f"summary_{name}.csv"
+    tmp = path.with_suffix(".csv.tmp")
+    with tmp.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(rows)
+    os.replace(tmp, path)
+    return rows
+
+
+def run(out):
+    out = Path(out).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "folds").mkdir(exist_ok=True)
+    grid = configs()
+    versions = {name: importlib.metadata.version(name) for name in
+                ("numpy", "scipy", "scikit-learn", "catboost", "pandas", "graphviz", "plotly", "matplotlib", "six", "threadpoolctl")}
+    identity = {"configs": grid, "seed": SEED, "source_sha256": xgb_cv.sha256(__file__),
+                "common_sha256": xgb_cv.sha256(common.__file__), "xgb_cv_sha256": xgb_cv.sha256(xgb_cv.__file__),
+                "split_manifest_sha256": xgb_cv.sha256(common.SPLITS_DIR / "manifest.json"),
+                "previous_folds_sha256": xgb_cv.sha256(Path(__file__).parent / "results" / "cv20" / "folds.npz"),
+                "versions": versions, "python": platform.python_version(), "platform": platform.platform(),
+                "processor": platform.processor(), "timeout_seconds": TIMEOUT}
+    manifest_path = out / "manifest.json"
+    if manifest_path.exists():
+        if json.loads(manifest_path.read_text(encoding="utf-8"))["identity"] != identity:
+            raise ValueError("Resume rejected: data, code, grid or environment differ")
+    else:
+        xgb_cv.atomic_json(manifest_path, {"identity": identity, "created_at_utc": datetime.now(timezone.utc).isoformat(),
+                            "git_head": xgb_cv.git_output("rev-parse", "HEAD"),
+                            "git_status": xgb_cv.git_output("status", "--porcelain", "--untracked-files=all"),
+                            "note": "Train/test arrays are loaded by common but only shared training is used; timing may be contended.",
+                            "installation": "python -m pip install -r requirements.txt",
+                            "knn_ties": "Equal neighbor distances may depend on ordered training rows, saved in each checkpoint."})
+    for name in ("20", "30", "40"):
+        _, fold_path = dataset_folds(out, name)
+        if name == "20":
+            candidates = grid
+        else:
+            selected = json.loads((out / "selection.json").read_text(encoding="utf-8"))["selected"]
+            candidates = selected
+        for config in candidates:
+            for fold in range(3):
+                path = out / "runs" / name / config["id"] / f"fold{fold}.npz"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                if path.exists():
+                    load_record(path, config, name, fold, fold_path)
+                    verify_checkpoint_event(out, path, name, config, fold)
+                    continue
+                env = os.environ.copy()
+                for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+                    env[key] = "1"
+                cmd = [sys.executable, "-m", "B_Traditional_ML.new_methods_v2", "--worker", "--config", json.dumps(config),
+                       "--dataset", name, "--fold-file", str(fold_path), "--fold", str(fold), "--output", str(path)]
+                start = time.perf_counter()
+                try:
+                    proc = subprocess.run(cmd, cwd=common.ROOT, env=env, capture_output=True, text=True,
+                                          encoding="utf-8", errors="replace", timeout=TIMEOUT)
+                    status, info = ("ok", proc.stdout[-2000:]) if proc.returncode == 0 and path.exists() else (
+                        "failed", f"exit {proc.returncode}: {proc.stderr[-6000:]}")
+                except subprocess.TimeoutExpired:
+                    status, info = "timeout", f"exceeded {TIMEOUT}s"
+                elapsed = time.perf_counter() - start
+                event = {"dataset": name, "config": config["id"], "fold": fold, "status": status,
+                         "wall_seconds": elapsed, "info": info, "sha256": xgb_cv.sha256(path) if path.exists() else None}
+                with (out / "events.jsonl").open("a", encoding="utf-8") as stream:
+                    stream.write(json.dumps(event) + "\n")
+                print(json.dumps(event), flush=True)
+        rows = write_summary(out, name, candidates, fold_path)
+        if name == "20":
+            selected = []
+            for family in ("knn", "catboost"):
+                good = [r for r in rows if r["family"] == family and r["status"] == "complete"]
+                if good:
+                    selected.append(next(c for c in grid if c["id"] == good[0]["id"]))
+            xgb_cv.atomic_json(out / "selection.json", {"selected": selected,
+                                "rule": "highest complete 3-fold mean accuracy, then F1, then lexicographic id per family"})
+        xgb_cv.atomic_json(out / "progress.json", {"finished_dataset": name, "complete_configs": sum(r["status"] == "complete" for r in rows),
+                                                    "total_configs": len(rows), "updated_at_utc": datetime.now(timezone.utc).isoformat()})
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--worker", action="store_true")
+    parser.add_argument("--config")
+    parser.add_argument("--dataset")
+    parser.add_argument("--fold-file", type=Path)
+    parser.add_argument("--fold", type=int)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    if args.worker:
+        worker(json.loads(args.config), args.dataset, args.fold_file, args.fold, args.output)
+    else:
+        if args.output_dir is None:
+            parser.error("--output-dir required")
+        run(args.output_dir)
+
+
+if __name__ == "__main__":
+    main()

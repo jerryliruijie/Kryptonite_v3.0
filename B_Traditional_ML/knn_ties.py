@@ -1,0 +1,87 @@
+"""Measure K20 kNN sensitivity to training-row ordering at equal distances."""
+
+import json
+import platform
+import time
+from pathlib import Path
+
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from threadpoolctl import threadpool_limits
+
+import common
+from B_Traditional_ML import model_analysis, new_methods, xgb_cv
+
+
+def run():
+    here = Path(__file__).resolve().parent
+    out = here / 'results' / 'model_analysis' / 'knn_ties'
+    out.mkdir(parents=True, exist_ok=True)
+    x, y, *_ = common.load_split('20')
+    folds, shared, manifest, cv, fold_path = xgb_cv.load_shared_folds(x, y)
+    with np.load(common.SPLITS_DIR / '20.npz', allow_pickle=False) as f:
+        orig = f['train'].copy()
+    selection = here / 'results' / 'new_methods' / 'selection.json'
+    config = next(c for c in json.loads(selection.read_text(encoding='utf-8'))['selected'] if c['family'] == 'knn')
+    references = [here / 'results' / 'new_methods' / 'runs' / '20' / config['id'] / f'fold{i}.npz' for i in range(3)]
+    identity = {'config': config, 'order_seeds': [67, 123, 314], 'script_sha256': model_analysis.sha256(__file__),
+                'new_methods_sha256': model_analysis.sha256(new_methods.__file__), 'selection_sha256': model_analysis.sha256(selection),
+                'shared_sha256': model_analysis.sha256(shared), 'folds_sha256': model_analysis.sha256(fold_path),
+                'reference_sha256': [model_analysis.sha256(p) for p in references], 'data_fingerprints': manifest['datasets']['20'],
+                'thread_limit': 1, 'python': platform.python_version(), 'platform': platform.platform()}
+    manifest_path = out / 'manifest.json'
+    if manifest_path.exists():
+        if json.loads(manifest_path.read_text(encoding='utf-8'))['identity'] != identity:
+            raise ValueError('kNN tie analysis identity changed')
+    else:
+        xgb_cv.atomic_json(manifest_path, {'identity': identity, 'note': 'Order permutations change no training membership, features or labels.'})
+    summary = []
+    with threadpool_limits(limits=1):
+        for fold, (train, val) in enumerate(folds):
+            reference = np.load(references[fold], allow_pickle=False)
+            expected_pred, expected_score = reference['predictions'].copy(), reference['scores'].copy()
+            if not np.array_equal(reference['val_positions'], val):
+                raise ValueError('Reference fold positions differ')
+            baseline_accuracy = float(np.mean(expected_pred == y[val]))
+            reference.close()
+            for seed in (67, 123, 314):
+                path = out / f'fold{fold}_order{seed}.npz'
+                order = train[np.random.default_rng(seed).permutation(len(train))]
+                if path.exists():
+                    with np.load(path, allow_pickle=False) as saved:
+                        rec = json.loads(saved['record_json'].item())
+                        if (not np.array_equal(saved['training_order'], order) or not np.array_equal(saved['validation_positions'], val)
+                                or not np.array_equal(saved['original_rows'], orig[val])
+                                or common.evaluate(y[val], saved['predictions'], saved['scores']) != rec['metrics']):
+                            raise ValueError('Changed kNN ordering checkpoint')
+                else:
+                    a = new_methods.transform(x[order], config['representation'])
+                    b = new_methods.transform(x[val], config['representation'])
+                    if config['representation'] == 'raw':
+                        scaler = StandardScaler().fit(a)
+                        a, b = scaler.transform(a), scaler.transform(b)
+                    model = new_methods.build(config)
+                    start = time.perf_counter()
+                    model.fit(a, y[order])
+                    probability = model.predict_proba(b)
+                    pred = np.asarray(model.classes_)[np.argmax(probability, axis=1)].astype(int)
+                    score = probability[:, np.flatnonzero(model.classes_ == 1)[0]]
+                    rec = {'fold': fold, 'training_order_seed': seed, 'baseline_accuracy': baseline_accuracy,
+                           'metrics': common.evaluate(y[val], pred, score),
+                           'changed_predictions': int(np.sum(pred != expected_pred)),
+                           'changed_correct_to_wrong': int(np.sum((expected_pred == y[val]) & (pred != y[val]))),
+                           'changed_wrong_to_correct': int(np.sum((expected_pred != y[val]) & (pred == y[val]))),
+                           'seconds': time.perf_counter() - start}
+                    xgb_cv.atomic_npz(path, record_json=np.array(json.dumps(rec, sort_keys=True)), training_order=order,
+                                      validation_positions=val, original_rows=orig[val], y_true=y[val], predictions=pred, scores=score)
+                summary.append({'fold': fold, 'training_order_seed': seed, 'baseline_accuracy': rec['baseline_accuracy'],
+                                'accuracy': rec['metrics']['accuracy'], 'accuracy_change': rec['metrics']['accuracy'] - rec['baseline_accuracy'],
+                                'changed_predictions': rec['changed_predictions'], 'changed_correct_to_wrong': rec['changed_correct_to_wrong'],
+                                'changed_wrong_to_correct': rec['changed_wrong_to_correct'], 'samples': len(val), 'seconds': rec['seconds']})
+                print(f'fold {fold+1} reorder {seed}: {rec["metrics"]["accuracy"]:.4f}; changed {rec["changed_predictions"]}', flush=True)
+    model_analysis.write_csv(out / 'summary.csv', summary)
+    xgb_cv.atomic_json(out / 'progress.json', {'status': 'complete', 'fits': len(summary)})
+
+
+if __name__ == '__main__':
+    run()

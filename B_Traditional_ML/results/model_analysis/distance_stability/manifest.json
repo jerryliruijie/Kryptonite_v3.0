@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "source_sha256": "172d10afcb816175dbd7b5e75c59293bc80bdf3a0f69db55b7a1fd9a6a5dd554",
+    "new_methods_sha256": "558c31851024710754e18fdf8c40c2ddc937065c3a89c9874b81ea3bd7af48d2",
+    "selection_sha256": "79d765cee03171107b8e8f8723cee6fa80c20bd5892b73f2a30c35b5fee0e308",
+    "dataset_fingerprints": {
+      "samples": 12000,
+      "features": 20,
+      "sizes": {
+        "train": 8400,
+        "validation": 2400,
+        "test": 1200
+      },
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+    },
+    "manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "cv_manifest_sha256": "4d5c28dc23dd3f7ed9691b809c46eef5183949288be1fda5e41bf116ff5fdc4f",
+    "original_fold_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "split_seeds": [
+      67,
+      123,
+      314
+    ],
+    "models": {
+      "svm": {
+        "C": 100,
+        "gamma": 0.2,
+        "kernel": "rbf"
+      },
+      "knn": {
+        "id": "knn_sign_k3_distance",
+        "family": "knn",
+        "representation": "sign",
+        "n_neighbors": 3,
+        "weights": "distance"
+      }
+    },
+    "threads": 1,
+    "python": "3.12.5",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "note": "SVM and kNN are deterministic for this configuration; kNN equal-distance tie outcomes can depend on saved training-row order."
+  },
+  "note": "Previously selected configurations, so repeated CV remains a developmental comparison."
+}

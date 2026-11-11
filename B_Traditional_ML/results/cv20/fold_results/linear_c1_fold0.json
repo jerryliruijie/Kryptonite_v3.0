@@ -1,0 +1,55 @@
+{
+  "config": {
+    "run_id": "linear_c1",
+    "kernel": "linear",
+    "C": 1.0,
+    "gamma": null
+  },
+  "fold": 0,
+  "training_samples": 5600,
+  "validation_samples": 2800,
+  "metrics": {
+    "accuracy": 0.49714285714285716,
+    "precision": 0.4929676511954993,
+    "recall": 0.5050432276657061,
+    "f1": 0.498932384341637,
+    "specificity": 0.48937677053824363,
+    "confusion_matrix": [
+      [
+        691,
+        721
+      ],
+      [
+        687,
+        701
+      ]
+    ],
+    "roc_auc": 0.5022348580712052
+  },
+  "parameters": {
+    "C": 1.0,
+    "break_ties": false,
+    "cache_size": 200,
+    "class_weight": null,
+    "coef0": 0.0,
+    "decision_function_shape": "ovr",
+    "degree": 3,
+    "gamma": "scale",
+    "kernel": "linear",
+    "max_iter": -1,
+    "probability": "deprecated",
+    "random_state": null,
+    "shrinking": true,
+    "tol": 0.001,
+    "verbose": false
+  },
+  "fit_seconds": 0.6866761999990558,
+  "predict_seconds": 0.2243555999993987,
+  "support_vectors_per_class": [
+    2745,
+    2737
+  ],
+  "fit_status": 0,
+  "convergence_warnings": [],
+  "predictions_sha256": "77a00edcd7cb195b4b4700da130e87c528a3e5bae0c3b546fcfc6afb6076501d"
+}

@@ -1,0 +1,129 @@
+{
+  "dataset": "20",
+  "evaluation_split": "validation",
+  "training_samples": 8400,
+  "validation_samples": 2400,
+  "features": 20,
+  "split_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+  "split_seed": 67,
+  "split_version": 1,
+  "dataset_fingerprints": {
+    "samples": 12000,
+    "features": 20,
+    "sizes": {
+      "train": 8400,
+      "validation": 2400,
+      "test": 1200
+    },
+    "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+    "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+    "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+  },
+  "source_commit": "d59daedabe7d1fcc3579671da605848379f58a06",
+  "tracked_changes": "",
+  "script_sha256": "d8b67c7d2b3a9075ab95510fcbed0b0b1165326fe09a1acf597907afb924e52d",
+  "script_in_repository": false,
+  "python_version": "3.12.5",
+  "numpy_version": "2.5.4",
+  "scipy_version": "1.18.1",
+  "scikit_learn_version": "1.9.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+  "created_at_utc": "2026-11-07T20:35:40.106633+00:00",
+  "preprocessing": "StandardScaler fit on training data only",
+  "randomness": "SVC with probability=False; random_state is not used for fitting",
+  "models": {
+    "linear": {
+      "parameters": {
+        "C": 1.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": "scale",
+        "kernel": "linear",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": null,
+      "support_vectors_per_class": [
+        4098,
+        4098
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.6716999000000214,
+      "validation_metrics": {
+        "accuracy": 0.5083333333333333,
+        "precision": 0.5043478260869565,
+        "recall": 0.48739495798319327,
+        "f1": 0.49572649572649574,
+        "specificity": 0.5289256198347108,
+        "confusion_matrix": [
+          [
+            640,
+            570
+          ],
+          [
+            610,
+            580
+          ]
+        ],
+        "roc_auc": 0.5043016876171956
+      }
+    },
+    "rbf": {
+      "parameters": {
+        "C": 1.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": "scale",
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.04999999895177426,
+      "support_vectors_per_class": [
+        3881,
+        3857
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.1419420999991416,
+      "validation_metrics": {
+        "accuracy": 0.5716666666666667,
+        "precision": 0.5708041958041958,
+        "recall": 0.5487394957983194,
+        "f1": 0.5595544130248501,
+        "specificity": 0.5942148760330579,
+        "confusion_matrix": [
+          [
+            719,
+            491
+          ],
+          [
+            537,
+            653
+          ]
+        ],
+        "roc_auc": 0.5860955621918189
+      }
+    }
+  },
+  "predictions_file": "svm20_validation_predictions.npz",
+  "predictions_sha256": "c6e6780608cd2ba191d503d61417851a5379ab2f301207cbc00bdf9a8aa67ef1"
+}

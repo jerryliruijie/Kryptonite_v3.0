@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "sources": {
+      "model_benchmark.py": "6d74aaec1c101e4390c509dd3946b74c02bc26e3546fe19c5043f5fcde423fc1",
+      "catboost_tune.py": "8194d6a6aa8084e141e2686f04e3fef6853be162aa96f4c8d639b566a1529db9",
+      "new_methods.py": "558c31851024710754e18fdf8c40c2ddc937065c3a89c9874b81ea3bd7af48d2",
+      "tree_tuning.py": "9aac6547660cb3c5a56fea6204b33308a6ccb25d595fb996892f7769d5c58660",
+      "common.py": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f"
+    },
+    "shared_manifest": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "svm_manifest": "4d5c28dc23dd3f7ed9691b809c46eef5183949288be1fda5e41bf116ff5fdc4f",
+    "folds": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "predictions": {
+      "svm": [
+        "be29936345ff7eae6b77cc4c4ec24ddd0df5fd81dcfb70420c624ddccd2e8d32",
+        "b2316b3c3d28d0eb766f7eb4c87b12843c683e25bbaa7a85d4443c52573d759b",
+        "cdce36036256b7fb3ce0bb22f849ae47cc62d060a2739d0a46ba6b2d0821d5db"
+      ],
+      "xgb": [
+        "8b47c6f1c18e2084ae60bec530ce6d397563e7a707b582b78febdbd3765a4d02",
+        "1e88e6ce6b332242a2674be7da2a9f0d6cc00bbcb9489e78776617ce9aab2ba6",
+        "1ffe6cee5fbf1ec001eee816e1d429d5840844713258c43b600e36d75b155f7f"
+      ],
+      "extra": [
+        "700fbfd2a066bfa3d25118c84d305b74c4cc0f33774347a3f7636cf60ac171bd",
+        "0d6f3623217ac507a621816b44f78e894716338d5887d21b4d9ca4d4248fd238",
+        "f71456fd1ae13fc859a86833b8bc6365d4155b489981ad98029e0d3fa40d9918"
+      ],
+      "knn": [
+        "25625c4c30aec98a0cef093abd14fb5e0104c38900117be8e5777659d3ca3471",
+        "2870c719630ed3350dcaa179cdf85ed45f578fd6a20f03805c14a811174a95d8",
+        "7629e673e078cde20837fd311321cc1b7bbf57e989f53adaed9726e7068c8e56"
+      ],
+      "catboost": [
+        "a89f21b071c7880c48c65056675edc4c7c79f685ec74c6a994fa71f01ce806d8",
+        "3ed98d76205e21eab46125ec1aee8b8580a647d01b617bd3a50f3f825f212a32",
+        "26a93f6c38a8d64680156d3a725fcc7f80313e5354edbd3db4cca5777e4e71e1"
+      ]
+    },
+    "python": "3.12.5",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "xgboost": "3.4.1",
+    "catboost": "1.2.10",
+    "seed": 67,
+    "threads": 1
+  },
+  "notes": "Run each fold sequentially. Timings include transformation/scaling; inference includes category prediction and score/probability. Sizes are Python pickle protocol 5 of model + scaler in bytes; library-specific serialization internals differ. No external-load or cold-start time."
+}

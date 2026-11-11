@@ -1,0 +1,12 @@
+{
+  "script_sha256": "c6479d02ada4eee0b2b2318848060280147d1afd97c672dd80b152b9547b821c",
+  "input_csv_sha256": [
+    "b7a523900275d7339ee63ec954ce36077308fb22ee72e32399a66414e1537ed0",
+    "0736b9d61efe48546d3efd36cda0b4f9678070dcb945da026031a242b82081c2"
+  ],
+  "input_manifest_sha256": [
+    "41d99481c0b9958b1e70d4b5601812cbfb9cdaf56db9fba949dc2c33a2c2689a",
+    "41d99481c0b9958b1e70d4b5601812cbfb9cdaf56db9fba949dc2c33a2c2689a"
+  ],
+  "note": "Medians of 2 repeats x 3 folds, single machine, single model thread. Predict+score has 2800 validation rows and includes preprocessing. SVM/XGB/Extra call prediction and score separately; kNN/CatBoost use one probability call. Pickle sizes are library-specific and include estimator+scaler. Energy not measured. First benchmark/ is a warmup with CPU audit overlap and is excluded."
+}

@@ -1,0 +1,11 @@
+method_a,method_b,both_wrong,only_a_wrong,only_b_wrong,both_correct,different_prediction
+svm,xgb,1761,1758,318,4563,2076
+svm,extra,1482,2037,569,4312,2606
+svm,knn,2548,971,1051,3830,2022
+svm,catboost,484,3035,132,4749,3167
+xgb,extra,1238,841,813,5508,1654
+xgb,knn,1482,597,2117,4204,2714
+xgb,catboost,508,1571,108,6213,1679
+extra,knn,1269,782,2330,4019,3112
+extra,catboost,476,1575,140,6209,1715
+knn,catboost,436,3163,180,4621,3343

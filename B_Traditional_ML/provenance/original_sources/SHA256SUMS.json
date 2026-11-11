@@ -1,0 +1,122 @@
+{
+  "batch_models.py": {
+    "sha256": "f905214f3d8bdac836022d21a8a5ccbbeaedf592a88e2ba50626e1d3c4523866",
+    "snapshot": "provenance/original_sources/batch_models.py.txt"
+  },
+  "batch_report.py": {
+    "sha256": "be4a22b40d10a3a50071b1c2c9a8e553cda5db76c5b6a3fbe86753fb94cf831a",
+    "snapshot": "provenance/original_sources/batch_report.py.txt"
+  },
+  "batch_run.py": {
+    "sha256": "ce3976d0b12c8be440c5a9b279a53459b5a0335fdee1ce72f8283aea6f739e5d",
+    "snapshot": "provenance/original_sources/batch_run.py.txt"
+  },
+  "batch_worker.py": {
+    "sha256": "9500c6ec9aa769fc5a5b70f1d7fa6f1f6a2835da3f326580d33ea66f3648fc9a",
+    "snapshot": "provenance/original_sources/batch_worker.py.txt"
+  },
+  "catboost_importance.py": {
+    "sha256": "bc9401ca6b84eb4870dd9e9af0a60fdf0b0aa0d3919d1ae3442f07223a68d7ad",
+    "snapshot": "provenance/original_sources/catboost_importance.py.txt"
+  },
+  "catboost_pipeline.py": {
+    "sha256": "bee7adda01dd94aed62edbc152687c2c319db58df2d2d0b6d79de6fe32d2dc0f",
+    "snapshot": "provenance/original_sources/catboost_pipeline.py.txt"
+  },
+  "catboost_transfer_seeds.py": {
+    "sha256": "39a8cc573046bd5e215a1009e68a785b6bbdece2cf8c16f09d447d2c5fd9f4a1",
+    "snapshot": "provenance/original_sources/catboost_transfer_seeds.py.txt"
+  },
+  "catboost_tune.py": {
+    "sha256": "8194d6a6aa8084e141e2686f04e3fef6853be162aa96f4c8d639b566a1529db9",
+    "snapshot": "provenance/original_sources/catboost_tune.py.txt"
+  },
+  "catboost_tune_v2.py": {
+    "sha256": "542ef167b82ddd3e94d29781e17446f950f94479f39478ce765932d23b4d73db",
+    "snapshot": "provenance/original_sources/catboost_tune_v2.py.txt"
+  },
+  "distance_stability.py": {
+    "sha256": "172d10afcb816175dbd7b5e75c59293bc80bdf3a0f69db55b7a1fd9a6a5dd554",
+    "snapshot": "provenance/original_sources/distance_stability.py.txt"
+  },
+  "knn_ties.py": {
+    "sha256": "f778250bdf0553cf4dbf8920fdb80c2b7879b945667db0e8d7fa7a3ab8fd391c",
+    "snapshot": "provenance/original_sources/knn_ties.py.txt"
+  },
+  "learning_curve.py": {
+    "sha256": "701f3025bf16dd37e6b89ca5ac017c33b0534c7ca8fd1a474a4c4925f48811bb",
+    "snapshot": "provenance/original_sources/learning_curve.py.txt"
+  },
+  "learning_curve_v2.py": {
+    "sha256": "d248ab249d063b329ff14cd025360c6718627e8b687c55026efbf9f0e877e234",
+    "snapshot": "provenance/original_sources/learning_curve_v2.py.txt"
+  },
+  "model_analysis.py": {
+    "sha256": "c57ce7ed59cb34dc7dfe7da76431653c0381ab741892b58714522e57d1df9eaa",
+    "snapshot": "provenance/original_sources/model_analysis.py.txt"
+  },
+  "model_benchmark.py": {
+    "sha256": "6d74aaec1c101e4390c509dd3946b74c02bc26e3546fe19c5043f5fcde423fc1",
+    "snapshot": "provenance/original_sources/model_benchmark.py.txt"
+  },
+  "model_comparison.py": {
+    "sha256": "abf6e9780259b44b3937af8c3895afb2de5dabe600150d226ea7de5f75192536",
+    "snapshot": "provenance/original_sources/model_comparison.py.txt"
+  },
+  "new_methods.py": {
+    "sha256": "558c31851024710754e18fdf8c40c2ddc937065c3a89c9874b81ea3bd7af48d2",
+    "snapshot": "provenance/original_sources/new_methods.py.txt"
+  },
+  "new_methods_v2.py": {
+    "sha256": "0b21279debeb13267bf9929a5de0870e067051ab0230daeb07e7bbd7816677f9",
+    "snapshot": "provenance/original_sources/new_methods_v2.py.txt"
+  },
+  "representation_ablation.py": {
+    "sha256": "5be2efd4395110c05e8ba7be502b64f3a3aefc01d51ca805add73059ef007045",
+    "snapshot": "provenance/original_sources/representation_ablation.py.txt"
+  },
+  "results/representation_ablation/render_report.py": {
+    "sha256": "fd0ce3f851ad908113b38fa7b4824eebdd648910f780a9be4c4f85873a5c54a6",
+    "snapshot": "provenance/original_sources/results/representation_ablation/render_report.py.txt"
+  },
+  "rf_cv.py": {
+    "sha256": "b96cefc5a1a70e8c574ebd7ea0db07df4eeed139ec2ac38a69ee8d9add3286d1",
+    "snapshot": "provenance/original_sources/rf_cv.py.txt"
+  },
+  "rf_representation.py": {
+    "sha256": "7be7545e48b4ed6a6e6baf9ce48e365668e5377a777317dde68971d08443ba9b",
+    "snapshot": "provenance/original_sources/rf_representation.py.txt"
+  },
+  "summarize_benchmark.py": {
+    "sha256": "c6479d02ada4eee0b2b2318848060280147d1afd97c672dd80b152b9547b821c",
+    "snapshot": "provenance/original_sources/summarize_benchmark.py.txt"
+  },
+  "svm_cv.py": {
+    "sha256": "4c099486b64c00466691504985ea4da96db6fc0ad60b48fb5536b43c97cd292f",
+    "snapshot": "provenance/original_sources/svm_cv.py.txt"
+  },
+  "svm_grid.py": {
+    "sha256": "62235c6276166ed8eafd08a49e2f976f9b0a8d838b6969b7bc234ce87992266a",
+    "snapshot": "provenance/original_sources/svm_grid.py.txt"
+  },
+  "svm_pilot.py": {
+    "sha256": "d8b67c7d2b3a9075ab95510fcbed0b0b1165326fe09a1acf597907afb924e52d",
+    "snapshot": "provenance/original_sources/svm_pilot.py.txt"
+  },
+  "tree_tuning.py": {
+    "sha256": "9aac6547660cb3c5a56fea6204b33308a6ccb25d595fb996892f7769d5c58660",
+    "snapshot": "provenance/original_sources/tree_tuning.py.txt"
+  },
+  "tuned_importance.py": {
+    "sha256": "e3cd93935a91f660fc0ce9f3ef0c133a230917d8f816d1584c0f7394c6681d79",
+    "snapshot": "provenance/original_sources/tuned_importance.py.txt"
+  },
+  "xgb_cv.py": {
+    "sha256": "9b4bf26cdb8c59e98170e2e273eea8f9900ca207157ef46aa4f987f56915f3c3",
+    "snapshot": "provenance/original_sources/xgb_cv.py.txt"
+  },
+  "xgb_tune.py": {
+    "sha256": "6f5d3bdcd0334c699c27bbce584047fcdbbe133432b8885a7cf7a4c19754296d",
+    "snapshot": "provenance/original_sources/xgb_tune.py.txt"
+  }
+}

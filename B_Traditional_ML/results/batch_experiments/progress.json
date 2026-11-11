@@ -1,0 +1,17 @@
+{
+  "state": "finished",
+  "finished_at_utc": "2026-11-08T12:03:44.966742+00:00",
+  "stage_seconds": {
+    "screen": 487.6560000000004,
+    "nested": 209.17100000000028,
+    "30": 74.28099999999995,
+    "40": 163.21900000000005
+  },
+  "chosen": [
+    "xgb_sign_child1_s1",
+    "extra_leaf2_features1.0"
+  ],
+  "complete_screen_configs": 52,
+  "total_screen_configs": 52,
+  "note": "Review summaries and events for partial, timeout and failed fits."
+}

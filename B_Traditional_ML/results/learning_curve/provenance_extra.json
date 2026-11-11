@@ -1,0 +1,20 @@
+{
+  "captured_at_utc": "2026-11-09T11:43:28.820464+00:00",
+  "note": "Supplemental hashes captured after original run and checkpoint resume, not at start of original training. Original-run identity remains in manifest.json.",
+  "sha256": {
+    "B_SVM/xgb_cv.py": "9b4bf26cdb8c59e98170e2e273eea8f9900ca207157ef46aa4f987f56915f3c3",
+    "requirements.txt": "d687fe4caecc9644720d46d2891af1bff833936036e52ec39f1cc26a70991cd4",
+    "B_SVM/learning_curve.py": "701f3025bf16dd37e6b89ca5ac017c33b0534c7ca8fd1a474a4c4925f48811bb",
+    "B_SVM/learning_curve_v2.py": "d248ab249d063b329ff14cd025360c6718627e8b687c55026efbf9f0e877e234",
+    "B_SVM/results/learning_curve/summary.csv": "fe88d1407fa0b95b1d48b7add653c0e18bf093274c74881148cee1232c8a94f3",
+    "B_SVM/results/learning_curve/subsets/20_subset_seed123.npz": "22b4826eed4855a7c00ad46ff78159445e4d758f74f96e5bf6c96df262392ace",
+    "B_SVM/results/learning_curve/subsets/20_subset_seed314.npz": "fcdc2cf418d545d063c4f3f037d47a50baadf20c8b709d1072873fb4a81c98f8",
+    "B_SVM/results/learning_curve/subsets/20_subset_seed67.npz": "2fd43347a03c8bf50177785cd17a503236c756769b45b68df58dc17004ba5d90",
+    "B_SVM/results/learning_curve/subsets/30_subset_seed123.npz": "be969fbc2a0a5a031b603e05b2f22c889472eb469c79a24af21334494e05414c",
+    "B_SVM/results/learning_curve/subsets/30_subset_seed314.npz": "c3cae447d142a29c0b7d46a37ac7b23cc46e1fb1a2b46e5b2a445886f1b509db",
+    "B_SVM/results/learning_curve/subsets/30_subset_seed67.npz": "f0fc6ae483f3ca9dafe4fff05871471cf9d8f2287ed1e57df90cba3fb1f4bff9",
+    "B_SVM/results/learning_curve/subsets/40_subset_seed123.npz": "98daf08e4c420fbdb812320c3311ee9afd191ec6437244cfa0415dfec713dc57",
+    "B_SVM/results/learning_curve/subsets/40_subset_seed314.npz": "c23c716400d06b07da53c2bdf94af593e3f0f8180ce7e92623d4b905837f256e",
+    "B_SVM/results/learning_curve/subsets/40_subset_seed67.npz": "af91ec2e40adcc84ff20db8710556ab1125e3b2dce067e3c9624bc3d8a0d1f12"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "script_sha256": "801c6058ff4467349d9be06daa7711e300909670a61a7eb6e90dacbcfe810b8a",
+  "params": {
+    "depth": 10,
+    "iterations": 600,
+    "learning_rate": 0.05,
+    "l2_leaf_reg": 10,
+    "loss_function": "Logloss",
+    "thread_count": 1,
+    "random_seed": 67,
+    "task_type": "CPU",
+    "grow_policy": "SymmetricTree",
+    "verbose": false,
+    "allow_writing_files": false
+  },
+  "python": "3.12.5",
+  "catboost": "1.2.10",
+  "numpy": "2.5.4",
+  "dataset_results": {
+    "20": {
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86",
+      "checkpoint_sha256": "c4d6df4c1e955cb17034efaa808c3c01d7b6914bcc636f3a61c6ddec009c38b9",
+      "n_train": 8400,
+      "n_validation": 2400,
+      "row_overlap": 0,
+      "accuracy": 0.9458333333333333,
+      "prediction_disagreements": 0,
+      "exact_probability_equal": true,
+      "max_probability_difference": 0.0,
+      "seconds": 6.981983700000455,
+      "shuffled_training_label_seed": 2026,
+      "shuffled_label_validation_accuracy": 0.5145833333333333
+    },
+    "30": {
+      "x_sha256": "dbc08c9214902db64346c8a15eb677ac0ba4f02f78363d9a14eab619b1b42292",
+      "y_sha256": "de658c1f402016d0bdfca381673c2fb2675fb7dc10fb81d7d0f6891c58375b75",
+      "split_sha256": "f4720613364275e2f64cf47844a162222598206cecd7ad66807042c01c225709",
+      "checkpoint_sha256": "713ed648eee5aa6f76e2edda3811e35d66659710c0f5eaf00a1bb474927fcecb",
+      "n_train": 14000,
+      "n_validation": 4000,
+      "row_overlap": 0,
+      "accuracy": 0.95325,
+      "prediction_disagreements": 0,
+      "exact_probability_equal": true,
+      "max_probability_difference": 0.0,
+      "seconds": 15.240218099999765
+    },
+    "40": {
+      "x_sha256": "d365e89ea5075bb6232a184f043df415032e4ac0171e2f799efd33ebd75aaccf",
+      "y_sha256": "45721fd073e61e460f3dd03d4b9ab0b6eb4eb5729deed99b43a9567f01e76b26",
+      "split_sha256": "49fa11f5a8ddca92e6a26c044bea7352c7d5121650211b5b782a20b5a71ff7d8",
+      "checkpoint_sha256": "bd0f1c002824d37e0415217682f4396d0e3248caa26a34b5a6f85c81f95539f8",
+      "n_train": 22400,
+      "n_validation": 6400,
+      "row_overlap": 0,
+      "accuracy": 0.95421875,
+      "prediction_disagreements": 0,
+      "exact_probability_equal": true,
+      "max_probability_difference": 0.0,
+      "seconds": 19.369242300000224
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# Preserve exact bytes used by the experiment hash manifests on every platform.
+/member_c/results/** -text
+/member_c/configs/** -text
+/member_c/*.py -text
+/common.py -text
+/requirements.txt -text
+/splits/** -text
+/Datasets/** -text
+# Python's CSV writer uses CRLF; retain those original experiment records.
+/member_c/results/**/*.csv whitespace=cr-at-eol

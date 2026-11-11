@@ -1,0 +1,55 @@
+{
+  "config": {
+    "run_id": "rbf_c2_g1",
+    "kernel": "rbf",
+    "C": 100.0,
+    "gamma": 0.1
+  },
+  "fold": 2,
+  "training_samples": 5600,
+  "validation_samples": 2800,
+  "metrics": {
+    "accuracy": 0.585,
+    "precision": 0.5828445747800587,
+    "recall": 0.5727665706051873,
+    "f1": 0.5777616279069767,
+    "specificity": 0.5970254957507082,
+    "confusion_matrix": [
+      [
+        843,
+        569
+      ],
+      [
+        593,
+        795
+      ]
+    ],
+    "roc_auc": 0.6043484827456711
+  },
+  "parameters": {
+    "C": 100.0,
+    "break_ties": false,
+    "cache_size": 200,
+    "class_weight": null,
+    "coef0": 0.0,
+    "decision_function_shape": "ovr",
+    "degree": 3,
+    "gamma": 0.1,
+    "kernel": "rbf",
+    "max_iter": -1,
+    "probability": "deprecated",
+    "random_state": null,
+    "shrinking": true,
+    "tol": 0.001,
+    "verbose": false
+  },
+  "fit_seconds": 0.785510499999873,
+  "predict_seconds": 0.9376938000004884,
+  "support_vectors_per_class": [
+    2616,
+    2585
+  ],
+  "fit_status": 0,
+  "convergence_warnings": [],
+  "predictions_sha256": "563af16903dc7bb8c11ed3626220b9f19df616120bebebe4a1daec2bde6f8437"
+}

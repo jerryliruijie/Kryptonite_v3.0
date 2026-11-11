@@ -1,0 +1,52 @@
+"""Run one fold in an isolated process, writing an atomic prediction checkpoint."""
+
+import argparse
+import json
+import os
+from pathlib import Path
+import traceback
+
+import numpy as np
+
+import common
+from B_Traditional_ML import batch_models
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", required=True, help="JSON object defining a single fixed configuration")
+    parser.add_argument("--dataset", required=True)
+    parser.add_argument("--indices", required=True, type=Path)
+    parser.add_argument("--train-key", required=True)
+    parser.add_argument("--val-key", required=True)
+    parser.add_argument("--output", required=True, type=Path)
+    args = parser.parse_args()
+    config = json.loads(args.config)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    arrays = {}
+    try:
+        x, y, *_ = common.load_split(args.dataset)
+        with np.load(args.indices, allow_pickle=False) as saved:
+            train_pos = saved[args.train_key].copy()
+            val_pos = saved[args.val_key].copy()
+        with np.load(common.SPLITS_DIR / f"{args.dataset}.npz", allow_pickle=False) as shared:
+            original_train_rows = shared["train"].copy()
+        result = batch_models.fit_evaluate(config, x, y, train_pos, val_pos)
+        arrays = {key: result.pop(key) for key in ("predictions", "scores", "train_predictions")}
+        arrays.update(train_positions=train_pos, val_positions=val_pos,
+                      original_rows=original_train_rows[val_pos], y_true=y[val_pos], train_y_true=y[train_pos])
+        record = {"status": "ok", **result}
+    except Exception as error:
+        record = {"status": "failed", "config": config, "error_type": type(error).__name__,
+                  "error": str(error), "traceback": traceback.format_exc()}
+    arrays["record_json"] = np.array(json.dumps(record, sort_keys=True, allow_nan=False))
+    temp = args.output.with_name(args.output.name + ".tmp")
+    with temp.open("wb") as stream:
+        np.savez(stream, **arrays)
+    os.replace(temp, args.output)
+    print(json.dumps({"status": record["status"], "config_id": config["id"],
+                      "error": record.get("error")}, ensure_ascii=False), flush=True)
+
+
+if __name__ == "__main__":
+    main()

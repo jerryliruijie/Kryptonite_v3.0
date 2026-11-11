@@ -1,0 +1,28 @@
+"""Safe entry point for rerunning the recorded learning-curve procedure.
+
+The original learning_curve.py is preserved to retain the historical run's
+source fingerprint. This wrapper adds an output-directory check before handing
+control to that unchanged implementation.
+"""
+from argparse import ArgumentParser
+from pathlib import Path
+
+from B_SVM import learning_curve
+
+
+def run(output_dir):
+    out = Path(output_dir).resolve()
+    if out.exists() and any(out.iterdir()) and not (out / "manifest.json").is_file():
+        raise FileExistsError(f"Refusing nonempty output directory without manifest: {out}")
+    return learning_curve.run(out)
+
+
+def main():
+    parser = ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path, required=True)
+    args = parser.parse_args()
+    run(args.output_dir)
+
+
+if __name__ == "__main__":
+    main()

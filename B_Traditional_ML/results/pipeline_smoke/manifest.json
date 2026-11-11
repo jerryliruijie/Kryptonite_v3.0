@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-09T11:21:45.239957+00:00",
+  "dataset": "20",
+  "scope": "training",
+  "local_test_included_in_training": false,
+  "train_seed": 67,
+  "training_count": 8400,
+  "training_class_counts": {
+    "0": 4236,
+    "1": 4164
+  },
+  "input_features": 20,
+  "preprocessing": {
+    "kind": "sign",
+    "rule": "x >= 0 -> +1; x < 0 -> -1"
+  },
+  "model_parameters": {
+    "iterations": 600,
+    "depth": 10,
+    "learning_rate": 0.05,
+    "l2_leaf_reg": 10,
+    "loss_function": "Logloss",
+    "thread_count": 1,
+    "task_type": "CPU",
+    "grow_policy": "SymmetricTree",
+    "verbose": false,
+    "allow_writing_files": false,
+    "random_seed": 67
+  },
+  "resolved_model_parameters": {
+    "nan_mode": "Min",
+    "eval_metric": "Logloss",
+    "iterations": 600,
+    "sampling_frequency": "PerTree",
+    "leaf_estimation_method": "Newton",
+    "random_score_type": "NormalWithModelSizeDecrease",
+    "grow_policy": "SymmetricTree",
+    "penalties_coefficient": 1,
+    "boosting_type": "Plain",
+    "model_shrink_mode": "Constant",
+    "feature_border_type": "GreedyLogSum",
+    "bayesian_matrix_reg": 0.10000000149011612,
+    "eval_fraction": 0,
+    "force_unit_auto_pair_weights": false,
+    "l2_leaf_reg": 10,
+    "random_strength": 1,
+    "rsm": 1,
+    "boost_from_average": false,
+    "model_size_reg": 0.5,
+    "pool_metainfo_options": {
+      "tags": {}
+    },
+    "subsample": 0.800000011920929,
+    "use_best_model": false,
+    "class_names": [
+      0,
+      1
+    ],
+    "random_seed": 67,
+    "depth": 10,
+    "posterior_sampling": false,
+    "border_count": 254,
+    "classes_count": 0,
+    "auto_class_weights": "None",
+    "sparse_features_conflict_fraction": 0,
+    "leaf_estimation_backtracking": "AnyImprovement",
+    "best_model_min_trees": 1,
+    "model_shrink_rate": 0,
+    "min_data_in_leaf": 1,
+    "loss_function": "Logloss",
+    "learning_rate": 0.05000000074505806,
+    "score_function": "Cosine",
+    "task_type": "CPU",
+    "leaf_estimation_iterations": 10,
+    "bootstrap_type": "MVS",
+    "max_leaves": 1024
+  },
+  "training_seconds": 20.23412159999998,
+  "data_fingerprints": {
+    "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+    "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+    "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+  },
+  "split_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+  "model_file": "model.cbm",
+  "model_format": "cbm",
+  "model_sha256": "55a302008ae48eac67a5da25451b8ffc29b686858666d7e8eb1a2e3b814413fa",
+  "training_rows_file": "training_rows.npy",
+  "training_rows_sha256": "7ea535efa482d48755f39440bde20608d7e3044bd776b29174133a0f2e9f933d",
+  "code_sha256": "bee7adda01dd94aed62edbc152687c2c319db58df2d2d0b6d79de6fe32d2dc0f",
+  "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+  "python": "3.12.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "versions": {
+    "catboost": "1.2.10",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1"
+  },
+  "reload_check": {
+    "n_rows": 8400,
+    "class_probabilities_exact": true
+  }
+}

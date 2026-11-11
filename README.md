@@ -20,6 +20,7 @@ The `PaperAndInstructions` directory holds the mock paper *Kryptonite-3.0: The F
 | `MockPaperExperiments.ipynb` | Code that reproduces the mock paper's figures |
 | `check_submission.py` | Checks the format of your hidden-set predictions |
 | `ImpCMLAuthorPack.zip` | LaTeX template for your report |
+| `B_Traditional_ML/` | B's traditional-model experiments, results and analysis |
 
 ### KryptoNet-40
 
@@ -102,3 +103,7 @@ For each experiment, record at least the dataset, model, split version, training
 ### Baselines and learning curves
 
 See [the experiment protocol and handoff](docs/baseline_experiments.md) for the data audit, common result fields and subset usage. Run `python baselines.py --output results/baseline_runs_rerun.csv` to reproduce the validation experiments, and open `BaselineResults.ipynb` for the baseline table and learning curve.
+
+### Group comparison
+
+See [the group discussion materials](docs/group_results_comparison.md) for each method, the A/B matched-subset learning curves, B's training history and the current C and D handoffs. [GroupComparison.ipynb](GroupComparison.ipynb) reproduces the two figures.

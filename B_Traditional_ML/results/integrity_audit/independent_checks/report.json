@@ -1,0 +1,195 @@
+{
+  "datasets": {
+    "20": {
+      "rows": {
+        "training": 8400,
+        "validation": 2400,
+        "local_test": 1200
+      },
+      "shared_row_intersections": {
+        "train_validation": 0,
+        "train_test": 0,
+        "validation_test": 0
+      },
+      "raw": {
+        "train_duplicate_rows": 0,
+        "validation_rows_matching_train_input": 0,
+        "validation_hits_with_same_label": 0,
+        "validation_hits_with_different_label": 0,
+        "test_input_rows_matching_train_input": 0
+      },
+      "sign": {
+        "train_duplicate_rows": 35,
+        "validation_rows_matching_train_input": 19,
+        "validation_hits_with_same_label": 18,
+        "validation_hits_with_different_label": 1,
+        "test_input_rows_matching_train_input": 11
+      },
+      "cv": {
+        "verified_checkpoints": 3,
+        "accuracy": [
+          0.9382142857142857,
+          0.9253571428571429,
+          0.9164285714285715
+        ]
+      },
+      "learning_curve": {
+        "verified_checkpoints": 9,
+        "accuracy": [
+          0.8375,
+          0.8991666666666667,
+          0.9458333333333333,
+          0.8291666666666667,
+          0.91125,
+          0.9458333333333333,
+          0.8058333333333333,
+          0.8979166666666667,
+          0.9458333333333333
+        ]
+      },
+      "learning_curve_100_validation_by_sign_match": {
+        "same_sign_as_train": {
+          "samples": 19,
+          "correct": 18,
+          "incorrect": 1,
+          "accuracy": 0.9473684210526315
+        },
+        "new_sign_combination": {
+          "samples": 2381,
+          "correct": 2252,
+          "incorrect": 129,
+          "accuracy": 0.9458210835783284
+        }
+      }
+    },
+    "30": {
+      "rows": {
+        "training": 14000,
+        "validation": 4000,
+        "local_test": 2000
+      },
+      "shared_row_intersections": {
+        "train_validation": 0,
+        "train_test": 0,
+        "validation_test": 0
+      },
+      "raw": {
+        "train_duplicate_rows": 0,
+        "validation_rows_matching_train_input": 0,
+        "validation_hits_with_same_label": 0,
+        "validation_hits_with_different_label": 0,
+        "test_input_rows_matching_train_input": 0
+      },
+      "sign": {
+        "train_duplicate_rows": 0,
+        "validation_rows_matching_train_input": 0,
+        "validation_hits_with_same_label": 0,
+        "validation_hits_with_different_label": 0,
+        "test_input_rows_matching_train_input": 0
+      },
+      "cv": {
+        "verified_checkpoints": 3,
+        "accuracy": [
+          0.9487893721877009,
+          0.9325048210842083,
+          0.9526360908701244
+        ]
+      },
+      "learning_curve": {
+        "verified_checkpoints": 9,
+        "accuracy": [
+          0.93425,
+          0.95325,
+          0.95325,
+          0.84925,
+          0.93625,
+          0.95325,
+          0.8745,
+          0.92925,
+          0.95325
+        ]
+      },
+      "model_seed_study": {
+        "verified_checkpoints": 9,
+        "accuracy": [
+          0.9487893721877009,
+          0.9325048210842083,
+          0.9526360908701244,
+          0.9468609385043926,
+          0.9363616884508249,
+          0.9464209172738963,
+          0.9494321834154703,
+          0.9295050353546175,
+          0.949849978568367
+        ]
+      }
+    },
+    "40": {
+      "rows": {
+        "training": 22400,
+        "validation": 6400,
+        "local_test": 3200
+      },
+      "shared_row_intersections": {
+        "train_validation": 0,
+        "train_test": 0,
+        "validation_test": 0
+      },
+      "raw": {
+        "train_duplicate_rows": 0,
+        "validation_rows_matching_train_input": 0,
+        "validation_hits_with_same_label": 0,
+        "validation_hits_with_different_label": 0,
+        "test_input_rows_matching_train_input": 0
+      },
+      "sign": {
+        "train_duplicate_rows": 0,
+        "validation_rows_matching_train_input": 0,
+        "validation_hits_with_same_label": 0,
+        "validation_hits_with_different_label": 0,
+        "test_input_rows_matching_train_input": 0
+      },
+      "cv": {
+        "verified_checkpoints": 3,
+        "accuracy": [
+          0.9429489754921655,
+          0.9438864336413553,
+          0.9487007768550764
+        ]
+      },
+      "learning_curve": {
+        "verified_checkpoints": 9,
+        "accuracy": [
+          0.91484375,
+          0.92703125,
+          0.95421875,
+          0.82484375,
+          0.9215625,
+          0.95421875,
+          0.9034375,
+          0.9484375,
+          0.95421875
+        ]
+      },
+      "model_seed_study": {
+        "verified_checkpoints": 9,
+        "accuracy": [
+          0.9429489754921655,
+          0.9438864336413553,
+          0.9487007768550764,
+          0.9400026784518548,
+          0.9491094147582697,
+          0.9499062416287168,
+          0.9386634525244408,
+          0.9520557117985804,
+          0.9476292526118404
+        ]
+      }
+    }
+  },
+  "notes": [
+    "Local-test feature duplication was counted without indexing its labels or scoring predictions.",
+    "Model selection used development data; validation scores are development estimates.",
+    "A matching sign vector is a representation collision and need not be the same raw sample."
+  ]
+}

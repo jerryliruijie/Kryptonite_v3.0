@@ -1,0 +1,82 @@
+{
+  "identity": {
+    "script_sha256": "abf6e9780259b44b3937af8c3895afb2de5dabe600150d226ea7de5f75192536",
+    "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "shared_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "cv_manifest_sha256": "4d5c28dc23dd3f7ed9691b809c46eef5183949288be1fda5e41bf116ff5fdc4f",
+    "folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "models": {
+      "svm": [
+        {
+          "path": "B_SVM/results/cv20/predictions/rbf_c2_g2_fold0.npz",
+          "sha256": "be29936345ff7eae6b77cc4c4ec24ddd0df5fd81dcfb70420c624ddccd2e8d32"
+        },
+        {
+          "path": "B_SVM/results/cv20/predictions/rbf_c2_g2_fold1.npz",
+          "sha256": "b2316b3c3d28d0eb766f7eb4c87b12843c683e25bbaa7a85d4443c52573d759b"
+        },
+        {
+          "path": "B_SVM/results/cv20/predictions/rbf_c2_g2_fold2.npz",
+          "sha256": "cdce36036256b7fb3ce0bb22f849ae47cc62d060a2739d0a46ba6b2d0821d5db"
+        }
+      ],
+      "xgb": [
+        {
+          "path": "B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold0.npz",
+          "sha256": "8b47c6f1c18e2084ae60bec530ce6d397563e7a707b582b78febdbd3765a4d02"
+        },
+        {
+          "path": "B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold1.npz",
+          "sha256": "1e88e6ce6b332242a2674be7da2a9f0d6cc00bbcb9489e78776617ce9aab2ba6"
+        },
+        {
+          "path": "B_SVM/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold2.npz",
+          "sha256": "1ffe6cee5fbf1ec001eee816e1d429d5840844713258c43b600e36d75b155f7f"
+        }
+      ],
+      "extra": [
+        {
+          "path": "B_SVM/results/tree_tuning/runs/screen/20/extra_feat1_leaf1_dNone/seed67_fold0.npz",
+          "sha256": "700fbfd2a066bfa3d25118c84d305b74c4cc0f33774347a3f7636cf60ac171bd"
+        },
+        {
+          "path": "B_SVM/results/tree_tuning/runs/screen/20/extra_feat1_leaf1_dNone/seed67_fold1.npz",
+          "sha256": "0d6f3623217ac507a621816b44f78e894716338d5887d21b4d9ca4d4248fd238"
+        },
+        {
+          "path": "B_SVM/results/tree_tuning/runs/screen/20/extra_feat1_leaf1_dNone/seed67_fold2.npz",
+          "sha256": "f71456fd1ae13fc859a86833b8bc6365d4155b489981ad98029e0d3fa40d9918"
+        }
+      ],
+      "knn": [
+        {
+          "path": "B_SVM/results/new_methods/runs/20/knn_sign_k3_distance/fold0.npz",
+          "sha256": "25625c4c30aec98a0cef093abd14fb5e0104c38900117be8e5777659d3ca3471"
+        },
+        {
+          "path": "B_SVM/results/new_methods/runs/20/knn_sign_k3_distance/fold1.npz",
+          "sha256": "2870c719630ed3350dcaa179cdf85ed45f578fd6a20f03805c14a811174a95d8"
+        },
+        {
+          "path": "B_SVM/results/new_methods/runs/20/knn_sign_k3_distance/fold2.npz",
+          "sha256": "7629e673e078cde20837fd311321cc1b7bbf57e989f53adaed9726e7068c8e56"
+        }
+      ],
+      "catboost": [
+        {
+          "path": "B_SVM/results/catboost_tune/runs/20/cat_sign_d10_n600_l10/fold0.npz",
+          "sha256": "a89f21b071c7880c48c65056675edc4c7c79f685ec74c6a994fa71f01ce806d8"
+        },
+        {
+          "path": "B_SVM/results/catboost_tune/runs/20/cat_sign_d10_n600_l10/fold1.npz",
+          "sha256": "3ed98d76205e21eab46125ec1aee8b8580a647d01b617bd3a50f3f825f212a32"
+        },
+        {
+          "path": "B_SVM/results/catboost_tune/runs/20/cat_sign_d10_n600_l10/fold2.npz",
+          "sha256": "26a93f6c38a8d64680156d3a725fcc7f80313e5354edbd3db4cca5777e4e71e1"
+        }
+      ]
+    }
+  },
+  "note": "Development OOF comparison after prior model selection; not final test."
+}

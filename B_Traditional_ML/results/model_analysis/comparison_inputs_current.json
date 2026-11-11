@@ -1,0 +1,27 @@
+{
+  "svm": [
+    "B_Traditional_ML/results/cv20/predictions/rbf_c2_g2_fold0.npz",
+    "B_Traditional_ML/results/cv20/predictions/rbf_c2_g2_fold1.npz",
+    "B_Traditional_ML/results/cv20/predictions/rbf_c2_g2_fold2.npz"
+  ],
+  "xgb": [
+    "B_Traditional_ML/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold0.npz",
+    "B_Traditional_ML/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold1.npz",
+    "B_Traditional_ML/results/tree_tuning/runs/screen/20/xgb_d9_n200_lr0.1_child1_s1/seed67_fold2.npz"
+  ],
+  "extra": [
+    "B_Traditional_ML/results/tree_tuning/runs/screen/20/extra_feat1_leaf1_dNone/seed67_fold0.npz",
+    "B_Traditional_ML/results/tree_tuning/runs/screen/20/extra_feat1_leaf1_dNone/seed67_fold1.npz",
+    "B_Traditional_ML/results/tree_tuning/runs/screen/20/extra_feat1_leaf1_dNone/seed67_fold2.npz"
+  ],
+  "knn": [
+    "B_Traditional_ML/results/new_methods/runs/20/knn_sign_k3_distance/fold0.npz",
+    "B_Traditional_ML/results/new_methods/runs/20/knn_sign_k3_distance/fold1.npz",
+    "B_Traditional_ML/results/new_methods/runs/20/knn_sign_k3_distance/fold2.npz"
+  ],
+  "catboost": [
+    "B_Traditional_ML/results/catboost_tune/runs/20/cat_sign_d10_n600_l10/fold0.npz",
+    "B_Traditional_ML/results/catboost_tune/runs/20/cat_sign_d10_n600_l10/fold1.npz",
+    "B_Traditional_ML/results/catboost_tune/runs/20/cat_sign_d10_n600_l10/fold2.npz"
+  ]
+}

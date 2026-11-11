@@ -1,0 +1,55 @@
+"""Render a concise record from completed paired-comparison CSVs."""
+
+import csv
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+
+root = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parent
+progress = json.loads((root / "progress.json").read_text(encoding="utf-8"))
+if progress.get("state") != "complete" or progress.get("completed") != 90:
+    raise RuntimeError("The full 90-fit comparison is not complete")
+with (root / "summary.csv").open(encoding="utf-8", newline="") as source:
+    rows = list(csv.DictReader(source))
+names = {"svm": "RBF SVM", "xgb": "XGBoost", "extra": "Extra Trees", "knn": "kNN", "catboost": "CatBoost"}
+lines = ["# 五种方法的原始值与符号输入对照", "", "## 设计", "",
+         "K20、K30、K40 各自在固定共享 training 内使用 seed 67 的同一组 3-fold cross-validation。每个方法的 raw 与 sign 使用相同训练与评估行、模型参数、训练 seed 和预处理规则；sign 逐列按 x≥0 映射 +1、否则映射 −1。每个方法 2 种输入、3 个数据集、3 轮，共 90 次拟合。", "",
+         "SVM 使用 RBF、C=100、gamma=0.2 和训练集拟合的 StandardScaler；XGBoost depth9/200 trees/lr0.1/child1/lambda10；Extra Trees 200 trees/max_features1/min_samples_leaf1；CatBoost depth10/600 trees/lr0.05/lambda10。kNN 在两种输入上均使用训练集拟合的 StandardScaler、Euclidean 距离、k=3 与 distance weighting；此前使用 Hamming 距离的符号 kNN 结果属于另一设置。", "",
+         "## 三数据集的配对 accuracy", "",
+         "| 数据集 | 方法 | raw | sign | sign − raw（百分点） | 三轮的配对差值（百分点） |",
+         "|---|---|---:|---:|---:|---|"]
+for r in rows:
+    if r["pair_complete"] != "True":
+        raise RuntimeError(f"Incomplete comparison: {r}")
+    diffs = [100 * float(r[f"fold{i}_difference"]) for i in range(3)]
+    lines.append(f"| K{r['dataset']} | {names[r['method']]} | {100*float(r['raw_mean_accuracy']):.2f}% | "
+                 f"{100*float(r['sign_mean_accuracy']):.2f}% | {100*float(r['mean_sign_minus_raw']):+.2f} | "
+                 + "/".join(f"{value:+.2f}" for value in diffs) + " |")
+outcomes = []
+for r in rows:
+    counts = {"both_correct": 0, "raw_only_correct": 0, "sign_only_correct": 0, "both_wrong": 0}
+    for fold in range(3):
+        paths = [root / "runs" / r["dataset"] / r["method"] / rep / f"fold{fold}.npz" for rep in ("raw", "sign")]
+        with np.load(paths[0], allow_pickle=False) as raw, np.load(paths[1], allow_pickle=False) as sign:
+            if not (np.array_equal(raw["original_rows"], sign["original_rows"]) and np.array_equal(raw["y_true"], sign["y_true"])):
+                raise ValueError("Raw and sign sample rows differ")
+            raw_correct, sign_correct = raw["predictions"] == raw["y_true"], sign["predictions"] == sign["y_true"]
+            counts["both_correct"] += int(np.sum(raw_correct & sign_correct))
+            counts["raw_only_correct"] += int(np.sum(raw_correct & ~sign_correct))
+            counts["sign_only_correct"] += int(np.sum(~raw_correct & sign_correct))
+            counts["both_wrong"] += int(np.sum(~raw_correct & ~sign_correct))
+    outcomes.append({"dataset": r["dataset"], "method": r["method"], **counts,
+                     "prediction_changed": counts["raw_only_correct"] + counts["sign_only_correct"]})
+with (root / "paired_outcomes.csv").open("w", encoding="utf-8", newline="") as target:
+    writer = csv.DictWriter(target, fieldnames=list(outcomes[0]))
+    writer.writeheader()
+    writer.writerows(outcomes)
+lines.extend(["", "## 解释与边界", "",
+              "这些配置基于此前 K20 的实验选择；同参数配对测量表示变换的效果，各表示分别调参后的最佳成绩需要另一设计。K20 已多次用于探索，所有结果属于开发阶段。三轮差值与样本标准差描述划分间变化。共享 validation 与 local test 未用于评分；公共读取器会载入这些数组，训练和评分只使用 training。hidden 未读取。", "",
+              "kNN 的训练集自预测包含样本自身，其 train accuracy 有乐观偏差；kNN sign 的同距离边界可能使预测依赖保存的训练行顺序。每轮预测概率和 SVM decision scores 对应类别 1。", "",
+              "`fold_metrics.csv` 保存 accuracy、precision、recall、F1、specificity、ROC-AUC、训练 accuracy 和时间。`paired_outcomes.csv` 按原始行号对齐并统计两者均正确、各自正确和均错误的样本数；此为开发数据上的描述性统计。`runs/` 保存位置、原始行号、标签、逐样本预测、分数、混淆矩阵和训练记录。`manifest.json` 保存数据/代码/划分指纹、设置、包版本与随机种子；`events.jsonl` 保存运行状态、时间和 checkpoint 哈希。", "",
+              "从仓库根目录复现：`python -m B_SVM.representation_ablation --output-dir B_SVM/results/<new-directory>`。随后运行 `python B_SVM/results/representation_ablation/render_report.py B_SVM/results/<new-directory>` 生成记录。", ""])
+(root / "实验记录.md").write_text("\n".join(lines), encoding="utf-8")
+print(f"Wrote {len(rows)} paired comparisons")

@@ -3,4 +3,5 @@
 __pycache__/
 .venv/
 .pytest_cache/
+.idea/
 results/adapt/*/trainable_state.pt

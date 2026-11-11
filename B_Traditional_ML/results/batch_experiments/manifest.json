@@ -1,0 +1,489 @@
+{
+  "identity": {
+    "grid": [
+      {
+        "id": "log_raw_d1_c0.1",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 1,
+        "C": 0.1
+      },
+      {
+        "id": "log_raw_d1_c1",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 1,
+        "C": 1.0
+      },
+      {
+        "id": "log_raw_d1_c10",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 1,
+        "C": 10.0
+      },
+      {
+        "id": "log_raw_d2_c0.1",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 2,
+        "C": 0.1
+      },
+      {
+        "id": "log_raw_d2_c1",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 2,
+        "C": 1.0
+      },
+      {
+        "id": "log_raw_d2_c10",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 2,
+        "C": 10.0
+      },
+      {
+        "id": "log_raw_d3_c0.1",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 3,
+        "C": 0.1
+      },
+      {
+        "id": "log_raw_d3_c1",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 3,
+        "C": 1.0
+      },
+      {
+        "id": "log_raw_d3_c10",
+        "family": "logistic",
+        "representation": "raw",
+        "degree": 3,
+        "C": 10.0
+      },
+      {
+        "id": "log_sign_d1_c0.1",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 1,
+        "C": 0.1
+      },
+      {
+        "id": "log_sign_d1_c1",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 1,
+        "C": 1.0
+      },
+      {
+        "id": "log_sign_d1_c10",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 1,
+        "C": 10.0
+      },
+      {
+        "id": "log_sign_d2_c0.1",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 2,
+        "C": 0.1
+      },
+      {
+        "id": "log_sign_d2_c1",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 2,
+        "C": 1.0
+      },
+      {
+        "id": "log_sign_d2_c10",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 2,
+        "C": 10.0
+      },
+      {
+        "id": "log_sign_d3_c0.1",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 3,
+        "C": 0.1
+      },
+      {
+        "id": "log_sign_d3_c1",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 3,
+        "C": 1.0
+      },
+      {
+        "id": "log_sign_d3_c10",
+        "family": "logistic",
+        "representation": "sign",
+        "degree": 3,
+        "C": 10.0
+      },
+      {
+        "id": "log_raw_sign_c0.1",
+        "family": "logistic",
+        "representation": "raw_sign",
+        "degree": 1,
+        "C": 0.1
+      },
+      {
+        "id": "log_raw_sign_c1",
+        "family": "logistic",
+        "representation": "raw_sign",
+        "degree": 1,
+        "C": 1.0
+      },
+      {
+        "id": "log_raw_sign_c10",
+        "family": "logistic",
+        "representation": "raw_sign",
+        "degree": 1,
+        "C": 10.0
+      },
+      {
+        "id": "log_sign_magnitude_c0.1",
+        "family": "logistic",
+        "representation": "sign_magnitude",
+        "degree": 1,
+        "C": 0.1
+      },
+      {
+        "id": "log_sign_magnitude_c1",
+        "family": "logistic",
+        "representation": "sign_magnitude",
+        "degree": 1,
+        "C": 1.0
+      },
+      {
+        "id": "log_sign_magnitude_c10",
+        "family": "logistic",
+        "representation": "sign_magnitude",
+        "degree": 1,
+        "C": 10.0
+      },
+      {
+        "id": "svm_raw_rbf_c1_gscale",
+        "family": "svm",
+        "representation": "raw",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": "scale"
+      },
+      {
+        "id": "svm_raw_rbf_c1_g0.1",
+        "family": "svm",
+        "representation": "raw",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": 0.1
+      },
+      {
+        "id": "svm_raw_rbf_c10_gscale",
+        "family": "svm",
+        "representation": "raw",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": "scale"
+      },
+      {
+        "id": "svm_raw_rbf_c10_g0.1",
+        "family": "svm",
+        "representation": "raw",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": 0.1
+      },
+      {
+        "id": "svm_raw_rbf_c100_gscale",
+        "family": "svm",
+        "representation": "raw",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": "scale"
+      },
+      {
+        "id": "svm_raw_rbf_c100_g0.1",
+        "family": "svm",
+        "representation": "raw",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": 0.1
+      },
+      {
+        "id": "svm_sign_rbf_c1_gscale",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": "scale"
+      },
+      {
+        "id": "svm_sign_rbf_c1_g0.1",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": 0.1
+      },
+      {
+        "id": "svm_sign_rbf_c10_gscale",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": "scale"
+      },
+      {
+        "id": "svm_sign_rbf_c10_g0.1",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": 0.1
+      },
+      {
+        "id": "svm_sign_rbf_c100_gscale",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": "scale"
+      },
+      {
+        "id": "svm_sign_rbf_c100_g0.1",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": 0.1
+      },
+      {
+        "id": "svm_sign_poly_d2_c1",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "poly",
+        "degree": 2,
+        "C": 1.0,
+        "gamma": "scale",
+        "coef0": 1.0
+      },
+      {
+        "id": "svm_sign_poly_d2_c10",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "poly",
+        "degree": 2,
+        "C": 10.0,
+        "gamma": "scale",
+        "coef0": 1.0
+      },
+      {
+        "id": "svm_sign_poly_d3_c1",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "poly",
+        "degree": 3,
+        "C": 1.0,
+        "gamma": "scale",
+        "coef0": 1.0
+      },
+      {
+        "id": "svm_sign_poly_d3_c10",
+        "family": "svm",
+        "representation": "sign",
+        "kernel": "poly",
+        "degree": 3,
+        "C": 10.0,
+        "gamma": "scale",
+        "coef0": 1.0
+      },
+      {
+        "id": "xgb_raw_child1_s1",
+        "family": "xgb",
+        "representation": "raw",
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      {
+        "id": "xgb_raw_child1_s0.8",
+        "family": "xgb",
+        "representation": "raw",
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      {
+        "id": "xgb_raw_child10_s1",
+        "family": "xgb",
+        "representation": "raw",
+        "min_child_weight": 10,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      {
+        "id": "xgb_raw_child10_s0.8",
+        "family": "xgb",
+        "representation": "raw",
+        "min_child_weight": 10,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      {
+        "id": "xgb_sign_child1_s1",
+        "family": "xgb",
+        "representation": "sign",
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      {
+        "id": "xgb_sign_child1_s0.8",
+        "family": "xgb",
+        "representation": "sign",
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      {
+        "id": "xgb_sign_child10_s1",
+        "family": "xgb",
+        "representation": "sign",
+        "min_child_weight": 10,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      {
+        "id": "xgb_sign_child10_s0.8",
+        "family": "xgb",
+        "representation": "sign",
+        "min_child_weight": 10,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      {
+        "id": "extra_leaf2_featuressqrt",
+        "family": "extra",
+        "representation": "raw",
+        "min_samples_leaf": 2,
+        "max_features": "sqrt"
+      },
+      {
+        "id": "extra_leaf2_features1.0",
+        "family": "extra",
+        "representation": "raw",
+        "min_samples_leaf": 2,
+        "max_features": 1.0
+      },
+      {
+        "id": "extra_leaf10_featuressqrt",
+        "family": "extra",
+        "representation": "raw",
+        "min_samples_leaf": 10,
+        "max_features": "sqrt"
+      },
+      {
+        "id": "extra_leaf10_features1.0",
+        "family": "extra",
+        "representation": "raw",
+        "min_samples_leaf": 10,
+        "max_features": 1.0
+      }
+    ],
+    "baseline": {
+      "id": "svm_previous_rbf_c100_g0.2",
+      "family": "svm",
+      "representation": "raw",
+      "kernel": "rbf",
+      "C": 100.0,
+      "gamma": 0.2
+    },
+    "budgets_seconds": {
+      "screen": 4200,
+      "nested": 1200,
+      "30": 900,
+      "40": 900
+    },
+    "fit_timeout_seconds": 180,
+    "seed": 67,
+    "shared_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "dataset_manifest": {
+      "20": {
+        "samples": 12000,
+        "features": 20,
+        "sizes": {
+          "train": 8400,
+          "validation": 2400,
+          "test": 1200
+        },
+        "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+        "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+        "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+      },
+      "30": {
+        "samples": 20000,
+        "features": 30,
+        "sizes": {
+          "train": 14000,
+          "validation": 4000,
+          "test": 2000
+        },
+        "x_sha256": "dbc08c9214902db64346c8a15eb677ac0ba4f02f78363d9a14eab619b1b42292",
+        "y_sha256": "de658c1f402016d0bdfca381673c2fb2675fb7dc10fb81d7d0f6891c58375b75",
+        "split_sha256": "f4720613364275e2f64cf47844a162222598206cecd7ad66807042c01c225709"
+      },
+      "40": {
+        "samples": 32000,
+        "features": 40,
+        "sizes": {
+          "train": 22400,
+          "validation": 6400,
+          "test": 3200
+        },
+        "x_sha256": "d365e89ea5075bb6232a184f043df415032e4ac0171e2f799efd33ebd75aaccf",
+        "y_sha256": "45721fd073e61e460f3dd03d4b9ab0b6eb4eb5729deed99b43a9567f01e76b26",
+        "split_sha256": "49fa11f5a8ddca92e6a26c044bea7352c7d5121650211b5b782a20b5a71ff7d8"
+      },
+      "40-adapt": {
+        "samples": 4000,
+        "features": 40,
+        "sizes": {
+          "train": 2800,
+          "validation": 800,
+          "test": 400
+        },
+        "x_sha256": "b27fbe9a55255c76a3a39fe5582c4dc51467266c9aaec92bf7dfd3a18bdcbe8d",
+        "y_sha256": "bbff5db6414134de6ddb3825dca063a925976d0295fdca81170d478f5fa9d608",
+        "split_sha256": "9c36547783526d515be6c835cd671d3337c11179ce72e84609aaf8448a45a81e"
+      }
+    },
+    "svm_folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "sources": {
+      "batch_run.py": "ce3976d0b12c8be440c5a9b279a53459b5a0335fdee1ce72f8283aea6f739e5d",
+      "batch_models.py": "f905214f3d8bdac836022d21a8a5ccbbeaedf592a88e2ba50626e1d3c4523866",
+      "batch_worker.py": "9500c6ec9aa769fc5a5b70f1d7fa6f1f6a2835da3f326580d33ea66f3648fc9a",
+      "common.py": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+      "xgb_cv.py": "9b4bf26cdb8c59e98170e2e273eea8f9900ca207157ef46aa4f987f56915f3c3"
+    },
+    "python": "3.12.5",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit_learn": "1.9.1",
+    "xgboost": "3.4.1"
+  },
+  "created_at_utc": "2026-11-08T11:48:08.472916+00:00",
+  "git_head": "d59daedabe7d1fcc3579671da605848379f58a06",
+  "git_status": "M requirements.txt\n?? .idea/.gitignore\n?? \".idea/Math for ML CW.iml\"\n?? .idea/inspectionProfiles/Project_Default.xml\n?? .idea/inspectionProfiles/profiles_settings.xml\n?? .idea/misc.xml\n?? .idea/modules.xml\n?? .idea/vcs.xml\n?? B_SVM/README.md\n?? B_SVM/batch_models.py\n?? B_SVM/batch_run.py\n?? B_SVM/batch_worker.py\n?? B_SVM/plot_svm_cv.ipynb\n?? B_SVM/results/cv20/cv_summary.csv\n?? B_SVM/results/cv20/figures/rbf_cv_accuracy.pdf\n?? B_SVM/results/cv20/figures/rbf_cv_accuracy.png\n?? B_SVM/results/cv20/fold_results.csv\n?? B_SVM/results/cv20/fold_results/linear_c1_fold0.json\n?? B_SVM/results/cv20/fold_results/linear_c1_fold1.json\n?? B_SVM/results/cv20/fold_results/linear_c1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c0_g3_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c1_g3_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g0_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g1_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g2_fold2.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold0.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold1.json\n?? B_SVM/results/cv20/fold_results/rbf_c2_g3_fold2.json\n?? B_SVM/results/cv20/folds.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold0.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold1.npz\n?? B_SVM/results/cv20/predictions/linear_c1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c0_g3_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c1_g3_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g0_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g1_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g2_fold2.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold0.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold1.npz\n?? B_SVM/results/cv20/predictions/rbf_c2_g3_fold2.npz\n?? B_SVM/results/cv20/progress.json\n?? B_SVM/results/cv20/run_manifest.json\n?? B_SVM/results/cv20/selection.json\n?? B_SVM/results/cv20/validation.json\n?? B_SVM/results/cv20/validation_predictions.npz\n?? \"B_SVM/results/cv20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/grid/grid_results.csv\n?? B_SVM/results/grid/grid_results.json\n?? B_SVM/results/grid/validation_predictions.npz\n?? \"B_SVM/results/grid/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/initial/svm20_validation.json\n?? B_SVM/results/initial/svm20_validation_predictions.npz\n?? \"B_SVM/results/initial/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/rf20/fold_results.csv\n?? B_SVM/results/rf20/folds/fold_0.json\n?? B_SVM/results/rf20/folds/fold_0.npz\n?? B_SVM/results/rf20/folds/fold_1.json\n?? B_SVM/results/rf20/folds/fold_1.npz\n?? B_SVM/results/rf20/folds/fold_2.json\n?? B_SVM/results/rf20/folds/fold_2.npz\n?? B_SVM/results/rf20/progress.json\n?? B_SVM/results/rf20/run_manifest.json\n?? B_SVM/results/rf20/summary.json\n?? \"B_SVM/results/rf20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/xgb20/fold_results.csv\n?? B_SVM/results/xgb20/folds/fold_0.json\n?? B_SVM/results/xgb20/folds/fold_0.npz\n?? B_SVM/results/xgb20/folds/fold_1.json\n?? B_SVM/results/xgb20/folds/fold_1.npz\n?? B_SVM/results/xgb20/folds/fold_2.json\n?? B_SVM/results/xgb20/folds/fold_2.npz\n?? B_SVM/results/xgb20/progress.json\n?? B_SVM/results/xgb20/run_manifest.json\n?? B_SVM/results/xgb20/summary.json\n?? \"B_SVM/results/xgb20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/xgb20_initial_checkpoint/fold_results.csv\n?? B_SVM/results/xgb20_initial_checkpoint/folds/fold_0.json\n?? B_SVM/results/xgb20_initial_checkpoint/folds/fold_0.npz\n?? B_SVM/results/xgb20_initial_checkpoint/progress.json\n?? B_SVM/results/xgb20_initial_checkpoint/run_manifest.json\n?? B_SVM/results/xgb20_initial_checkpoint/source_snapshot.py\n?? B_SVM/results/xgb_tune20/fold_results.csv\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n200_lr10_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d3_n600_lr03_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n200_lr10_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d6_n600_lr03_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n200_lr10_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l10_fold2.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold0.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold0.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold1.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold1.npz\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold2.json\n?? B_SVM/results/xgb_tune20/folds/d9_n600_lr03_l1_fold2.npz\n?? B_SVM/results/xgb_tune20/progress.json\n?? B_SVM/results/xgb_tune20/run_manifest.json\n?? B_SVM/results/xgb_tune20/summary.csv\n?? \"B_SVM/results/xgb_tune20/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/rf_cv.py\n?? B_SVM/svm_cv.py\n?? B_SVM/svm_grid.py\n?? B_SVM/svm_pilot.py\n?? B_SVM/xgb_cv.py\n?? B_SVM/xgb_tune.py\n?? tests/test_batch_models.py\n?? tests/test_rf_cv.py\n?? tests/test_svm_cv.py\n?? tests/test_xgb_cv.py\n?? tests/test_xgb_tune.py",
+  "selection": "Top mean accuracy then mean F1 then lexicographic config id; one configuration per family.",
+  "note": "Previously inspected training-wide interaction correlations and validation exploratory results; all scores are developmental."
+}

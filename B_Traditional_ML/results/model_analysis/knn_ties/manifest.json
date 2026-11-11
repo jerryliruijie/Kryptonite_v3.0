@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "config": {
+      "id": "knn_sign_k3_distance",
+      "family": "knn",
+      "representation": "sign",
+      "n_neighbors": 3,
+      "weights": "distance"
+    },
+    "order_seeds": [
+      67,
+      123,
+      314
+    ],
+    "script_sha256": "f778250bdf0553cf4dbf8920fdb80c2b7879b945667db0e8d7fa7a3ab8fd391c",
+    "new_methods_sha256": "558c31851024710754e18fdf8c40c2ddc937065c3a89c9874b81ea3bd7af48d2",
+    "selection_sha256": "79d765cee03171107b8e8f8723cee6fa80c20bd5892b73f2a30c35b5fee0e308",
+    "shared_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "reference_sha256": [
+      "25625c4c30aec98a0cef093abd14fb5e0104c38900117be8e5777659d3ca3471",
+      "2870c719630ed3350dcaa179cdf85ed45f578fd6a20f03805c14a811174a95d8",
+      "7629e673e078cde20837fd311321cc1b7bbf57e989f53adaed9726e7068c8e56"
+    ],
+    "data_fingerprints": {
+      "samples": 12000,
+      "features": 20,
+      "sizes": {
+        "train": 8400,
+        "validation": 2400,
+        "test": 1200
+      },
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+    },
+    "thread_limit": 1,
+    "python": "3.12.5",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "note": "Order permutations change no training membership, features or labels."
+}

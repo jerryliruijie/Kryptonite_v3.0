@@ -1,0 +1,11 @@
+{
+  "status": "complete",
+  "methods": [
+    "svm",
+    "xgb",
+    "extra",
+    "knn",
+    "catboost"
+  ],
+  "folds": 15
+}

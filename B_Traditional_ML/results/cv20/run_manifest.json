@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "dataset": "20",
+    "training_samples": 8400,
+    "validation_samples": 2400,
+    "split_seed": 67,
+    "split_version": 1,
+    "split_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "dataset_fingerprints": {
+      "samples": 12000,
+      "features": 20,
+      "sizes": {
+        "train": 8400,
+        "validation": 2400,
+        "test": 1200
+      },
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+    },
+    "cv_seed": 67,
+    "n_splits": 3,
+    "configurations": [
+      {
+        "run_id": "linear_c1",
+        "kernel": "linear",
+        "C": 1.0,
+        "gamma": null
+      },
+      {
+        "run_id": "rbf_c0_g0",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": 0.05
+      },
+      {
+        "run_id": "rbf_c0_g1",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": 0.1
+      },
+      {
+        "run_id": "rbf_c0_g2",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": 0.2
+      },
+      {
+        "run_id": "rbf_c0_g3",
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": 0.4
+      },
+      {
+        "run_id": "rbf_c1_g0",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": 0.05
+      },
+      {
+        "run_id": "rbf_c1_g1",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": 0.1
+      },
+      {
+        "run_id": "rbf_c1_g2",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": 0.2
+      },
+      {
+        "run_id": "rbf_c1_g3",
+        "kernel": "rbf",
+        "C": 10.0,
+        "gamma": 0.4
+      },
+      {
+        "run_id": "rbf_c2_g0",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": 0.05
+      },
+      {
+        "run_id": "rbf_c2_g1",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": 0.1
+      },
+      {
+        "run_id": "rbf_c2_g2",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": 0.2
+      },
+      {
+        "run_id": "rbf_c2_g3",
+        "kernel": "rbf",
+        "C": 100.0,
+        "gamma": 0.4
+      }
+    ],
+    "script_sha256": "4c099486b64c00466691504985ea4da96db6fc0ad60b48fb5536b43c97cd292f",
+    "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+    "python_version": "3.12.5",
+    "numpy_version": "2.5.4",
+    "scipy_version": "1.18.1",
+    "scikit_learn_version": "1.9.1",
+    "threadpoolctl_version": "3.8.0",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+    "thread_limit": 1
+  },
+  "folds_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+  "source_commit": "d59daedabe7d1fcc3579671da605848379f58a06",
+  "worktree_status": "?? .idea/.gitignore\n?? \".idea/Math for ML CW.iml\"\n?? .idea/inspectionProfiles/Project_Default.xml\n?? .idea/inspectionProfiles/profiles_settings.xml\n?? .idea/misc.xml\n?? .idea/modules.xml\n?? .idea/vcs.xml\n?? B_SVM/README.md\n?? B_SVM/results/cv20/folds.npz\n?? B_SVM/results/grid/grid_results.csv\n?? B_SVM/results/grid/grid_results.json\n?? B_SVM/results/grid/validation_predictions.npz\n?? \"B_SVM/results/grid/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/results/initial/svm20_validation.json\n?? B_SVM/results/initial/svm20_validation_predictions.npz\n?? \"B_SVM/results/initial/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/svm_cv.py\n?? B_SVM/svm_grid.py\n?? B_SVM/svm_pilot.py\n?? tests/test_svm_cv.py",
+  "created_at_utc": "2026-11-07T21:27:44.116314+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+  "source_note": "The script may be uncommitted; identify it by script_sha256 and worktree_status.",
+  "evidence_note": "The grid was informed by previous validation results; validation remains a development check.",
+  "fold_positions": "folds.npz indices are positions in the saved shared training split; map via splits/20.npz train to original dataset rows. Predictions follow each validation position array.",
+  "selection_rule": "Highest mean CV accuracy; equality at 12 decimal places: highest mean F1 (same precision), then lower C, then lower gamma. Linear sorts first when C ties.",
+  "threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "C:\\Users\\ROG\\OneDrive\\\u684c\u9762\\\u5b66\u4e60\u52a9\u624b\\Math for ML CW\\.venv\\Lib\\site-packages\\numpy.libs\\libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll",
+      "version": "0.3.34.106.0",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "vcomp",
+      "filepath": "C:\\Users\\ROG\\OneDrive\\\u684c\u9762\\\u5b66\u4e60\u52a9\u624b\\Math for ML CW\\.venv\\Lib\\site-packages\\sklearn\\.libs\\vcomp140.dll",
+      "version": null
+    },
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "C:\\Users\\ROG\\OneDrive\\\u684c\u9762\\\u5b66\u4e60\u52a9\u624b\\Math for ML CW\\.venv\\Lib\\site-packages\\scipy.libs\\libscipy_openblas-197ee2fc9b4d071f7e048078cac74115.dll",
+      "version": "0.3.31.dev",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    }
+  ]
+}

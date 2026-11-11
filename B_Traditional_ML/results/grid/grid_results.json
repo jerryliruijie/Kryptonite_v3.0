@@ -1,0 +1,484 @@
+{
+  "dataset": "20",
+  "evaluation_split": "validation",
+  "training_samples": 8400,
+  "validation_samples": 2400,
+  "features": 20,
+  "split_manifest_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+  "split_seed": 67,
+  "split_version": 1,
+  "dataset_fingerprints": {
+    "samples": 12000,
+    "features": 20,
+    "sizes": {
+      "train": 8400,
+      "validation": 2400,
+      "test": 1200
+    },
+    "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+    "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+    "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+  },
+  "source_commit": "d59daedabe7d1fcc3579671da605848379f58a06",
+  "worktree_status": "?? .idea/.gitignore\n?? \".idea/Math for ML CW.iml\"\n?? .idea/inspectionProfiles/Project_Default.xml\n?? .idea/inspectionProfiles/profiles_settings.xml\n?? .idea/misc.xml\n?? .idea/modules.xml\n?? .idea/vcs.xml\n?? B_SVM/README.md\n?? B_SVM/results/initial/svm20_validation.json\n?? B_SVM/results/initial/svm20_validation_predictions.npz\n?? \"B_SVM/results/initial/\\345\\256\\236\\351\\252\\214\\350\\256\\260\\345\\275\\225.md\"\n?? B_SVM/svm_grid.py\n?? B_SVM/svm_pilot.py",
+  "source_note": "The script and results may be uncommitted; use their saved hashes and worktree status with source_commit.",
+  "script_sha256": "62235c6276166ed8eafd08a49e2f976f9b0a8d838b6969b7bc234ce87992266a",
+  "python_version": "3.12.5",
+  "numpy_version": "2.5.4",
+  "scipy_version": "1.18.1",
+  "scikit_learn_version": "1.9.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+  "created_at_utc": "2026-11-07T21:02:44.630824+00:00",
+  "preprocessing": "StandardScaler fit on training data only, independently for each pipeline",
+  "probability": "SVC default in scikit-learn 1.9.1 disables probability calibration; decision_function provides scores",
+  "grid": {
+    "C": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "gamma": [
+      0.01,
+      0.05,
+      0.1
+    ]
+  },
+  "runs": [
+    {
+      "run_id": "c0_gamma0",
+      "C": 0.1,
+      "gamma": 0.01,
+      "parameters": {
+        "C": 0.1,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.01,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.01,
+      "support_vectors_per_class": [
+        4171,
+        4164
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.123426099999051,
+      "validation_metrics": {
+        "accuracy": 0.5083333333333333,
+        "precision": 0.5123152709359606,
+        "recall": 0.17478991596638654,
+        "f1": 0.2606516290726817,
+        "specificity": 0.8363636363636363,
+        "confusion_matrix": [
+          [
+            1012,
+            198
+          ],
+          [
+            982,
+            208
+          ]
+        ],
+        "roc_auc": 0.4969532606431002
+      }
+    },
+    {
+      "run_id": "c0_gamma1",
+      "C": 0.1,
+      "gamma": 0.05,
+      "parameters": {
+        "C": 0.1,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.05,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.05,
+      "support_vectors_per_class": [
+        4172,
+        4148
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.0889097999988735,
+      "validation_metrics": {
+        "accuracy": 0.5241666666666667,
+        "precision": 0.5339943342776204,
+        "recall": 0.3168067226890756,
+        "f1": 0.39767932489451474,
+        "specificity": 0.728099173553719,
+        "confusion_matrix": [
+          [
+            881,
+            329
+          ],
+          [
+            813,
+            377
+          ]
+        ],
+        "roc_auc": 0.5275081602889089
+      }
+    },
+    {
+      "run_id": "c0_gamma2",
+      "C": 0.1,
+      "gamma": 0.1,
+      "parameters": {
+        "C": 0.1,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.1,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.1,
+      "support_vectors_per_class": [
+        4201,
+        4164
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.0733523999988392,
+      "validation_metrics": {
+        "accuracy": 0.5175,
+        "precision": 0.6379310344827587,
+        "recall": 0.06218487394957983,
+        "f1": 0.11332312404287902,
+        "specificity": 0.9652892561983472,
+        "confusion_matrix": [
+          [
+            1168,
+            42
+          ],
+          [
+            1116,
+            74
+          ]
+        ],
+        "roc_auc": 0.5506083755816376
+      }
+    },
+    {
+      "run_id": "c1_gamma0",
+      "C": 1.0,
+      "gamma": 0.01,
+      "parameters": {
+        "C": 1.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.01,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.01,
+      "support_vectors_per_class": [
+        4095,
+        4076
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.0573495999997249,
+      "validation_metrics": {
+        "accuracy": 0.52375,
+        "precision": 0.5239064089521872,
+        "recall": 0.4327731092436975,
+        "f1": 0.4739990796134376,
+        "specificity": 0.6132231404958678,
+        "confusion_matrix": [
+          [
+            742,
+            468
+          ],
+          [
+            675,
+            515
+          ]
+        ],
+        "roc_auc": 0.5316528925619834
+      }
+    },
+    {
+      "run_id": "c1_gamma1",
+      "C": 1.0,
+      "gamma": 0.05,
+      "parameters": {
+        "C": 1.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.05,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.05,
+      "support_vectors_per_class": [
+        3881,
+        3857
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.1050594999996974,
+      "validation_metrics": {
+        "accuracy": 0.5716666666666667,
+        "precision": 0.5708041958041958,
+        "recall": 0.5487394957983194,
+        "f1": 0.5595544130248501,
+        "specificity": 0.5942148760330579,
+        "confusion_matrix": [
+          [
+            719,
+            491
+          ],
+          [
+            537,
+            653
+          ]
+        ],
+        "roc_auc": 0.586075421904299
+      }
+    },
+    {
+      "run_id": "c1_gamma2",
+      "C": 1.0,
+      "gamma": 0.1,
+      "parameters": {
+        "C": 1.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.1,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.1,
+      "support_vectors_per_class": [
+        3969,
+        3937
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.2339259999989736,
+      "validation_metrics": {
+        "accuracy": 0.57375,
+        "precision": 0.5717970765262252,
+        "recall": 0.5588235294117647,
+        "f1": 0.5652358691032724,
+        "specificity": 0.5884297520661157,
+        "confusion_matrix": [
+          [
+            712,
+            498
+          ],
+          [
+            525,
+            665
+          ]
+        ],
+        "roc_auc": 0.6050468782554345
+      }
+    },
+    {
+      "run_id": "c2_gamma0",
+      "C": 10.0,
+      "gamma": 0.01,
+      "parameters": {
+        "C": 10.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.01,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.01,
+      "support_vectors_per_class": [
+        3835,
+        3820
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 1.3145381000013003,
+      "validation_metrics": {
+        "accuracy": 0.57,
+        "precision": 0.5674061433447098,
+        "recall": 0.5588235294117647,
+        "f1": 0.563082133784928,
+        "specificity": 0.5809917355371901,
+        "confusion_matrix": [
+          [
+            703,
+            507
+          ],
+          [
+            525,
+            665
+          ]
+        ],
+        "roc_auc": 0.570807000486145
+      }
+    },
+    {
+      "run_id": "c2_gamma1",
+      "C": 10.0,
+      "gamma": 0.05,
+      "parameters": {
+        "C": 10.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.05,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.05,
+      "support_vectors_per_class": [
+        3519,
+        3470
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 2.1302668000007543,
+      "validation_metrics": {
+        "accuracy": 0.57625,
+        "precision": 0.5729957805907173,
+        "recall": 0.5705882352941176,
+        "f1": 0.5717894736842105,
+        "specificity": 0.5818181818181818,
+        "confusion_matrix": [
+          [
+            704,
+            506
+          ],
+          [
+            511,
+            679
+          ]
+        ],
+        "roc_auc": 0.6050003472463366
+      }
+    },
+    {
+      "run_id": "c2_gamma2",
+      "C": 10.0,
+      "gamma": 0.1,
+      "parameters": {
+        "C": 10.0,
+        "break_ties": false,
+        "cache_size": 200,
+        "class_weight": null,
+        "coef0": 0.0,
+        "decision_function_shape": "ovr",
+        "degree": 3,
+        "gamma": 0.1,
+        "kernel": "rbf",
+        "max_iter": -1,
+        "probability": "deprecated",
+        "random_state": null,
+        "shrinking": true,
+        "tol": 0.001,
+        "verbose": false
+      },
+      "resolved_gamma": 0.1,
+      "support_vectors_per_class": [
+        3806,
+        3742
+      ],
+      "fit_status": 0,
+      "convergence_warnings": [],
+      "fit_seconds": 2.8338125000009313,
+      "validation_metrics": {
+        "accuracy": 0.59,
+        "precision": 0.5877342419080068,
+        "recall": 0.5798319327731093,
+        "f1": 0.583756345177665,
+        "specificity": 0.6,
+        "confusion_matrix": [
+          [
+            726,
+            484
+          ],
+          [
+            500,
+            690
+          ]
+        ],
+        "roc_auc": 0.6209132578651295
+      }
+    }
+  ],
+  "predictions_file": "validation_predictions.npz",
+  "predictions_sha256": "71e0caf2c99ec6bf88ea2266e3a6e70672eed735ef8b99e7a575b70edf8f80bc",
+  "csv_sha256": "de14fba0e75d8ab94c344899a9ee57c10bf0a418f463b43232cdf79d3c9c56ca"
+}

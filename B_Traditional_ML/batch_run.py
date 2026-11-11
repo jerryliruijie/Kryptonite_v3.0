@@ -1,0 +1,394 @@
+"""Run a bounded, resumable suite on the shared training splits.
+
+Run from the repository root: python -m B_Traditional_ML.batch_run --output-dir ...
+Individual fits run in separate processes with a hard timeout. The output
+directory contains all split positions, per-fit predictions and an event log.
+"""
+
+import argparse
+import csv
+import json
+import os
+import platform
+import subprocess
+import sys
+import time
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import scipy
+import sklearn
+import xgboost
+from sklearn.model_selection import StratifiedKFold
+
+import common
+from B_Traditional_ML import batch_models, xgb_cv
+
+
+SEED = 67
+FAMILIES = ("logistic", "svm", "xgb", "extra")
+METRICS = ("accuracy", "precision", "recall", "f1", "specificity", "roc_auc")
+BUDGETS = {"screen": 70 * 60, "nested": 20 * 60, "30": 15 * 60, "40": 15 * 60}
+FIT_TIMEOUT = 180
+
+
+def utcnow():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def dump(path, obj):
+    xgb_cv.atomic_json(path, obj)
+
+
+def save_indices(path, arrays):
+    if path.exists():
+        with np.load(path, allow_pickle=False) as prior:
+            if set(prior.files) != set(arrays) or any(not np.array_equal(prior[k], v) for k, v in arrays.items()):
+                raise ValueError(f"Existing fold indices differ: {path}")
+    else:
+        xgb_cv.atomic_npz(path, **arrays)
+
+
+def dataset_folds(out, name):
+    x, y, *_ = common.load_split(name)
+    if name == "20":
+        folds, *_ = xgb_cv.load_shared_folds(x, y)
+    else:
+        folds = list(StratifiedKFold(n_splits=3, shuffle=True, random_state=SEED).split(x, y))
+    arrays = {f"{kind}_{i}": positions for i, fold in enumerate(folds)
+              for kind, positions in zip(("train", "val"), fold)}
+    path = out / "folds" / f"{name}.npz"
+    save_indices(path, arrays)
+    return x, y, folds, path
+
+
+def nested_folds(out, x, y, folds, outer):
+    outer_train, outer_val = folds[outer]
+    inner = list(StratifiedKFold(n_splits=3, shuffle=True, random_state=SEED).split(x[outer_train], y[outer_train]))
+    arrays = {"outer_train": outer_train, "outer_val": outer_val}
+    for i, (a, b) in enumerate(inner):
+        arrays[f"train_{i}"] = outer_train[a]
+        arrays[f"val_{i}"] = outer_train[b]
+        if np.intersect1d(arrays[f"train_{i}"], arrays[f"val_{i}"]).size or np.intersect1d(arrays[f"val_{i}"], outer_val).size:
+            raise ValueError("Nested folds overlap")
+    path = out / "folds" / f"nested_outer{outer}.npz"
+    save_indices(path, arrays)
+    return path
+
+
+def config_order(configs):
+    """Interleave families while finishing all three folds of each config."""
+    groups = {f: [c for c in configs if c["family"] == f] for f in FAMILIES}
+    unknown = [c["id"] for c in configs if c["family"] not in groups]
+    if unknown:
+        raise ValueError(f"Unknown model families: {unknown}")
+    return [groups[f][i] for i in range(max(map(len, groups.values())))
+            for f in FAMILIES if i < len(groups[f])]
+
+
+def read_npz(path):
+    with np.load(path, allow_pickle=False) as data:
+        record = json.loads(data["record_json"].item())
+        if record.get("status") == "ok":
+            metrics = common.evaluate(data["y_true"], data["predictions"], data["scores"])
+            train_metrics = common.evaluate(data["train_y_true"], data["train_predictions"])
+            if metrics != record["metrics"] or train_metrics != record["train_metrics"]:
+                raise ValueError(f"Saved metrics do not match predictions: {path}")
+        return record
+
+
+def failure(path, config, status, detail):
+    rec = {"status": status, "config": config, "error": str(detail)}
+    xgb_cv.atomic_npz(path, record_json=np.array(json.dumps(rec)))
+    return rec
+
+
+def event(out, row):
+    with (out / "events.jsonl").open("a", encoding="utf-8") as f:
+        f.write(json.dumps({"at_utc": utcnow(), **row}, ensure_ascii=False) + "\n")
+
+
+def run_fit(out, stage, name, config, index_path, train_key, val_key, output, remaining):
+    output.parent.mkdir(parents=True, exist_ok=True)
+    if output.exists():
+        rec = read_npz(output)
+        if rec.get("config") != config:
+            raise ValueError(f"Saved config differs: {output}")
+        if rec.get("status") == "ok":
+            with np.load(index_path, allow_pickle=False) as indices, np.load(output, allow_pickle=False) as saved:
+                if not (np.array_equal(saved["train_positions"], indices[train_key])
+                        and np.array_equal(saved["val_positions"], indices[val_key])):
+                    raise ValueError(f"Saved positions differ: {output}")
+                _, y, *_ = common.load_split(name)
+                with np.load(common.SPLITS_DIR / f"{name}.npz", allow_pickle=False) as shared:
+                    rows = shared["train"]
+                if not (np.array_equal(saved["original_rows"], rows[indices[val_key]])
+                        and np.array_equal(saved["y_true"], y[indices[val_key]])
+                        and np.array_equal(saved["train_y_true"], y[indices[train_key]])):
+                    raise ValueError(f"Saved labels or original row mapping differ: {output}")
+        if (out / "events.jsonl").exists():
+            rel = str(output.relative_to(out))
+            for line in (out / "events.jsonl").read_text(encoding="utf-8").splitlines():
+                previous = json.loads(line)
+                if previous.get("type") == "fit" and previous.get("output") == rel:
+                    if previous.get("output_sha256") != xgb_cv.sha256(output):
+                        raise ValueError(f"Saved checkpoint hash differs: {output}")
+        return rec, 0.0
+    if remaining <= 0:
+        return None, 0.0
+    cmd = [sys.executable, "-m", "B_Traditional_ML.batch_worker", "--config", json.dumps(config),
+           "--dataset", name, "--indices", str(index_path), "--train-key", train_key,
+           "--val-key", val_key, "--output", str(output)]
+    env = os.environ.copy()
+    for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        env[key] = "1"
+    start = time.monotonic()
+    timeout = min(FIT_TIMEOUT, remaining)
+    try:
+        proc = subprocess.run(cmd, cwd=common.ROOT, env=env, capture_output=True,
+                              text=True, encoding="utf-8", errors="replace", timeout=timeout)
+        if proc.returncode != 0:
+            rec = failure(output, config, "failed", f"exit {proc.returncode}: {(proc.stderr or proc.stdout)[-6000:]}")
+        elif not output.exists():
+            rec = failure(output, config, "failed", "worker exited without writing output")
+        else:
+            rec = read_npz(output)
+    except subprocess.TimeoutExpired:
+        rec = failure(output, config, "timeout", f"fit exceeded {timeout:.2f}s subprocess budget")
+    wall = time.monotonic() - start
+    event(out, {"type": "fit", "stage": stage, "dataset": name, "config_id": config["id"],
+                "output": str(output.relative_to(out)), "status": rec.get("status"),
+                "error": rec.get("error"), "wall_seconds": wall, "timeout_seconds": timeout,
+                "output_sha256": xgb_cv.sha256(output)})
+    print(f"{stage} {name} {config['id']} {output.stem}: {rec.get('status')} {wall:.2f}s", flush=True)
+    return rec, wall
+
+
+def aggregate(config, paths):
+    records = [read_npz(path) for path in paths if path.exists()]
+    good = [r for r in records if r.get("status") == "ok"]
+    row = {"id": config["id"], "family": config["family"],
+           "representation": config.get("representation", ""), "completed_folds": len(good),
+           "attempted_folds": len(records), "status": "complete" if len(good) == 3 else "incomplete"}
+    for metric in METRICS:
+        values = [r["metrics"].get(metric) for r in good]
+        values = [v for v in values if v is not None]
+        row[f"mean_{metric}"] = float(np.mean(values)) if values else None
+        row[f"std_{metric}"] = float(np.std(values, ddof=1)) if len(values) > 1 else None
+    row["mean_train_accuracy"] = float(np.mean([r["train_metrics"]["accuracy"] for r in good])) if good else None
+    row["total_fit_seconds"] = sum(r["fit_seconds"] for r in good)
+    row["total_predict_seconds"] = sum(r["predict_seconds"] for r in good)
+    return row
+
+
+def rank(rows):
+    return sorted((r for r in rows if r["status"] == "complete"),
+                  key=lambda r: (-r["mean_accuracy"], -r["mean_f1"], r["id"]))
+
+
+def write_csv(path, rows):
+    if not rows:
+        return
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    os.replace(tmp, path)
+
+
+def config_path(out, stage, dataset, config, fold):
+    return out / "runs" / stage / dataset / config["id"] / f"fold{fold}.npz"
+
+
+def ordinary_summary(out, stage, dataset, configs):
+    rows = [aggregate(c, [config_path(out, stage, dataset, c, i) for i in range(3)]) for c in configs]
+    ranked = rank(rows)
+    remaining = [r for r in rows if r["status"] != "complete"]
+    write_csv(out / f"summary_{stage}.csv", ranked + remaining)
+    return rows
+
+
+def run_ordinary(out, stage, dataset, configs, index_path, budgets, spent):
+    started = time.monotonic()
+    fit_wall = 0.0
+    for config in configs:
+        for i in range(3):
+            remaining = budgets[stage] - spent[stage] - (time.monotonic() - started)
+            if remaining <= 0:
+                break
+            _, wall = run_fit(out, stage, dataset, config, index_path, f"train_{i}", f"val_{i}",
+                              config_path(out, stage, dataset, config, i), remaining)
+            fit_wall += wall
+        if budgets[stage] - spent[stage] - (time.monotonic() - started) <= 0:
+            break
+    used = time.monotonic() - started
+    event(out, {"type": "stage_overhead", "stage": stage, "wall_seconds": max(0.0, used - fit_wall)})
+    spent[stage] += used
+    return ordinary_summary(out, stage, dataset, configs)
+
+
+def choose_family(rows, configs):
+    by_id = {c["id"]: c for c in configs}
+    chosen = []
+    seen = set()
+    for row in rank(rows):
+        if row["family"] not in seen:
+            chosen.append(by_id[row["id"]])
+            seen.add(row["family"])
+        if len(chosen) == 2:
+            break
+    return chosen
+
+
+def nested(out, x, y, folds, chosen, configs, budgets, spent):
+    stage = "nested"
+    started = time.monotonic()
+    fit_wall = 0.0
+    rows = []
+    # Each outer fold is held out from every inner fit and inner ranking.
+    for outer in range(3):
+        index_path = nested_folds(out, x, y, folds, outer)
+        for selected in chosen:
+            slot_start = time.monotonic()
+            slot_limit = budgets[stage] / max(1, 3 * len(chosen))
+            inner_limit = max(0, slot_limit - min(50.0, slot_limit / 3.0))
+            family = selected["family"]
+            # Keep the screened representation and vary its model parameters.
+            # Earlier screening saw all training data, so nested scores remain exploratory.
+            members = [c for c in configs if c["family"] == family
+                       and c.get("representation") == selected.get("representation")
+                       and (family != "logistic" or c.get("degree") == selected.get("degree"))
+                       and (family != "svm" or (c.get("kernel") == selected.get("kernel")
+                            and c.get("degree") == selected.get("degree")))]
+            members.sort(key=lambda c: (c["id"] != selected["id"], c["id"]))
+            outer_path = out / "runs" / "nested" / f"outer{outer}" / family / "outer.npz"
+            if outer_path.exists():
+                rec = read_npz(outer_path)
+                if rec.get("status") == "ok":
+                    winner = rec["config"]
+                    rec, _ = run_fit(out, stage, "20", winner, index_path, "outer_train", "outer_val", outer_path, budgets[stage])
+                    rows.append({"outer": outer, "family": family, "selected_id": winner["id"],
+                                 **rec["metrics"], "train_accuracy": rec["train_metrics"]["accuracy"],
+                                 "fit_seconds": rec["fit_seconds"]})
+                continue
+            inner_rows = []
+            for config in members:
+                paths = []
+                for inner in range(3):
+                    path = out / "runs" / "nested" / f"outer{outer}" / family / "inner" / config["id"] / f"fold{inner}.npz"
+                    paths.append(path)
+                    remaining = min(budgets[stage] - spent[stage] - (time.monotonic() - started),
+                                    inner_limit - (time.monotonic() - slot_start))
+                    if remaining > 0:
+                        _, wall = run_fit(out, stage, "20", config, index_path, f"train_{inner}", f"val_{inner}", path, remaining)
+                        fit_wall += wall
+                inner_rows.append(aggregate(config, paths))
+                if (budgets[stage] - spent[stage] - (time.monotonic() - started) <= 0
+                        or time.monotonic() - slot_start >= inner_limit):
+                    break
+            ranked = rank(inner_rows)
+            inner_summary = out / "runs" / "nested" / f"outer{outer}" / family / "inner_summary.csv"
+            inner_summary.parent.mkdir(parents=True, exist_ok=True)
+            write_csv(inner_summary, ranked + [r for r in inner_rows if r["status"] != "complete"])
+            remaining = min(budgets[stage] - spent[stage] - (time.monotonic() - started),
+                            slot_limit - (time.monotonic() - slot_start))
+            if ranked and remaining > 0:
+                winner = next(c for c in members if c["id"] == ranked[0]["id"])
+                rec, wall = run_fit(out, stage, "20", winner, index_path, "outer_train", "outer_val", outer_path, remaining)
+                fit_wall += wall
+                if rec and rec.get("status") == "ok":
+                    rows.append({"outer": outer, "family": family, "selected_id": winner["id"],
+                                 **rec["metrics"], "train_accuracy": rec["train_metrics"]["accuracy"],
+                                 "fit_seconds": rec["fit_seconds"]})
+            else:
+                event(out, {"type": "nested_slot_incomplete", "stage": stage, "outer": outer,
+                            "family": family, "complete_inner_configs": len(ranked),
+                            "reason": "No complete three-fold inner config or no remaining slot time"})
+            if budgets[stage] - spent[stage] - (time.monotonic() - started) <= 0:
+                break
+        if budgets[stage] - spent[stage] - (time.monotonic() - started) <= 0:
+            break
+    write_csv(out / "summary_nested.csv", rows)
+    used = time.monotonic() - started
+    event(out, {"type": "stage_overhead", "stage": stage, "wall_seconds": max(0.0, used - fit_wall)})
+    spent[stage] += used
+    return rows
+
+
+def prior_spent(out):
+    result = defaultdict(float)
+    path = out / "events.jsonl"
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            row = json.loads(line)
+            if row.get("type") in ("fit", "stage_overhead"):
+                result[row["stage"]] += row["wall_seconds"]
+    return result
+
+
+def run(output_dir, budgets=None):
+    out = Path(output_dir).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "folds").mkdir(exist_ok=True)
+    configs = batch_models.make_configs()
+    if len({c["id"] for c in configs}) != len(configs):
+        raise ValueError("Model configuration IDs must be unique")
+    budgets = dict(BUDGETS if budgets is None else budgets)
+    identity = {"grid": configs, "baseline": batch_models.baseline_config(),
+                "budgets_seconds": budgets, "fit_timeout_seconds": FIT_TIMEOUT, "seed": SEED,
+                "shared_manifest_sha256": xgb_cv.sha256(common.SPLITS_DIR / "manifest.json"),
+                "dataset_manifest": json.loads((common.SPLITS_DIR / "manifest.json").read_text(encoding="utf-8"))["datasets"],
+                "svm_folds_sha256": xgb_cv.sha256(Path(__file__).parent / "results" / "cv20" / "folds.npz"),
+                "sources": {p.name: xgb_cv.sha256(p) for p in
+                            (Path(__file__), Path(batch_models.__file__), Path(__file__).parent / "batch_worker.py", Path(common.__file__), Path(xgb_cv.__file__))},
+                "python": platform.python_version(), "platform": platform.platform(), "processor": platform.processor(),
+                "numpy": np.__version__, "scipy": scipy.__version__, "scikit_learn": sklearn.__version__, "xgboost": xgboost.__version__}
+    manifest_path = out / "manifest.json"
+    if manifest_path.exists():
+        if json.loads(manifest_path.read_text(encoding="utf-8"))["identity"] != identity:
+            raise ValueError("Resume rejected: experiment inputs, source, environment or budget changed")
+    else:
+        dump(manifest_path, {"identity": identity, "created_at_utc": utcnow(),
+                             "git_head": xgb_cv.git_output("rev-parse", "HEAD"),
+                             "git_status": xgb_cv.git_output("status", "--porcelain", "--untracked-files=all"),
+                             "selection": "Top mean accuracy then mean F1 then lexicographic config id; one configuration per family.",
+                             "note": "Previously inspected training-wide interaction correlations and validation exploratory results; all scores are developmental."})
+    spent = prior_spent(out)
+    x, y, folds, index_path = dataset_folds(out, "20")
+    rows = run_ordinary(out, "screen", "20", config_order(configs), index_path, budgets, spent)
+    chosen = choose_family(rows, configs)
+    dump(out / "selection.json", {"chosen": chosen, "ranked_complete": rank(rows), "selection_rule": "best mean accuracy, then F1, then config id, distinct families"})
+    if chosen:
+        nested(out, x, y, folds, chosen, configs, budgets, spent)
+    else:
+        event(out, {"type": "stage_skipped", "stage": "nested", "reason": "No fully completed K20 configuration"})
+    for name in ("30", "40"):
+        if not chosen:
+            event(out, {"type": "stage_skipped", "stage": name, "reason": "No fully completed K20 configuration"})
+            continue
+        _, _, _, path = dataset_folds(out, name)
+        candidates = chosen + [batch_models.baseline_config()]
+        if len({c["id"] for c in candidates}) != len(candidates):
+            candidates = list({c["id"]: c for c in candidates}.values())
+        run_ordinary(out, name, name, candidates, path, budgets, spent)
+    progress = {"state": "finished", "finished_at_utc": utcnow(), "stage_seconds": dict(spent),
+                "chosen": [c["id"] for c in chosen], "complete_screen_configs": len(rank(rows)),
+                "total_screen_configs": len(configs), "note": "Review summaries and events for partial, timeout and failed fits."}
+    dump(out / "progress.json", progress)
+    event(out, {"type": "batch_finished", **progress})
+    print(json.dumps(progress), flush=True)
+    return progress
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", required=True, type=Path)
+    args = parser.parse_args()
+    run(args.output_dir)
+
+
+if __name__ == "__main__":
+    main()

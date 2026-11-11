@@ -1,0 +1,26 @@
+{
+  "identity": {
+    "config": {
+      "id": "cat_sign_d10_n600_l10",
+      "family": "catboost",
+      "representation": "sign",
+      "depth": 10,
+      "iterations": 600,
+      "l2_leaf_reg": 10
+    },
+    "script_sha256": "bc9401ca6b84eb4870dd9e9af0a60fdf0b0aa0d3919d1ae3442f07223a68d7ad",
+    "analysis_sha256": "c57ce7ed59cb34dc7dfe7da76431653c0381ab741892b58714522e57d1df9eaa",
+    "tuning_sha256": "8194d6a6aa8084e141e2686f04e3fef6853be162aa96f4c8d639b566a1529db9",
+    "selection_sha256": "66b2dbce77b0c538b45e3d07111290ff4a3c61017a34191e391a5f56601de9df",
+    "fold_sha256": "875940be609e6bb4efb3068bf340b42312791b814eef6e95b62ae79104da2309",
+    "shared_sha256": "c9cdd1929f708346096c793dd978ddb04387725554f64a90915c6e2e39bf1730",
+    "prediction_sha256": [
+      "a89f21b071c7880c48c65056675edc4c7c79f685ec74c6a994fa71f01ce806d8",
+      "3ed98d76205e21eab46125ec1aee8b8580a647d01b617bd3a50f3f825f212a32",
+      "26a93f6c38a8d64680156d3a725fcc7f80313e5354edbd3db4cca5777e4e71e1"
+    ],
+    "seed": 67,
+    "repeats": 5
+  },
+  "note": "Exploratory held-out permutation after K20 selection."
+}

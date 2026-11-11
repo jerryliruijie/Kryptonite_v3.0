@@ -1,0 +1,19 @@
+{
+  "selected": [
+    {
+      "id": "knn_sign_k3_distance",
+      "family": "knn",
+      "representation": "sign",
+      "n_neighbors": 3,
+      "weights": "distance"
+    },
+    {
+      "id": "cat_sign_d8_n600",
+      "family": "catboost",
+      "representation": "sign",
+      "depth": 8,
+      "iterations": 600
+    }
+  ],
+  "rule": "highest complete 3-fold mean accuracy, then F1, then lexicographic id per family"
+}
