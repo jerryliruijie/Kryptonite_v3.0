@@ -1,0 +1,31 @@
+{
+  "scope": "Training data and existing development logs; no new training or test/hidden analysis",
+  "summary_sha256": "5febce9ee2489e39b5a28e05995503c76d9d587794483e10116f9584e156ddab",
+  "notebook_sha256": "66140595c5a27886294db37a7fd27562e622e2b0502a8402d03581cae42f4605",
+  "input_hashes_verified": 65,
+  "independent_checks": [
+    {
+      "dataset": "20",
+      "class_counts_duplicates_sign_conflicts_and_PCA_verified": true
+    },
+    {
+      "dataset": "30",
+      "class_counts_duplicates_sign_conflicts_and_PCA_verified": true
+    },
+    {
+      "dataset": "40",
+      "class_counts_duplicates_sign_conflicts_and_PCA_verified": true
+    }
+  ],
+  "protected_lock_files_unchanged": 284,
+  "executed_code_cells": 8,
+  "inline_figures": 4,
+  "PCA_crosscheck": "correlation-matrix eigenvalues vs standardized SVD PCA, absolute tolerance 1e-12",
+  "sign_conflict_crosscheck": "packed-bit dictionary label sets vs numpy.unique grouping",
+  "limitations": [
+    "Post-evaluation exploratory analysis",
+    "Within-training duplicates only",
+    "No new model comparison or learning curve",
+    "No team agreement or handoff claimed"
+  ]
+}

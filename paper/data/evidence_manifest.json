@@ -1,0 +1,259 @@
+{
+  "source_records": [
+    {
+      "source": "results/baseline_runs.csv",
+      "copy": "data/baseline_runs.csv",
+      "sha256": "3fe4c539ca868a11f641998ce06a4c6267e8c1ee53f566b17b1f8af39e2a20de"
+    },
+    {
+      "source": "B_Traditional_ML/results/aligned_a_subsets/results.csv",
+      "copy": "data/catboost_learning_curve.csv",
+      "sha256": "3e3e8ef1468696b14c76156165bbeac348cfd18baecc7073b2525f277f868fdc"
+    },
+    {
+      "source": "B_Traditional_ML/results/representation_ablation/fold_metrics.csv",
+      "copy": "data/representation_folds.csv",
+      "sha256": "c37f4c7ee2c97257fd6db3e24a44cae0a69b209036045fc08b0d22f4eb734f6e"
+    },
+    {
+      "source": "B_Traditional_ML/results/representation_ablation/summary.csv",
+      "copy": "data/representation_summary.csv",
+      "sha256": "2d3b14464460a96582bfb0951d7348657462ca3ed72085a5d7ea0aff0f95a7b1"
+    },
+    {
+      "source": "member_c/results/p2_multiseed/summary.csv",
+      "copy": "data/mlp_validation.csv",
+      "sha256": "b523eb12dae63fa033f5e098992971d8b8b876f9752ae6b2ba52f76d71448210"
+    },
+    {
+      "source": "member_c/results/p3_test/summary.csv",
+      "copy": "data/mlp_test.csv",
+      "sha256": "762226c9610b96a3c6d2f5da76177dbd5f99d14fba3cdf54e8b98c9c0c219052"
+    },
+    {
+      "source": "results/adapt_runs.csv",
+      "copy": "data/adapt_runs.csv",
+      "sha256": "58112d6530782bf3a279ef1d1b44e79dba5f39cfe58825358526e4d92aacfb91"
+    }
+  ],
+  "adaptation": [
+    {
+      "method": "zero-shot",
+      "rank": 0,
+      "params": 0,
+      "mean_pct": 49.0,
+      "sample_sd_pp": null,
+      "run_ids": [
+        "20261110T151821Z_zero-shot_s42"
+      ]
+    },
+    {
+      "method": "linear-probe",
+      "rank": 0,
+      "params": 513,
+      "mean_pct": 52.41666666666667,
+      "sample_sd_pp": 0.31457643480294745,
+      "run_ids": [
+        "20261110T150827Z_linear-probe_s123",
+        "20261110T150845Z_linear-probe_s2026",
+        "20261110T151906Z_linear-probe_s42"
+      ]
+    },
+    {
+      "method": "lora",
+      "rank": 1,
+      "params": 4137,
+      "mean_pct": 96.33333333333333,
+      "sample_sd_pp": 0.07216878364870322,
+      "run_ids": [
+        "20261110T152026Z_lora_r1_s42",
+        "20261110T152056Z_lora_r1_s123",
+        "20261110T152128Z_lora_r1_s2026"
+      ]
+    },
+    {
+      "method": "lora",
+      "rank": 2,
+      "params": 7761,
+      "mean_pct": 95.66666666666667,
+      "sample_sd_pp": 1.2332207155790618,
+      "run_ids": [
+        "20261110T145051Z_lora_r2_s42",
+        "20261110T145112Z_lora_r2_s123",
+        "20261110T145133Z_lora_r2_s2026"
+      ]
+    },
+    {
+      "method": "lora",
+      "rank": 4,
+      "params": 15009,
+      "mean_pct": 96.29166666666667,
+      "sample_sd_pp": 0.19094065395649334,
+      "run_ids": [
+        "20261110T145152Z_lora_r4_s42",
+        "20261110T145212Z_lora_r4_s123",
+        "20261110T145231Z_lora_r4_s2026"
+      ]
+    },
+    {
+      "method": "lora",
+      "rank": 8,
+      "params": 29505,
+      "mean_pct": 96.16666666666667,
+      "sample_sd_pp": 0.19094065395649334,
+      "run_ids": [
+        "20261110T145251Z_lora_r8_s42",
+        "20261110T145312Z_lora_r8_s123",
+        "20261110T145333Z_lora_r8_s2026"
+      ]
+    }
+  ],
+  "partial_runtime_ledger": [
+    {
+      "track": "A: baseline fits",
+      "runs": 15,
+      "seconds": 1.061301,
+      "scope": "model fit"
+    },
+    {
+      "track": "B: matched CatBoost fits",
+      "runs": 9,
+      "seconds": 122.94912119999935,
+      "scope": "model fit"
+    },
+    {
+      "track": "B: paired representation fits",
+      "runs": 90,
+      "seconds": 1145.8506338999796,
+      "scope": "preprocessing and model fit; all five classifiers"
+    },
+    {
+      "track": "C: timed MLP records",
+      "runs": 18,
+      "seconds": 73.51212674899944,
+      "scope": "run reservation through finalization, excluding imports"
+    },
+    {
+      "track": "D: adaptation records",
+      "runs": 21,
+      "seconds": 305.48,
+      "scope": "training loop; includes exploratory/repeated runs"
+    }
+  ],
+  "mlp_runtime_sources": [
+    {
+      "source": "member_c/results/p2_ms_20_w128_seed123/run.json",
+      "sha256": "b9cdd44174765a580739b72345639891fbbb22ffbabea126cffd83e9a4d946c3",
+      "seconds": 3.380983249997371,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_20_w128_seed2026/run.json",
+      "sha256": "ab7f0bebba3cbc96012b247a5bc97974c9bae4538a44e3972abdfa47c06c9d3f",
+      "seconds": 3.0989720840007067,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_20_w256_seed123/run.json",
+      "sha256": "00c7889d5dcc83891d3b79b44f00ecfe115e3365dd0f5a9b27c2a1cd8fe057b1",
+      "seconds": 3.9767193750012666,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_20_w256_seed2026/run.json",
+      "sha256": "8c24e2d53bbeac97a5fcf44c05f893789488215afb2e899da4666528e3ad8961",
+      "seconds": 3.2512289160004,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_30_w128_seed123/run.json",
+      "sha256": "00e244a946c3c7d8e74f0ab100fbedeb767d7a72eb8105fdb21be3f9a38581c4",
+      "seconds": 3.683200541003316,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_30_w128_seed2026/run.json",
+      "sha256": "5a9002744859b637a73f5f0c3a0ec553558aa995f9c4bc55e75a1948b27ecb9a",
+      "seconds": 3.613486542002647,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_30_w256_seed123/run.json",
+      "sha256": "6981bcfe5c17aa9cc095411bc2a083d3c7ae3cf65d5c649c1a680ec4af0cca0c",
+      "seconds": 7.745685292000417,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_30_w256_seed2026/run.json",
+      "sha256": "a86e83142f1736bfc9ccf10f5faa0f71db9107261e59319b9858473cb3958382",
+      "seconds": 4.711378333995526,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_40_w128_seed123/run.json",
+      "sha256": "7222f0c99e5cd6b751dadbfc842ca2bf4ee8c4a3536b8f19d451dfc88610d901",
+      "seconds": 4.543048749997979,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_40_w128_seed2026/run.json",
+      "sha256": "12c498e88230eb1ea350a749b764dfa5faddf1ca0949826fb1184249352440f8",
+      "seconds": 4.14541291599744,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_40_w256_seed123/run.json",
+      "sha256": "12480976f0f85f4522ab22e26ffcf966c50186e154651e096efbcb030a7f1be2",
+      "seconds": 4.50249566599814,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_ms_40_w256_seed2026/run.json",
+      "sha256": "e9ffa1ea597054266f9a85ccb93c662f3d294c3a86baa8e298b22723b818a8f4",
+      "seconds": 4.024625666002976,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_r1_20_w256_seed42/run.json",
+      "sha256": "3dd11bec2e08843b5fc7e0816b7b94ed5daea07b26397840e0dac52520b663c3",
+      "seconds": 2.9412227499997243,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_r1_30_w128_seed42/run.json",
+      "sha256": "a20495adfb79a775eb1f837029b8886caa9fcf16da703e01e1244b2c8d421ec6",
+      "seconds": 3.915182750002714,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_r1_30_w256_seed42/run.json",
+      "sha256": "14e90492769389124bf96a1c021e61ad294e26e984947bf74074bb644fc47ea7",
+      "seconds": 3.9907495829975232,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_r1_40_w128_seed42/run.json",
+      "sha256": "d686c1f03aa181249c050976a8c7b0db01e0efa1e1150823af4a76d88dfbc985",
+      "seconds": 4.193222333997255,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/p2_r1_40_w256_seed42/run.json",
+      "sha256": "f8bed74c6d5cb0f7e6407cfcc7cc6870cdd979957508b1fa5449803e0a054338",
+      "seconds": 4.481266875001893,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    },
+    {
+      "source": "member_c/results/pilot_20_provenance_fix/run.json",
+      "sha256": "01b0939d8a49237e0e293d24720c420a2a3837a8d7cd0477aad4ad942470de82",
+      "seconds": 3.3132451250021404,
+      "scope": "run directory reservation through finalization; excludes interpreter startup/imports"
+    }
+  ],
+  "partial_sum_seconds": 1648.8531828489783,
+  "hypothetical_energy_kwh_at_25_and_75_watts": [
+    0.011450369325340127,
+    0.03435110797602038
+  ],
+  "runtime_caveat": "Partial ledger, not complete project runtime or a fair speed comparison. Excludes other searches, audits, missing timers, preprocessing outside each timer, and supplied pretraining. Power is assumed, not measured."
+}

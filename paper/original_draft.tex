@@ -1,0 +1,136 @@
+\documentclass{article}
+\usepackage{microtype,graphicx,booktabs,amsmath,amssymb,hyperref}
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+\usepackage{icml2021}
+\icmltitlerunning{Learning and Adapting to Kryptonite}
+\begin{document}
+\twocolumn[
+\icmltitle{IMPCML:Learning and Adapting to Kryptonite: Nonlinear Models, Data Size and Low Rank Adaptation}
+\begin{icmlauthorlist}
+\icmlauthor{Charlie Wang, Zihao Zhao, Jerry Li, William Chia}{imp}
+\end{icmlauthorlist}
+\icmlaffiliation{imp}{Imperial College London, London, United Kingdom}
+\vskip 0.3in
+]
+\printAffiliationsAndNotice{}
+\footnotetext{Repository: GitLab URL and final reproducible commit to be supplied by the team.}
+\begin{abstract}
+The Kryptonite-3.0 challenge argues that polynomial classifiers, additional data, and a pretrained network cannot solve its binary classification tasks. We examine these claims using logistic regression, boosted trees, neural networks, and low rank adaptation (LoRA). On shared validation sets, a sign based boosted tree model reaches 94.58--95.42\% accuracy on the three main datasets, while quadratic logistic regression reaches 52.75--53.86\%. On the adaptation validation set, rank-1 LoRA reaches 96.33\% mean accuracy across three training seeds, compared with 49.00\% zero-shot. These development results challenge the paper's broad empirical claims, but hidden set accuracy remains unknown and final model evaluation on hidden set is remain to be validated.
+\end{abstract}
+
+\section{Introduction}
+Challenge datasets test whether a method succeeds beyond familiar benchmarks. The Kryptonite-3.0 mock paper \cite{quinn2026} describes binary datasets where polynomial logistic regression and frozen pretrained representations perform poorly, and extrapolates these observations to broad claims about machine learning and universal approximation. However, a poor result for one feature map or training procedure, does not establish that a task is unsolvable by other methods.
+
+We examine whether alternative nonlinear models classify the main datasets, whether the effect of training size depends on the model, and whether a pretrained network can be adapted with limited trainable parameters. We compare logistic baselines with sign based CatBoost and a neural network on common data partitions; we also compare frozen KryptoNet-40 with LoRA on its separate adaptation task. Our results indicate strong performance from the nonlinear and adapted models. We distinguish model selection on validation data from knowsn local test evaluation.
+
+\section{Methodology}
+\subsection{Main dataset models}
+For an input $x\in\mathbb R^d$, logistic regression predicts $p(y=1\mid x)=\sigma(w^\top\phi(x)+b)$, where $\sigma(t)=(1+e^{-t})^{-1}$. We use either $\phi(x)=x$ or the degree-2 expansion containing original features, squares and pairwise products. Coefficients are fitted by L2 regularized log loss, with $C=0.85$. A majority label classifier provides a simple control.
+
+For $m$ training examples, with logits $z_j$ and probabilities $p_j=\sigma(z_j)$, the binary cross entropy is
+\begin{equation}
+\mathcal L_{\rm BCE}=-\frac1m\sum_{j=1}^{m}\!\left[y_j\log p_j+(1-y_j)\log(1-p_j)\right].
+\end{equation}
+The logistic baseline minimizes this loss with an L2 penalty on the feature coefficients; the intercept is not penalized. The implementation uses L-BFGS, with $C$ controlling inverse regularization strength. For a generic objective $J(\theta)$, a gradient descent step is $\theta_{t+1}=\theta_t-\eta\nabla_\theta J(\theta_t)$; this illustrates gradient based optimization but is not the L-BFGS or Adam update used in our experiments.
+
+The tree model first maps each feature to $s_i(x)=+1$ if $x_i\geq0$ and $-1$ otherwise. CatBoost \cite{prokhorenkova2018} combines boosted decision trees: its logit is a sum of learned tree outputs, and its probability is the sigmoid of this sum. The compared configuration has depth 10, 600 iterations, learning rate 0.05 and L2 parameter 10. Sign preprocessing and the tree model change together in this comparison.
+
+The scratch network is a 2 hidden layer ReLU multilayer perceptron (MLP): $h_1=\mathrm{ReLU}(W_1\tilde{x}+b_1)$, $h_2=\mathrm{ReLU}(W_2h_1+b_2)$, and $p=\sigma(w^\top h_2+b)$. Features are standardized using training set statistics. We compare hidden widths 128 and 256 and optimize binary cross-entropy with Adam \cite{kingma2015}, learning rate $10^{-3}$, batch size 256 and weight decay $10^{-4}$.
+
+\subsection{Low rank adaptation}
+For pretrained $W\in\mathbb R^{d_{\rm out}\times d_{\rm in}}$ and bias $b$, LoRA \cite{hu2022} uses
+\begin{equation}
+Y=WX+b\mathbf1^\top+sBAX,\quad s=\alpha/r,
+\label{eq:lora}
+\end{equation}
+where $X\in\mathbb R^{d_{\rm in}\times N}$, $A\in\mathbb R^{r\times d_{\rm in}}$ and $B\in\mathbb R^{d_{\rm out}\times r}$. The base weight and bias are frozen, and $A,B$ are trained. We initialize $A$ randomly and $B=0$, preserving the pretrained function at initialization. The update has rank at most $r$; increasing $r$ increases update capacity and trainable parameters. For KryptoNet we adapt four hidden layers and also train the pretrained output head.
+
+With $Z=AX$ and upstream gradient $G=\partial\mathcal L/\partial Y$, the gradients are
+\begin{align}
+\frac{\partial\mathcal L}{\partial B}&=sGZ^\top, &
+\frac{\partial\mathcal L}{\partial Z}&=sB^\top G,\\
+\frac{\partial\mathcal L}{\partial A}&=\frac{\partial\mathcal L}{\partial Z}X^\top, &
+\frac{\partial\mathcal L}{\partial X}&=W^\top G+A^\top\frac{\partial\mathcal L}{\partial Z}.
+\end{align}
+At initialization $B=0$, so the update and the gradient of $A$ are zero; $B$ can receive a nonzero gradient because $A$ is initialized nonzero. The $W^\top G$ term shows why frozen weights still participate in backpropagation when earlier layers need gradients.
+
+\subsection{Training step complexity}
+Let $i=d_{\rm in}$, $o=d_{\rm out}$ and let one $n\times m$ by $m\times k$ multiplication cost $nmk$. Ignoring bias additions, activations, optimizer updates and scalar operations, full fine tuning costs $3oiN$ when the layer must propagate an input gradient: one matrix product each for the forward pass, weight gradient and input gradient. Its trainable parameter count is $oi+o$, including bias.
+
+Evaluate the update as $B(AX)$ and cache $Z=AX$. The LoRA forward pass costs $oiN+rN(i+o)$. The gradients for $A,B$ and the intermediate $Z$ cost $rN(i+2o)$; the input gradient costs $oiN+irN$. Thus the step costs
+\begin{equation}
+2oiN+3rN(i+o),
+\label{eq:cost}
+\end{equation}
+with $r(i+o)$ trainable layer parameters. Without an input gradient, the respective costs are $2oiN$ and $oiN+rN(2i+3o)$. Although $W$ is frozen, its input gradient product is needed when earlier layers are trainable. Forming $(BA)X$ instead costs $oir+oiN$ for the update forward pass, versus $rN(i+o)$ for $B(AX)$; the preferable order depends on dimensions and available reuse. In our low rank setting the latter avoids materializing a dense update.
+
+KryptoNet-40 has 809,473 parameters. Four hidden layer LoRA updates plus the trainable 513 parameter head have $3624r+513$ trainable parameters. At rank one this is 4,137, or 0.51\% of full fine tuning. For the complete network with the input gradient omitted only at the first layer, our conventions give $2{,}401{,}792N$ operations for full fine tuning and $(1{,}594{,}880+10{,}832r)N$ for LoRA. These analytical counts omit non matrix operations and do not imply the same ratio of clock times.
+
+\section{Experimental Design}
+\textbf{Hypotheses.} First, nonlinear representations can achieve substantially higher accuracy than simple polynomial baselines. Second, the response to increasing training set size depends on the model. Third, updating pretrained representations with LoRA improves adaptation relative to frozen controls.
+
+The labelled Kryptonite-20/30/40 datasets contain 12,000/20,000/32,000 examples; 40-Adapt contains 4,000. We use fixed stratified 70/20/10 train/validation/local test partitions with split seed 67. Learned preprocessing is fitted on training data. Validation data support model selection and early stopping. For the learning size comparison, each model uses the same nested 25\%, 50\% and 100\% training subsets, selected with seed 42, and the same validation rows. The logistic configuration and CatBoost configuration remain fixed across sizes. Only one subset and one CatBoost model seed are used in this matched comparison.
+
+The MLP comparison uses seeds 42, 123 and 2026 for each width. The width-256 configuration is selected by mean validation accuracy; the predeclared seed 42 model and all 18 width/seed checkpoints were locked before local test evaluation. LoRA compares ranks 1, 2, 4 and 8 with $\alpha=8$ and three training seeds on 40-Adapt. Zero-shot and a linear probe are controls: the probe reinitializes the head, whereas LoRA trains the pretrained head, so this comparison changes more than the hidden layer update alone.
+
+For matched A/B results we report paired bootstrap intervals for the validation accuracy difference, resampling the same rows 20,000 times. These describe sampling variation conditional on fitted models and do not account for search or training variability. Standard deviations over training seeds describe a different source of variation. Validation sets have been used for development; hidden sets have no available labels.
+
+\section{Experimental Results}
+\subsection{Training size and model family}
+Table~\ref{tab:size} shows the matched learning size comparison. Increasing training rows from 25\% to 100\% improves quadratic logistic regression by 2.46, 0.65 and 1.50 percentage points on K20, K30 and K40, respectively. The corresponding gains for sign based CatBoost are 13.92, 7.03 and 8.27 points. This contrasts with the mock paper's extrapolation from a single quadratic model, but it does not isolate the effects of sign preprocessing and tree structure.
+
+\begin{table}[t]
+\caption{Validation accuracy (\%) on matched training subsets. Each point is one fit on the same rows for both methods.}
+\label{tab:size}
+\centering
+\begin{tabular}{llrrr}\toprule
+Data & Method & 25\% & 50\% & 100\% \\\midrule
+20 & Quadratic & 50.29 & 51.92 & 52.75 \\
+20 & Sign+tree & 80.67 & 90.21 & 94.58 \\
+30 & Quadratic & 52.15 & 52.58 & 52.80 \\
+30 & Sign+tree & 88.30 & 94.78 & 95.33 \\
+40 & Quadratic & 52.36 & 51.64 & 53.86 \\
+40 & Sign+tree & 87.16 & 91.69 & 95.42 \\\bottomrule
+\end{tabular}
+\end{table}
+
+At full training size, the tree minus quadratic accuracy differences are 41.83, 42.52 and 41.56 percentage points; pointwise 95\% paired bootstrap intervals are [39.71, 43.92], [40.90, 44.20] and [40.28, 42.88]. These are validation comparisons after development, not independent final test estimates. Training accuracy for the tree model is approximately 100\%, leaving a train validation gap even where validation performance is high.
+
+The matched comparison supports a narrower claim than either ``more data always works'' or ``more data cannot help'': under these tested configurations, the tree benefits more over the observed range. The bootstrap conditions on the fitted models and does not remove selection effects from repeated validation use. Since both representation and model class differ, an ablation varying one at a time would be needed to attribute the gain.
+
+\subsection{Scratch network}
+Width-256 MLP validation means across three seeds are 90.57\%, 91.03\% and 93.49\% for K20, K30 and K40. Its predeclared seed-42 local test accuracies are 89.75\% (1077/1200), 92.15\% (1843/2000) and 93.25\% (2984/3200), respectively. Local test results are not directly comparable to the tree validation scores because the evaluation rows differ. K20's point estimate falls below 90\%; this does not determine performance on the unlabeled hidden set.
+
+\subsection{Adaptation}
+Table~\ref{tab:adapt} shows that LoRA achieves substantially higher validation accuracy than both frozen controls. The zero-shot estimate is one deterministic run; the other results report mean and sample standard deviation across three training seeds, all on the same 800 validation examples. Fixing $\alpha$ while changing rank also changes $\alpha/r$, so the comparison is not an isolated test of rank capacity.
+\begin{table}[t]
+\caption{K40-Adapt validation accuracy and trainable parameters. Dispersion is seed standard deviation in percentage points.}
+\label{tab:adapt}
+\centering
+\begin{tabular}{lrr}\toprule
+Method & Params & Accuracy (\%) \\\midrule
+Zero-shot & 0 & 49.00 \\
+Linear probe & 513 & $52.42\pm0.32$ \\
+LoRA $r=1$ & 4,137 & $96.33\pm0.07$ \\
+LoRA $r=2$ & 7,761 & $95.67\pm1.23$ \\
+LoRA $r=4$ & 15,009 & $96.29\pm0.19$ \\
+LoRA $r=8$ & 29,505 & $96.17\pm0.19$ \\\bottomrule
+\end{tabular}
+\end{table}
+
+The low rank results provide evidence that the pretrained network can be adapted on this validation split with a small fraction of its parameters trainable. They do not show that the frozen representation has no useful information, and the probe comparison does not isolate the hidden layer update because the output head initializations differ. The shared validation examples also mean that seed standard deviation is not an independent test confidence interval.
+
+\section{Discussion}
+The tree and MLP results challenge the claim that the main tasks defeat current machine learning methods, while LoRA challenges the claim that KryptoNet-40 cannot adapt. These conclusions concern the observed splits and configurations; they are not proof of performance on unseen hidden labels. Repeated validation use and unequal tuning budgets limit a direct claim that one method is universally best. The original paper's polynomial experiments also use different preprocessing, optimization and splits, so its numbers should not be treated as a matched replication.
+
+Universal approximation is an existence statement under particular assumptions, not a guarantee that finite data optimization will discover a generalizing solution. A failed polynomial fit therefore does not disprove the theorem, and our successful experiments do not prove it. Future work could isolate the contribution of the sign transform from model family, use additional independent splits, and evaluate locked candidates without reusing local test results for selection.
+
+\textbf{Environmental impact.} The reported experiments used CPUs. The nine matched CatBoost fits record 122.95 seconds of summed fit time on one machine with one numerical thread; this excludes broader model searches and other experiments. As an illustration, assuming a constant \emph{total system} draw of 50 W for those fits gives $50\times122.95/3{,}600{,}000=0.00171$ kWh. The 50 W is a hypothetical assumption, not a measurement; real power, idle consumption and overlapping work are unknown. This is neither the full project energy nor a carbon emissions estimate. Baseline and LoRA timings use different hardware and timing scopes, so their raw seconds do not support an efficiency ranking. LoRA reduces trainable parameters and optimizer state memory, although frozen weights still contribute to computation. A full assessment requires consolidating all runs, power measurements or justified estimates, and, for emissions, an appropriate electricity carbon intensity.
+
+\begin{thebibliography}{9}
+\bibitem[Hu et al.(2022)]{hu2022} Hu, E. J., et al. LoRA: Low rank adaptation of large language models. \emph{International Conference on Learning Representations}, 2022.
+\bibitem[Kingma and Ba(2015)]{kingma2015} Kingma, D. P. and Ba, J. Adam: A method for stochastic optimization. \emph{International Conference on Learning Representations}, 2015.
+\bibitem[Prokhorenkova et al.(2018)]{prokhorenkova2018} Prokhorenkova, L., et al. CatBoost: Unbiased boosting with categorical features. \emph{Advances in Neural Information Processing Systems}, 2018.
+\bibitem[Quinn and Luther(2026)]{quinn2026} Quinn, H. and Luther, L. Kryptonite-3.0: The final end to machine learning hype? Mathematics for Machine Learning coursework mock paper, 2026.
+\end{thebibliography}
+\end{document}

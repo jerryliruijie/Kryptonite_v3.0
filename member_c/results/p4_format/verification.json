@@ -1,0 +1,123 @@
+{
+  "checked_at": "2026-11-10T14:22:45.929119+00:00",
+  "scope": "Formatting and writing only; no training or new test evaluation",
+  "lock_sha256": "096ae5d7e7ca0493804aff0cc5b1f8b7c89314a6276f1f86cd66bdd4e62fcfba",
+  "unchanged_protected_files": 284,
+  "notebooks": [
+    {
+      "path": "member_c/notebooks/p2_multiseed.ipynb",
+      "executed_code_cells": 3,
+      "sha256": "d1a7739496042b0d1bad1ea0b5772762ca88e3e0789a70b99b0bfccdcf8dddcd"
+    },
+    {
+      "path": "member_c/notebooks/p2_round1.ipynb",
+      "executed_code_cells": 2,
+      "sha256": "58a0a379fd4df32c29865775e5779a0b38bf431b78bd7465e22fe4e4a7c7adc0"
+    },
+    {
+      "path": "member_c/notebooks/p3_test.ipynb",
+      "executed_code_cells": 3,
+      "sha256": "d94ab8e4289f9e93822e4f0e4b2a04bc191f7703013b25b853f3ee1232304255"
+    },
+    {
+      "path": "member_c/notebooks/pilot_20.ipynb",
+      "executed_code_cells": 2,
+      "sha256": "646584330ce44957f1d9ad3abc04cfef94be38887f82e2cde04598aef447d887"
+    }
+  ],
+  "pdfs": [
+    {
+      "path": "member_c/results/p1_checks/figures/pilot_20_curves.pdf",
+      "width_inches": 6.75,
+      "fonts": [
+        {
+          "name": "/XTASEO+CMMI10",
+          "subtype": "/Type1",
+          "embedded": true
+        },
+        {
+          "name": "/XRBAPL+NimbusRomNo9L-Regu",
+          "subtype": "/Type1",
+          "embedded": true
+        }
+      ],
+      "minimum_text_size_pt": 10.0622725813,
+      "sha256": "2a8f340c487d1ebf6ac612ab5a672b8e2ef45efa9dd7519a542c6968b3ddabbc"
+    },
+    {
+      "path": "member_c/results/p2_multiseed/figures/width_multiseed.pdf",
+      "width_inches": 6.75,
+      "fonts": [
+        {
+          "name": "/BAANKP+CMSY10",
+          "subtype": "/Type1",
+          "embedded": true
+        },
+        {
+          "name": "/ZZIEZB+NimbusRomNo9L-Regu",
+          "subtype": "/Type1",
+          "embedded": true
+        }
+      ],
+      "minimum_text_size_pt": 10.0622725813,
+      "sha256": "e9e7dc46472875132b6e586e7e7cc8aed6cff4065dcf35687a96d1d57146c544"
+    },
+    {
+      "path": "member_c/results/p2_round1/figures/width_comparison.pdf",
+      "width_inches": 6.75,
+      "fonts": [
+        {
+          "name": "/BDRSLW+CMMI10",
+          "subtype": "/Type1",
+          "embedded": true
+        },
+        {
+          "name": "/BDSZDE+CMSY10",
+          "subtype": "/Type1",
+          "embedded": true
+        },
+        {
+          "name": "/BDPNGN+NimbusRomNo9L-Regu",
+          "subtype": "/Type1",
+          "embedded": true
+        }
+      ],
+      "minimum_text_size_pt": 10.0622725813,
+      "sha256": "a1d0b5a229b7ae250a513821288c871ef3e147ef9b423814d5888034418720d7"
+    },
+    {
+      "path": "member_c/results/p3_test/figures/validation_vs_test.pdf",
+      "width_inches": 6.75,
+      "fonts": [
+        {
+          "name": "/ZDKWJU+CMSY10",
+          "subtype": "/Type1",
+          "embedded": true
+        },
+        {
+          "name": "/ZCVLLG+NimbusRomNo9L-Regu",
+          "subtype": "/Type1",
+          "embedded": true
+        }
+      ],
+      "minimum_text_size_pt": 10.0622725813,
+      "sha256": "3eebf80f8d2022b97c8cebde77d50ac473c862c4581f9ef13ff42e62693617b9"
+    }
+  ],
+  "equations": {
+    "parameter_counts_match_all_18_locked_models": true,
+    "stable_BCE_matches_torch_including_extreme_logits": true,
+    "three_Adam_updates_match_coupled_decay_formula_atol": 1e-14
+  },
+  "visual_review": {
+    "reviewed": true,
+    "renderers": "Poppler for four figures; Ghostscript also used for P3 because the Poppler scaled preview distorted panel boundaries",
+    "result": "Final-size labels, legends and curves inspected; Ghostscript P3 and exported PNG agree without clipping"
+  },
+  "external_rendering_dependencies": "TeX Live 2025/Homebrew; latex, dvipng, mathptmx, type1cm, type1ec",
+  "limitations": [
+    "Same existing environment; not a clean-environment reproduction",
+    "Not handed off to B or committed/pushed",
+    "Final assembled paper PDF needs layout and font recheck"
+  ]
+}
