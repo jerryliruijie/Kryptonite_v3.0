@@ -56,16 +56,16 @@ Use `.venv/bin/python` on macOS/Linux. The default time budget is 900 seconds pe
 
 ### Reproducing the CV figure
 
-`plot_svm_cv.ipynb` reads the saved `results/cv20/cv_summary.csv` and generates the RBF cross-validation heatmap in `results/cv20/figures/`. Its executed outputs are saved in the notebook. To reproduce the underlying experiment, run `svm_cv.py` as above; the notebook uses the saved experiment results to reproduce the figure.
+`../notebooks/traditional_ml/plot_svm_cv.ipynb` reads the saved `results/cv20/cv_summary.csv` and generates the RBF cross-validation heatmap in `results/cv20/figures/`. Its executed outputs are saved in the notebook. To reproduce the underlying experiment, run `svm_cv.py` as above; the notebook uses the saved experiment results to reproduce the figure.
 
 Open the notebook using the project `.venv` kernel with `B_Traditional_ML/` as the working directory. For example, from the repository root on Windows:
 
 ```powershell
 cd B_Traditional_ML
-..\.venv\Scripts\python.exe -m jupyter notebook plot_svm_cv.ipynb
+..\.venv\Scripts\python.exe -m jupyter notebook ../notebooks/traditional_ml/plot_svm_cv.ipynb
 ```
 
-On macOS/Linux, use `../.venv/bin/python -m jupyter notebook plot_svm_cv.ipynb` after entering `B_Traditional_ML/`. Run all notebook cells to regenerate the PNG and PDF figures. The figure PDF uses the Times-Roman Type 1 font; check font embedding in the final report PDF.
+On macOS/Linux, use `../.venv/bin/python -m jupyter notebook ../notebooks/traditional_ml/plot_svm_cv.ipynb` after entering `B_Traditional_ML/`. Run all notebook cells to regenerate the PNG and PDF figures. The figure PDF uses the Times-Roman Type 1 font; check font embedding in the final report PDF.
 
 ## Random Forest pilot
 
@@ -114,7 +114,7 @@ From the repository root, use a new output directory to reproduce the batch and 
 .\.venv\Scripts\python.exe -m B_Traditional_ML.batch_report --input-dir B_Traditional_ML/results/my_batch
 ```
 
-Use `.venv/bin/python` on macOS/Linux. Restart the first command with the same directory to resume; the saved manifest checks the data, source, environment and budgets. The report generator reads saved results without retraining. For the recorded run, open `plot_batch_experiments.ipynb` from `B_Traditional_ML/` and run all cells to reproduce its figures. A new run's notebook input path must be changed to its output directory. Fold standard deviations describe fold-to-fold variation.
+Use `.venv/bin/python` on macOS/Linux. Restart the first command with the same directory to resume; the saved manifest checks the data, source, environment and budgets. The report generator reads saved results without retraining. For the recorded run, open `../notebooks/traditional_ml/plot_batch_experiments.ipynb` from `B_Traditional_ML/` and run all cells to reproduce its figures. A new run's notebook input path must be changed to its output directory. Fold standard deviations describe fold-to-fold variation.
 
 ## Five-model comparison and follow-up analysis
 
@@ -128,15 +128,15 @@ The follow-up compares SVM, sign-input XGBoost, Extra Trees, kNN and CatBoost us
 
 The pre-migration `new_methods.py` and `catboost_tune.py` are preserved as historical source snapshots. For fresh runs, `new_methods_v2.py` and `catboost_tune_v2.py` add checkpoint-event hash verification; CatBoost v2 additionally records and verifies training seeds. Run each with `--output-dir B_Traditional_ML/results/<new-directory>` from the repository root. Historical manifests remain unchanged, and current sources require new output directories.
 
-`model_analysis.py`, `model_comparison.py`, `knn_ties.py`, `distance_stability.py` and the other analysis scripts reproduce individual analyses; see the analysis record for inputs, execution and provenance. The executed `plot_model_analysis.ipynb` and `plot_model_comparison.ipynb` regenerate their figures from saved data. Selected K20 results and importance analyses use data examined during earlier development; local test and hidden sets remain reserved for the team’s final evaluation.
+`model_analysis.py`, `model_comparison.py`, `knn_ties.py`, `distance_stability.py` and the other analysis scripts reproduce individual analyses; see the analysis record for inputs, execution and provenance. The executed `../notebooks/traditional_ml/plot_model_analysis.ipynb` and `../notebooks/traditional_ml/plot_model_comparison.ipynb` regenerate their figures from saved data. Selected K20 results and importance analyses use data examined during earlier development; local test and hidden sets remain reserved for the team’s final evaluation.
 
-`plot_five_methods.ipynb` creates a no-title comparison figure using the PDF core Type-1 Times-Roman font; that font is not embedded. Embedding a Type-1 font and checking the final report PDF remain necessary before using the figure in the submission.
+`../notebooks/traditional_ml/plot_five_methods.ipynb` creates a no-title comparison figure using the PDF core Type-1 Times-Roman font; that font is not embedded. Embedding a Type-1 font and checking the final report PDF remain necessary before using the figure in the submission.
 
 ## Matched raw and sign inputs
 
 `representation_ablation.py` compares raw and sign inputs for the five fixed model configurations on identical K20, K30 and K40 training cross-validation splits. Both kNN inputs use standardized Euclidean distance in this matched comparison; the previous sign-Hamming kNN used a different distance. See [the experiment record](results/representation_ablation/实验记录.md) for the results, per-round differences and reproduction command. [CatBoost 与符号特征：论文素材](CatBoost与符号特征_论文素材.md) explains the experimental sequence, CatBoost and the representation's interpretation.
 
-`plot_representation_ablation.ipynb` reads saved results and reproduces the matched-comparison figure; check final PDF font embedding before using the figure for submission.
+`../notebooks/traditional_ml/plot_representation_ablation.ipynb` reads saved results and reproduces the matched-comparison figure; check final PDF font embedding before using the figure for submission.
 
 The matched comparison originally included Extra Trees. A separate [Random Forest raw/sign comparison](results/rf_representation/实验记录.md) was added afterward on the same cross-validation splits, using the original Random Forest settings. It is reproduced with `python -m B_Traditional_ML.rf_representation --output-dir B_Traditional_ML/results/<new-directory>`.
 
@@ -144,4 +144,4 @@ The matched comparison originally included Extra Trees. A separate [Random Fores
 
 The [CatBoost workflow](pipeline_README.md) documents explicit training scopes, model save/load checks and ordered-row prediction. The model in `results/pipeline_smoke/` is a K20 training-only development check; the group has not selected its final submission model or refit policy.
 
-The [K30/K40 seed study](results/catboost_transfer_seeds/实验记录.md) repeats the fixed candidate with three model seeds on the saved training cross-validation splits. The [learning-curve record](results/learning_curve/实验记录.md) reports 25%, 50% and 100% of the shared training split evaluated on the fixed shared validation set. Its `subsets/` files contain proposed nested row indices for A and the group to review and reuse; their acceptance has not yet been confirmed. The validation results are developmental and the local test remains reserved. `plot_learning_curve.ipynb` reproduces the developmental figure and preserves executed outputs.
+The [K30/K40 seed study](results/catboost_transfer_seeds/实验记录.md) repeats the fixed candidate with three model seeds on the saved training cross-validation splits. The [learning-curve record](results/learning_curve/实验记录.md) reports 25%, 50% and 100% of the shared training split evaluated on the fixed shared validation set. Its `subsets/` files contain proposed nested row indices for A and the group to review and reuse; their acceptance has not yet been confirmed. The validation results are developmental and the local test remains reserved. `../notebooks/traditional_ml/plot_learning_curve.ipynb` reproduces the developmental figure and preserves executed outputs.

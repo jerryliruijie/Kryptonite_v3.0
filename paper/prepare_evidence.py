@@ -17,8 +17,8 @@ SOURCES = {
     "catboost_learning_curve.csv": "B_Traditional_ML/results/aligned_a_subsets/results.csv",
     "representation_folds.csv": "B_Traditional_ML/results/representation_ablation/fold_metrics.csv",
     "representation_summary.csv": "B_Traditional_ML/results/representation_ablation/summary.csv",
-    "mlp_validation.csv": "member_c/results/p2_multiseed/summary.csv",
-    "mlp_test.csv": "member_c/results/p3_test/summary.csv",
+    "mlp_validation.csv": "results/mlp/p2_multiseed/summary.csv",
+    "mlp_test.csv": "results/mlp/p3_test/summary.csv",
     "adapt_runs.csv": "results/adapt_runs.csv",
 }
 
@@ -89,7 +89,7 @@ def main():
         + "\n".join(adapt_rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
     c_runs = []
-    for path in sorted((ROOT / "member_c" / "results").glob("*/run.json")):
+    for path in sorted((ROOT / "results" / "mlp").glob("*/run.json")):
         rec = json.loads(path.read_text())
         if "elapsed_seconds" in rec:
             c_runs.append({"source": str(path.relative_to(ROOT)),

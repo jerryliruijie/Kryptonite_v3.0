@@ -1,4 +1,4 @@
-# Direct dependencies validated with Python 3.12 on Windows.
+# Python 3.12; current local experiments also verified on macOS arm64.
 numpy==2.5.4
 scipy==1.18.1
 scikit-learn==1.9.1
@@ -6,4 +6,4 @@ torch==2.15.0
 matplotlib==3.11.2
 jupyter==1.1.1
 ipykernel==7.4.0
-pytest==9.2.0
+catboost==1.2.10

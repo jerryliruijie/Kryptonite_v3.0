@@ -2,7 +2,7 @@
 
 Member D's derivation for coursework section 1C, written for C's theory review before model
 selection. Every count for the whole network is checked automatically in section 5 of
-`AdaptationResults.ipynb`, which compares it with PyTorch's FLOP counter.
+`notebooks/adaptation/AdaptationResults.ipynb`, which compares it with PyTorch's FLOP counter.
 
 ## 0. Notation and conventions
 
@@ -173,7 +173,7 @@ Configuration: LoRA on hidden layers 1–4, pretrained head trained, rank $r$, b
 
 For $N = 128$, one step costs $3.07\times10^8$ operations with full fine-tuning and $2.10\times10^8$
 with LoRA at $r=4$. These formulas are asserted equal to PyTorch's measured counts in section 5 of
-`AdaptationResults.ipynb`.
+`notebooks/adaptation/AdaptationResults.ipynb`.
 
 If only the **top** $k$ layers were adapted, nothing below the lowest adapted layer would need a
 backward pass. The $W^\top G$ terms for those layers would disappear and the saving would grow. That

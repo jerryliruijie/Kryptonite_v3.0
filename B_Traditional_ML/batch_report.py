@@ -166,7 +166,7 @@ def write_report(root):
                   "- `runs/` 保存每折预测、分数、标签与指标；`fold_metrics.csv` 从保存的记录汇总逐折指标；各 `summary_*.csv` 保存所有阶段汇总。",
                   "- `events.jsonl` 记录拟合状态、失败原因与实际耗时。`progress.json` 记录阶段时间和完成数量。",
                   "- 在仓库根目录运行 `python -m B_Traditional_ML.batch_run --output-dir B_Traditional_ML/results/<new-dir>`；执行后用 `python -m B_Traditional_ML.batch_report --input-dir B_Traditional_ML/results/<new-dir>` 写本报告。",
-                  "- [准确率比较图](figures/batch_accuracy.png) 的绘图 notebook 为 `B_Traditional_ML/plot_batch_experiments.ipynb`；运行其全部单元以从保存的汇总重画图。",
+                  "- [准确率比较图](figures/batch_accuracy.png) 的绘图 notebook 为 `notebooks/traditional_ml/plot_batch_experiments.ipynb`；运行其全部单元以从保存的汇总重画图。",
                   "- 本实验的所有结果均为开发阶段评估；跨机器复现需在另一环境实际运行确认。", ""])
     (root / "实验记录.md").write_text("\n".join(lines), encoding="utf-8")
     return {"fold_records": len(folds), "fit_events": sum(e.get("type") == "fit" for e in events),

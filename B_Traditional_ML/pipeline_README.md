@@ -32,8 +32,3 @@ The Python API provides `train(dataset, scope, seed, output_dir)`, `load_model(m
 
 `B_Traditional_ML/results/pipeline_smoke/` is a development smoke check trained on the K20 shared training scope with seed 67. It includes a five-row input drawn only from those training rows and an example prediction. The reloaded model's probabilities matched the fitted model on all 8,400 training rows; this check gives no local-test or hidden accuracy. The smoke model is not a locked final submission model.
 
-Synthetic tests cover scope boundaries, required all-labelled consent flag, saved and reloaded predictions, original ordering, invalid input, fingerprints and overwrite prevention:
-
-```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_catboost_pipeline.py -q
-```

@@ -50,9 +50,8 @@ From the repository root with the environment in the README active:
 
 ```sh
 python example_shared.py
-python -m unittest discover -s tests -v
 python baselines.py --output results/baseline_runs_rerun.csv
-python -m nbconvert --to notebook --execute --inplace BaselineResults.ipynb
+python -m nbconvert --to notebook --execute --inplace notebooks/baselines/BaselineResults.ipynb
 ```
 
 The notebook defaults to the recorded `results/baseline_runs.csv`. To plot a rerun, set `RUNS_PATH` in its first code cell to the rerun CSV. To verify subset generation, run `python learning_subsets.py --output PATH` with a fresh output path. The runner and the generator protect existing files from replacement.

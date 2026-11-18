@@ -1,5 +1,12 @@
 # Kryptonite response manuscript
 
+**Current status (2026-11-18):** start with `../notebooks/paper/reproduce_current_results.ipynb` and
+`../docs/reproduction.md` for the current three-seed results. The notes below
+describe the earlier `main.tex` manuscript and its original evidence. The newer
+`main_strict_tables_only.tex` updates only the tables and their explanation; its
+remaining prose and old figure references are not yet reconciled. The superseded
+`main_local_rerun` files and corresponding submission ZIPs have been removed.
+
 `main.tex` is the rewritten manuscript. It follows the supplied framework and preserves the original `article` / `icml2021` package setup, authors, affiliation, double-column layout, type sizes, margins, and template styling. The five `.sty`/`.bst` files are byte-for-byte copies from `ImpCMLAuthorPack.zip`. `original_draft.tex` preserves the supplied LaTeX attachment for comparison. The title and running title are content changes. A correspondence field prevents the original template's missing-author error; no email address has been invented.
 
 The compiled manuscript has **six content pages and one reference page**, with **two figures and three tables**. No font-size or margin reductions were used to meet the page limit. The figures are vector PDFs with Type 1 fonts; their labels are 10.5 pt at the manuscript's 6.75-inch insertion width. The table entries use the normal body size. Captions follow the unmodified course template.
@@ -30,7 +37,7 @@ The source ZIP is also suitable for upload to Overleaf; select `main.tex` as the
 
 ## Reproduce figures and numbers
 
-`reproduce_figures.ipynb` contains executable plotting code and actual inline outputs for both manuscript figures. The same code is in `reproduce_figures.py`. It reads the included source-record copies in `data/`, checks their SHA-256 hashes, and exports vector PDFs and PNG previews to `figures/`.
+`../notebooks/paper/reproduce_figures.ipynb` contains executable plotting code and actual inline outputs for both manuscript figures. The same code is in `reproduce_figures.py`. It reads the included source-record copies in `data/`, checks their SHA-256 hashes, and exports vector PDFs and PNG previews to `figures/`.
 
 Dependencies: Python, NumPy, Matplotlib, Jupyter/IPython, and LaTeX with Times fonts. Choose a Python kernel with those dependencies. Run all notebook cells, or:
 

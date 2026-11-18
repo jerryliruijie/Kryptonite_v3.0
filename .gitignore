@@ -5,3 +5,11 @@ __pycache__/
 .pytest_cache/
 .idea/
 results/adapt/*/trainable_state.pt
+
+# LaTeX build intermediates (keep source, PDF and plot assets).
+*.aux
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+paper/*.log

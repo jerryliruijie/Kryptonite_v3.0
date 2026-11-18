@@ -44,7 +44,7 @@ We retrained the three fixed 600-iteration CatBoost candidates on all shared tra
 
 C standardizes each feature using the training partition and fits a ReLU network with two hidden layers. The experiments compare widths 128 and 256 with training seeds 42, 123 and 2026. The wider network was selected by mean validation accuracy on the shared split; its validation means were **90.57% on K20, 91.03% on K30 and 93.49% on K40**. These are three-seed means at full training size, rather than a 25%/50%/100% sample-size learning curve. A matched-size curve requires new runs by C if the group decides it is useful.
 
-C's report states that its 18 checkpoints were locked before it evaluated the local-test partitions. The local-test scores should remain final-assessment evidence; they should not drive a new choice of model, seed or threshold. Source: [`member_c/report/p3_findings.md`](../member_c/report/p3_findings.md).
+C's report states that its 18 checkpoints were locked before it evaluated the local-test partitions. The local-test scores should remain final-assessment evidence; they should not drive a new choice of model, seed or threshold. Source: [`docs/mlp/p3_findings.md`](../docs/mlp/p3_findings.md).
 
 ## 5. D: current adaptation results
 
@@ -71,11 +71,11 @@ The ± values are sample SD across three training seeds on the same validation s
 
 ## 7. Reproduction and sources
 
-- [Executed figure notebook](../GroupComparison.ipynb) generates the figures in `docs/figures/`. They are for group discussion; final paper formatting and Type-1 font embedding remain to be checked.
-- [A's baseline protocol](baseline_experiments.md), `../results/baseline_runs.csv` and `../BaselineResults.ipynb` contain its original runs.
+- [Executed figure notebook](../notebooks/group/GroupComparison.ipynb) generates the figures in `docs/figures/`. They are for group discussion; final paper formatting and Type-1 font embedding remain to be checked.
+- [A's baseline protocol](baseline_experiments.md), `../results/baseline_runs.csv` and `../notebooks/baselines/BaselineResults.ipynb` contain its original runs.
 - [B's matched-subset results and verification](../B_Traditional_ML/results/aligned_a_subsets/README.md); [B's original three-seed learning curve](../B_Traditional_ML/results/learning_curve/实验记录.md); [B's data-isolation audit](../B_Traditional_ML/results/integrity_audit/审计结论.md).
 - `../B_Traditional_ML/results/training_loss_curves/` contains B's per-iteration histories and source fingerprints.
-- `../AdaptationResults.ipynb`, `../results/adapt_runs.csv`, `../results/adapt/` and [LoRA derivation](lora_derivation.md) contain D's evidence.
-- [C's README](../member_c/README.md), [MLP methodology](../member_c/report/mlp_methodology.md) and [findings](../member_c/report/p3_findings.md) contain C's materials, originally published at `1eee487`.
+- `../notebooks/adaptation/AdaptationResults.ipynb`, `../results/adapt_runs.csv`, `../results/adapt/` and [LoRA derivation](lora_derivation.md) contain D's evidence.
+- [C's README](../docs/mlp/README.md), [MLP methodology](../docs/mlp/mlp_methodology.md) and [findings](../docs/mlp/p3_findings.md) contain C's materials, originally published at `1eee487`.
 
 C's provenance records source paths using the operating system's native separators. Its snapshot test now checks the corresponding native path on Windows as well as macOS/Linux; the training implementation and locked result files remain unchanged. This is a test portability adjustment, and cross-machine reproduction still requires an independent run.

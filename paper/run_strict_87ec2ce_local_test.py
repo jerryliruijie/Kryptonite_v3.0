@@ -1,8 +1,8 @@
 """Re-run the locked 87ec2ce training policies, then score one shared local test.
 
 Usage:
-  .venv/bin/python paper/run_strict_87ec2ce_local_test.py train --output results/strict_87ec2ce_20261118
-  .venv/bin/python paper/run_strict_87ec2ce_local_test.py evaluate --output results/strict_87ec2ce_20261118
+  .venv/bin/python paper/run_strict_87ec2ce_local_test.py train --output results/local_test_reproduction
+  .venv/bin/python paper/run_strict_87ec2ce_local_test.py evaluate --output results/local_test_reproduction
 
 The train stage never evaluates the local test. The evaluate stage refuses to run
 until all fitted artifacts exist and their training metadata have been recorded.
@@ -37,7 +37,7 @@ from B_Traditional_ML.catboost_pipeline import train as cat_train
 from common import ROOT as COMMON_ROOT, evaluate as metrics, load_split
 from kryptonet import load_kryptonet
 from lora import count_trainable
-from member_c.train import Config, fit as mlp_fit, predict_checkpoint
+from mlp_train import Config, fit as mlp_fit, predict_checkpoint
 
 SEEDS = (42, 123, 2026)
 DATASETS = ("20", "30", "40")
@@ -79,21 +79,19 @@ def train_all(output):
     if COMMON_ROOT != ROOT:
         raise RuntimeError("Repository path mismatch")
     commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, text=True).strip()
-    if commit != "87ec2ce":
-        raise RuntimeError(f"Expected commit 87ec2ce, got {commit}")
     if output.exists():
         raise FileExistsError(output)
     output.mkdir(parents=True)
     torch.set_num_threads(1)
     record = {
-        "status": "training", "git_commit": "87ec2ce", "split_seed": 67,
+        "status": "training", "git_commit": commit, "protocol_origin": "87ec2ce", "split_seed": 67,
         "training_seeds": list(SEEDS), "test_evaluated": False,
         "policy": {"baseline": "train+validation 90%", "sign-CatBoost": "train+validation 90%",
                    "MLP": "train 70%, validation 20% selects checkpoint",
                    "linear-probe/LoRA": "train 70%, validation 20% selects checkpoint"},
         "source_sha256": {name: digest(ROOT / name) for name in
                           ("paper/run_strict_87ec2ce_local_test.py", "common.py", "baselines.py",
-                           "B_Traditional_ML/catboost_pipeline.py", "member_c/train.py",
+                           "B_Traditional_ML/catboost_pipeline.py", "mlp_train.py",
                            "adapt.py", "lora.py", "kryptonet.py", "splits/manifest.json")},
         "models": {},
     }
@@ -208,6 +206,7 @@ def evaluate_all(output):
         if digest(ROOT / name) != sha:
             raise RuntimeError(f"Source changed after training: {name}")
     torch.set_num_threads(1)
+    (output / "training_manifest_pretest.json").write_bytes((output / "training_manifest.json").read_bytes())
     result = {"status": "evaluating", "training_manifest_sha256": digest(output / "training_manifest.json"),
               "split_seed": 67, "training_seeds": list(SEEDS), "rows": []}
     write_json(output / "test_results.json", result)

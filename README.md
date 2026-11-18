@@ -2,6 +2,31 @@
 
 Coursework for Mathematics for Machine Learning (60037/70015) at Imperial College London (ImpCML 2026).
 
+MLP implementation: `mlp_model.py`, `mlp_train.py`, `mlp_evaluate.py` and the
+`mlp_summarize_*.py` scripts at the repository root. See [MLP guide](docs/mlp/README.md).
+The former `member_c/` directory and unit-test code have been removed.
+
+## Current reproduction entry points
+
+Start with [docs/reproduction.md](docs/reproduction.md) for the current protocol,
+commands, evidence locations and outstanding submission requirements.
+
+| Task | Entry point |
+|---|---|
+| Current Table 2/3 results, checked against saved predictions | `results/strict_87ec2ce_20261118/test_results.json` |
+| Reproduce current tables and plots, with saved notebook outputs | `notebooks/paper/reproduce_current_results.ipynb` |
+| Reproduce plots without Jupyter | `python paper/reproduce_current_results.py` |
+| Reproduce training and local-test evaluation | `paper/run_strict_87ec2ce_local_test.py` |
+| MLP architecture drawing | `paper/render_mlp_architecture.py` |
+| Fixed validation learning-curve evidence | `results/learning_curves_20261117/` |
+
+The current protocol retains the seed-67 split. A/B fit on train+validation (90%);
+MLP, linear probe and LoRA train on 70% and select checkpoints on 20% validation.
+All scores above are on the fixed 10% local test. Training seeds are 42, 123 and 2026.
+The discarded all-models-90%-refit results and their submission packages have been
+removed. Earlier member directories and notebooks remain as development evidence;
+they are not the authoritative current Table 2/3 results.
+
 ### General Objective
 
 The `PaperAndInstructions` directory holds the mock paper *Kryptonite-3.0: The Final End to Machine Learning Hype?*, the coursework instructions and the marking scheme. The paper proposes a family of challenge datasets that it claims modern machine learning cannot solve, and a pretrained model, KryptoNet-40, that it claims cannot be adapted to them. Your task is to write a response paper that refutes these claims theoretically and empirically, including an explanation of LoRA and its computational cost (see section 1C of the instructions).
@@ -17,7 +42,7 @@ The `PaperAndInstructions` directory holds the mock paper *Kryptonite-3.0: The F
 | `Datasets/kryptonite-40-adapt-X.npy`, `-y.npy` | Labelled data for adapting KryptoNet-40 |
 | `Datasets/hidden-kryptonite-{20,30,40}-X.npy`, `hidden-kryptonite-40-adapt-X.npy` | Unlabelled hidden sets (10,000 rows each) on which your predictions are graded |
 | `kryptonet40.pt`, `kryptonet.py` | KryptoNet-40 weights and model definition |
-| `MockPaperExperiments.ipynb` | Code that reproduces the mock paper's figures |
+| `notebooks/mock_paper/MockPaperExperiments.ipynb` | Code that reproduces the mock paper's figures |
 | `check_submission.py` | Checks the format of your hidden-set predictions |
 | `ImpCMLAuthorPack.zip` | LaTeX template for your report |
 | `B_Traditional_ML/` | B's traditional-model experiments, results and analysis |
@@ -59,7 +84,6 @@ python --version
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe example_shared.py
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
 macOS/Linux:
@@ -68,10 +92,9 @@ macOS/Linux:
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python example_shared.py
-.venv/bin/python -m unittest discover -s tests -v
 ```
 
-Confirm that `python --version` reports Python 3.12 on Windows before creating the environment; use the path to a Python 3.12 executable if needed. The example reads the shared data split and evaluates example predictions. Run it and the tests on each team member's computer before starting comparable experiments. The pinned versions were verified with Python 3.12 on Windows; macOS/Linux installation remains to be verified by the team.
+Confirm that `python --version` reports Python 3.12 before creating the environment; use the path to a Python 3.12 executable if needed. The example reads the shared data split and evaluates example predictions. The current three-seed rerun also ran successfully in the repository's Python 3.12 environment on macOS arm64.
 
 ### Shared datasets and evaluation
 
@@ -104,8 +127,8 @@ For each experiment, record at least the dataset, model, split version, training
 
 ### Baselines and learning curves
 
-See [the experiment protocol and handoff](docs/baseline_experiments.md) for the data audit, common result fields and subset usage. Run `python baselines.py --output results/baseline_runs_rerun.csv` to reproduce the validation experiments, and open `BaselineResults.ipynb` for the baseline table and learning curve.
+See [the experiment protocol and handoff](docs/baseline_experiments.md) for the data audit, common result fields and subset usage. Run `python baselines.py --output results/baseline_runs_rerun.csv` to reproduce the validation experiments, and open `notebooks/baselines/BaselineResults.ipynb` for the baseline table and learning curve.
 
 ### Group comparison
 
-See [the group discussion materials](docs/group_results_comparison.md) for each method, the A/B matched-subset learning curves, B's training history and the current C and D handoffs. [GroupComparison.ipynb](GroupComparison.ipynb) reproduces the two figures.
+See [the group discussion materials](docs/group_results_comparison.md) for each method, the A/B matched-subset learning curves, B's training history and the current C and D handoffs. [GroupComparison.ipynb](notebooks/group/GroupComparison.ipynb) reproduces the two figures.
