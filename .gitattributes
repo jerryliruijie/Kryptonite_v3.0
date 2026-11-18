@@ -4,6 +4,7 @@
 /member_c/*.py -text
 /common.py -text
 /baselines.py -text
+/catboost_pipeline.py -text
 /learning_subsets.py -text
 /tests/test_member_c*.py -text
 /requirements.txt -text

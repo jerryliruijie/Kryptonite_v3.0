@@ -1,10 +1,9 @@
 # Code reproduction and submission map
 
-The coursework instructions, section 1B (pages 2–3), require readable code for
-each figure, a Jupyter notebook with saved outputs for every paper plot, four
-hidden-label arrays in the root `hiddenlabels/` directory, and a GitLab URL plus
-commit hash in the report's first-page footnote. Separate experiment scripts are
-recommended. CPU execution is sufficient.
+The updated course announcement requires a Report PDF, Labels ZIP and Code ZIP
+on Scientia. The code must reproduce every report figure and table and include
+notebooks with saved outputs. Exclude `Datasets/` and `kryptonet40.pt` from the
+Code ZIP. GitLab and LabTS are no longer used. CPU execution is sufficient.
 
 ## Environment
 
@@ -15,10 +14,10 @@ python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-Historical XGBoost experiments additionally need
-`pip install -r B_Traditional_ML/requirements.txt`. The architecture drawing uses
-LaTeX's `times` package to match the article; install TeX Live/MacTeX and make
-`latex` and `dvipng` available. Other current plots do not require LaTeX.
+To rerun training after unpacking the Code ZIP, place the course-supplied
+`Datasets/` and `kryptonet40.pt` at the project root. The architecture drawing
+uses LaTeX's `times` package. Install TeX Live/MacTeX with `latex` and `dvipng`
+to regenerate it. Other current plots do not require LaTeX.
 
 ## Current results: inspect and plot without training
 
@@ -40,11 +39,8 @@ runner. Later maintenance of the runnable script does not change that record.
 
 `results/learning_curves_20261117/` preserves only the validation learning-curve
 records from the earlier study, with hashes and their origin in `provenance.json`.
-These curves are separate from Table 2/3 and are not local-test scores. The original
-training script for these particular curves was deleted in an earlier cleanup;
-the saved data support plot reproduction, but exact training reruns of those curves
-still need that script recovered. Earlier A/B curve implementations and evidence
-remain in `baselines.py` and `B_Traditional_ML/`.
+They use the fixed validation split. `catboost_learning_curve.py` reruns both
+curves using the saved subsets. The paper plot reads the recorded CSV.
 
 ## Reproduce training and local-test evaluation
 
@@ -69,9 +65,9 @@ The split seed is 67; training seeds are 42, 123, 2026. Evaluation uses the fixe
 10% local-test rows. The same test partition has been inspected before, so it is
 not a newly untouched test sample. This command does not export hidden predictions.
 
-Individual development experiments remain runnable through `baselines.py`,
-`adapt.py`, `python -m mlp_train`, and
-`python -m B_Traditional_ML.catboost_pipeline`; each provides `--help`.
+Individual experiments are runnable through `baselines.py`, `adapt.py`,
+`python -m mlp_train` and `catboost_pipeline.py`. See the
+[Sign-CatBoost guide](traditional_ml/README.md) for training and prediction examples.
 
 ## Submission items still outstanding
 
@@ -79,8 +75,9 @@ Individual development experiments remain runnable through `baselines.py`,
   historical ZIP belonged to the rejected refit workflow. Prepare the final four
   10,000-element binary arrays and run `python check_submission.py .` before
   submission. This cleanup does not choose or train new hidden-set models.
-- Supply the actual GitLab URL and final commit in the paper. Do not label the
-  existing GitHub URL as GitLab.
+- Create the Code ZIP using the current reproduction files. Leave out local
+  archives (`_archive/`), `.git/`, and `.venv/` along with the course-supplied data
+  and pretrained weights.
 - `paper/main_strict_tables_only.tex` contains the current tables, but other prose
   and the older figure references were deliberately preserved at the user's
   request. Those portions still need reconciliation before final submission.

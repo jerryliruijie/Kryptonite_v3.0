@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 .pytest_cache/
 .idea/
+/_archive/
 results/adapt/*/trainable_state.pt
 
 # LaTeX build intermediates (keep source, PDF and plot assets).

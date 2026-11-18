@@ -45,7 +45,8 @@ Dependencies: Python, NumPy, Matplotlib, Jupyter/IPython, and LaTeX with Times f
 python reproduce_figures.py
 ```
 
-To refresh the data copies and numerical tables **inside the original repository**, run:
+To refresh the historical data copies and tables, use commit `9fe5b70`, which
+includes the original experiment directories and generator:
 
 ```sh
 .venv/bin/python paper/prepare_evidence.py
@@ -57,7 +58,7 @@ The manuscript uses existing experimental records; this rewrite did not retrain 
 
 ## Items remaining before coursework submission
 
-1. Supply the required **GitLab** submission URL and the final reproducible commit hash in the first-page footnote. The currently known remote is GitHub; it has not been relabelled as GitLab. Supply a correspondence email if desired.
+1. Remove the historical GitLab footnote placeholder from the submission PDF under the updated Scientia instructions.
 2. Lock and independently evaluate the final CatBoost and LoRA candidates. Keep the current distinction between CV, development validation, local test, and hidden-set results when updating the paper.
 3. Recover or reproducibly regenerate the final LoRA checkpoint. Prepare the four required 10,000-element binary hidden-label arrays and run the course submission checker. These are separate from the manuscript rewrite and are not produced by this package.
 

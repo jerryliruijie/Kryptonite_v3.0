@@ -6,6 +6,10 @@ MLP implementation: `mlp_model.py`, `mlp_train.py`, `mlp_evaluate.py` and the
 `mlp_summarize_*.py` scripts at the repository root. See [MLP guide](docs/mlp/README.md).
 The former `member_c/` directory and unit-test code have been removed.
 
+Sign-CatBoost implementation: `catboost_pipeline.py` and
+`catboost_learning_curve.py` at the repository root. See the
+[Sign-CatBoost guide](docs/traditional_ml/README.md).
+
 ## Current reproduction entry points
 
 Start with [docs/reproduction.md](docs/reproduction.md) for the current protocol,
@@ -45,7 +49,7 @@ The `PaperAndInstructions` directory holds the mock paper *Kryptonite-3.0: The F
 | `notebooks/mock_paper/MockPaperExperiments.ipynb` | Code that reproduces the mock paper's figures |
 | `check_submission.py` | Checks the format of your hidden-set predictions |
 | `ImpCMLAuthorPack.zip` | LaTeX template for your report |
-| `B_Traditional_ML/` | B's traditional-model experiments, results and analysis |
+| `catboost_pipeline.py`, `catboost_learning_curve.py` | Sign-CatBoost training, prediction and validation learning curves |
 
 ### KryptoNet-40
 
@@ -61,7 +65,7 @@ predictions = (model(X).squeeze(1) > 0).long()
 
 ### Submitting Predictions
 
-Put your predictions in a directory called `hiddenlabels` at the top level of your GitLab repository, as `y_predicted_20.npy`, `y_predicted_30.npy`, `y_predicted_40.npy` and `y_predicted_40_adapt.npy`. Each file must load into a binary vector of length 10,000, in the same row order as the matching hidden set. Run `python check_submission.py path/to/your/repository` before submitting.
+Put `y_predicted_20.npy`, `y_predicted_30.npy`, `y_predicted_40.npy` and `y_predicted_40_adapt.npy` in a `hiddenlabels/` folder at the project root. Each file must load into a binary vector of length 10,000, in the same row order as the matching hidden set. Run `python check_submission.py .` before making the Labels ZIP for Scientia.
 
 ### Formatting
 
@@ -74,8 +78,6 @@ Python 3 with `numpy`, `scipy`, `scikit-learn`, `torch` and `matplotlib`. Every 
 ### Shared environment
 
 Use Python 3.12 and run the following commands from the repository root. The pinned dependencies in `requirements.txt` include Jupyter and ipykernel. The `.venv` directory is local to each team member and is ignored by Git.
-
-For B's traditional-model experiments, additionally run `python -m pip install -r B_Traditional_ML/requirements.txt` using the project environment. That file includes the shared requirements and the pinned XGBoost and CatBoost versions.
 
 Windows PowerShell:
 
@@ -131,4 +133,4 @@ See [the experiment protocol and handoff](docs/baseline_experiments.md) for the 
 
 ### Group comparison
 
-See [the group discussion materials](docs/group_results_comparison.md) for each method, the A/B matched-subset learning curves, B's training history and the current C and D handoffs. [GroupComparison.ipynb](notebooks/group/GroupComparison.ipynb) reproduces the two figures.
+See [the current results notebook](notebooks/paper/reproduce_current_results.ipynb) for the local-test comparison and matched validation learning curves.

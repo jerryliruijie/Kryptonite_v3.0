@@ -13,7 +13,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import subprocess
 import sys
 import warnings
 
@@ -32,8 +31,8 @@ from threadpoolctl import threadpool_limits
 
 from adapt import build, logits, train as adapt_train
 from baselines import LOGISTIC_SETTINGS
-from B_Traditional_ML.catboost_pipeline import predict as cat_predict
-from B_Traditional_ML.catboost_pipeline import train as cat_train
+from catboost_pipeline import predict as cat_predict
+from catboost_pipeline import train as cat_train
 from common import ROOT as COMMON_ROOT, evaluate as metrics, load_split
 from kryptonet import load_kryptonet
 from lora import count_trainable
@@ -78,20 +77,19 @@ def baseline_model(method):
 def train_all(output):
     if COMMON_ROOT != ROOT:
         raise RuntimeError("Repository path mismatch")
-    commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, text=True).strip()
     if output.exists():
         raise FileExistsError(output)
     output.mkdir(parents=True)
     torch.set_num_threads(1)
     record = {
-        "status": "training", "git_commit": commit, "protocol_origin": "87ec2ce", "split_seed": 67,
+        "status": "training", "protocol_origin": "87ec2ce", "split_seed": 67,
         "training_seeds": list(SEEDS), "test_evaluated": False,
         "policy": {"baseline": "train+validation 90%", "sign-CatBoost": "train+validation 90%",
                    "MLP": "train 70%, validation 20% selects checkpoint",
                    "linear-probe/LoRA": "train 70%, validation 20% selects checkpoint"},
         "source_sha256": {name: digest(ROOT / name) for name in
                           ("paper/run_strict_87ec2ce_local_test.py", "common.py", "baselines.py",
-                           "B_Traditional_ML/catboost_pipeline.py", "mlp_train.py",
+                           "catboost_pipeline.py", "mlp_train.py",
                            "adapt.py", "lora.py", "kryptonet.py", "splits/manifest.json")},
         "models": {},
     }
