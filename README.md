@@ -14,11 +14,14 @@ Sign-CatBoost implementation: `catboost_pipeline.py` and
 
 Start with [docs/reproduction.md](docs/reproduction.md) for the current protocol,
 commands, evidence locations and outstanding submission requirements.
+The team's current manuscript is [MML_CW_Paper.pdf](paper/MML_CW_Paper.pdf).
 
 | Task | Entry point |
 |---|---|
 | Current Table 2/3 results, checked against saved predictions | `results/strict_87ec2ce_20261118/test_results.json` |
-| Reproduce current tables and plots, with saved notebook outputs | `notebooks/paper/reproduce_current_results.ipynb` |
+| Reproduce current tables and diagnostic comparisons | `notebooks/paper/reproduce_current_results.ipynb` |
+| Reproduce the paper's MLP architecture figure | `notebooks/paper/mlp_architecture.ipynb` |
+| Reproduce the paper's validation learning curve | `notebooks/paper/validation_learning_curve.ipynb` |
 | Reproduce plots without Jupyter | `python paper/reproduce_current_results.py` |
 | Reproduce training and local-test evaluation | `paper/run_strict_87ec2ce_local_test.py` |
 | MLP architecture drawing | `paper/render_mlp_architecture.py` |
@@ -28,8 +31,8 @@ The current protocol retains the seed-67 split. A/B fit on train+validation (90%
 MLP, linear probe and LoRA train on 70% and select checkpoints on 20% validation.
 All scores above are on the fixed 10% local test. Training seeds are 42, 123 and 2026.
 The discarded all-models-90%-refit results and their submission packages have been
-removed. Earlier member directories and notebooks remain as development evidence;
-they are not the authoritative current Table 2/3 results.
+removed. Development notebooks remain as supporting evidence; the authoritative
+Table 2/3 results are the fixed local-test records linked above.
 
 ### General Objective
 

@@ -1,65 +1,33 @@
-# Kryptonite response manuscript
+# Current coursework paper
 
-**Current status (2026-11-18):** start with `../notebooks/paper/reproduce_current_results.ipynb` and
-`../docs/reproduction.md` for the current three-seed results. The notes below
-describe the earlier `main.tex` manuscript and its original evidence. The newer
-`main_strict_tables_only.tex` updates only the tables and their explanation; its
-remaining prose and old figure references are not yet reconciled. The superseded
-`main_local_rerun` files and corresponding submission ZIPs have been removed.
+`MML_CW_Paper.pdf` is an exact copy of the team's current paper supplied on
+2026-11-18. It has two figures and three result tables. Its current LaTeX source
+was not supplied with the PDF; the superseded repository drafts were removed to
+avoid presenting them as the source of this version.
 
-`main.tex` is the rewritten manuscript. It follows the supplied framework and preserves the original `article` / `icml2021` package setup, authors, affiliation, double-column layout, type sizes, margins, and template styling. The five `.sty`/`.bst` files are byte-for-byte copies from `ImpCMLAuthorPack.zip`. `original_draft.tex` preserves the supplied LaTeX attachment for comparison. The title and running title are content changes. A correspondence field prevents the original template's missing-author error; no email address has been invented.
+## Figures
 
-The compiled manuscript has **six content pages and one reference page**, with **two figures and three tables**. No font-size or margin reductions were used to meet the page limit. The figures are vector PDFs with Type 1 fonts; their labels are 10.5 pt at the manuscript's 6.75-inch insertion width. The table entries use the normal body size. Captions follow the unmodified course template.
+| Paper figure | Reproduction code | Notebook with saved output |
+|---|---|---|
+| Figure 1: width-256 MLP architecture | `render_mlp_architecture.py` | `../notebooks/paper/mlp_architecture.ipynb` |
+| Figure 2: matched validation learning curves | `plot_paper_learning_curve.py` | `../notebooks/paper/validation_learning_curve.ipynb` |
 
-## Framework decisions
+The Figure 2 script recomputes the plotted means from
+`../results/learning_curves_20261117/scaling_runs.csv` and checks them against
+the saved summary. It makes a single-panel plot with classifier colours/markers
+and dataset line styles, as in the paper. The figure notebook contains the plot
+and numerical gains as saved outputs.
 
-The central story is a response to the mock paper's three unsupported inferences. Representation, data scaling, and LoRA supply the evidence for that rebuttal. These are empirical contributions and a cost derivation, not claims to have invented CatBoost, sign preprocessing, or LoRA.
+`reproduce_current_results.py` and its notebook also verify the recorded local
+test predictions and display diagnostic comparison plots. These diagnostic plots
+are not figures in the current paper.
 
-- Distinguish the valid observation that particular polynomial models fail from the invalid inference that all ML fails or universal approximation is disproved.
-- Use the existing paired raw/sign experiment. Its folds lie inside the shared training partition; those scores must not be mixed with outer validation scores.
-- Describe selection as actually implemented: training CV for the CatBoost configuration, outer validation for MLP width and MLP/LoRA checkpoint selection. Model-search budgets were not equal.
-- Remove the old draft's paired-bootstrap confidence intervals because no corresponding reproducible artifact was established. Retain genuine seed/fold standard deviations and identify what they measure.
-- Retain the independently evaluated MLP results, including K20's 89.75% point estimate. Do not present validation results as hidden-test success.
-- Include LoRA gradients, product ordering in forward and backward passes, the first-layer input-gradient exception, and whole-network counts. Rank one trains 0.51% of parameters but retains 66.85% of the counted full-fine-tuning matrix operations.
-- Recompute the linear-probe sample SD as **0.31 percentage points**, correcting the supplied draft's 0.32.
-- Treat the environmental ledger as explicitly partial. The 25--75 W calculation is an assumption-based scenario, not measured electricity use or complete project emissions.
+## Tables and training
 
-## Build the manuscript
-
-From this directory, with a standard TeX Live installation:
-
-```sh
-pdflatex -interaction=nonstopmode -halt-on-error main.tex
-pdflatex -interaction=nonstopmode -halt-on-error main.tex
-```
-
-The source ZIP is also suitable for upload to Overleaf; select `main.tex` as the main document. Pre-generated figure PDFs and table files are included, so compiling does not require Python, model training, or access to the repository datasets.
-
-## Reproduce figures and numbers
-
-`../notebooks/paper/reproduce_figures.ipynb` contains executable plotting code and actual inline outputs for both manuscript figures. The same code is in `reproduce_figures.py`. It reads the included source-record copies in `data/`, checks their SHA-256 hashes, and exports vector PDFs and PNG previews to `figures/`.
-
-Dependencies: Python, NumPy, Matplotlib, Jupyter/IPython, and LaTeX with Times fonts. Choose a Python kernel with those dependencies. Run all notebook cells, or:
-
-```sh
-python reproduce_figures.py
-```
-
-To refresh the historical data copies and tables, use commit `9fe5b70`, which
-includes the original experiment directories and generator:
-
-```sh
-.venv/bin/python paper/prepare_evidence.py
-```
-
-`data/evidence_manifest.json` records source paths, hashes, the exact adaptation run IDs used, and the scoped runtime ledger. The five dirty adaptation exploration records are omitted from the reported accuracy averages but retained in the runtime total. Figure 1 displays CatBoost, XGBoost and ExtraTrees; the runtime ledger includes all 90 saved raw/sign fits of the five-classifier study.
-
-The manuscript uses existing experimental records; this rewrite did not retrain or select models. Review checks recomputed all 90 representation accuracies and the nine matched CatBoost accuracies from saved predictions, checked the CatBoost validation row identities, verified the three designated MLP test counts, and checked baseline/adaptation CSV accuracies against confusion matrices. LoRA summaries are supported by recorded histories/metrics; the 12 clean LoRA `trainable_state.pt` files are absent from this checkout, so this review does not claim to have replayed those weights.
-
-## Items remaining before coursework submission
-
-1. Remove the historical GitLab footnote placeholder from the submission PDF under the updated Scientia instructions.
-2. Lock and independently evaluate the final CatBoost and LoRA candidates. Keep the current distinction between CV, development validation, local test, and hidden-set results when updating the paper.
-3. Recover or reproducibly regenerate the final LoRA checkpoint. Prepare the four required 10,000-element binary hidden-label arrays and run the course submission checker. These are separate from the manuscript rewrite and are not produced by this package.
-
-The unmodified template can emit empty-footnote-anchor and duplicate float-anchor warnings with the local TeX distribution. The PDF compiles successfully with no overfull boxes, unresolved references, or missing citations. All seven pages were rendered and visually checked. No template files were changed to suppress their warnings.
+Table 2 and Table 3 use `../results/strict_87ec2ce_20261118/test_results.json`.
+`reproduce_current_results.py` checks all 63 saved prediction arrays and the
+group means and sample standard deviations. Individual methods can be run with
+`../baselines.py`, `../catboost_pipeline.py`, `../mlp_train.py`, and `../adapt.py`.
+`run_strict_87ec2ce_local_test.py` reproduces the team's fixed-split training and
+local-test evaluation in a new output directory. See `../docs/reproduction.md`
+for the split and data requirements.

@@ -92,7 +92,7 @@ ax.text(9.30, y_output, "$z>0$: class 1\notherwise: class 0",
         linespacing=1.55)
 
 fig.subplots_adjust(left=0.025, right=0.99, top=0.98, bottom=0.045)
-for extension in ("png", "pdf", "svg"):
+for extension in ("png", "pdf"):
     fig.savefig(OUT / f"mlp_architecture.{extension}", dpi=280,
                 facecolor="white", bbox_inches="tight", pad_inches=0.08)
 plt.close(fig)
