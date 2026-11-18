@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-18T01:16:50.650107+00:00",
+  "dataset": "30",
+  "scope": "training+validation",
+  "local_test_included_in_training": false,
+  "train_seed": 2026,
+  "training_count": 18000,
+  "training_class_counts": {
+    "0": 9010,
+    "1": 8990
+  },
+  "input_features": 30,
+  "preprocessing": {
+    "kind": "sign",
+    "rule": "x >= 0 -> +1; x < 0 -> -1"
+  },
+  "model_parameters": {
+    "iterations": 600,
+    "depth": 10,
+    "learning_rate": 0.05,
+    "l2_leaf_reg": 10,
+    "loss_function": "Logloss",
+    "thread_count": 1,
+    "task_type": "CPU",
+    "grow_policy": "SymmetricTree",
+    "verbose": false,
+    "allow_writing_files": false,
+    "random_seed": 2026
+  },
+  "resolved_model_parameters": {
+    "nan_mode": "Min",
+    "eval_metric": "Logloss",
+    "iterations": 600,
+    "sampling_frequency": "PerTree",
+    "leaf_estimation_method": "Newton",
+    "random_score_type": "NormalWithModelSizeDecrease",
+    "grow_policy": "SymmetricTree",
+    "penalties_coefficient": 1,
+    "boosting_type": "Plain",
+    "model_shrink_mode": "Constant",
+    "feature_border_type": "GreedyLogSum",
+    "bayesian_matrix_reg": 0.10000000149011612,
+    "eval_fraction": 0,
+    "force_unit_auto_pair_weights": false,
+    "l2_leaf_reg": 10,
+    "random_strength": 1,
+    "rsm": 1,
+    "boost_from_average": false,
+    "model_size_reg": 0.5,
+    "pool_metainfo_options": {
+      "tags": {}
+    },
+    "subsample": 0.800000011920929,
+    "use_best_model": false,
+    "class_names": [
+      0,
+      1
+    ],
+    "random_seed": 2026,
+    "depth": 10,
+    "posterior_sampling": false,
+    "border_count": 254,
+    "classes_count": 0,
+    "auto_class_weights": "None",
+    "sparse_features_conflict_fraction": 0,
+    "leaf_estimation_backtracking": "AnyImprovement",
+    "best_model_min_trees": 1,
+    "model_shrink_rate": 0,
+    "min_data_in_leaf": 1,
+    "loss_function": "Logloss",
+    "learning_rate": 0.05000000074505806,
+    "score_function": "Cosine",
+    "task_type": "CPU",
+    "leaf_estimation_iterations": 10,
+    "bootstrap_type": "MVS",
+    "max_leaves": 1024
+  },
+  "training_seconds": 16.668988082994474,
+  "data_fingerprints": {
+    "x_sha256": "dbc08c9214902db64346c8a15eb677ac0ba4f02f78363d9a14eab619b1b42292",
+    "y_sha256": "de658c1f402016d0bdfca381673c2fb2675fb7dc10fb81d7d0f6891c58375b75",
+    "split_sha256": "f4720613364275e2f64cf47844a162222598206cecd7ad66807042c01c225709"
+  },
+  "split_manifest_sha256": "f04321a989ed6c6816d23f8a4803cbde150c898b1342bcfbae997749585a0e00",
+  "model_file": "model.cbm",
+  "model_format": "cbm",
+  "model_sha256": "a7153d23cf839d90a3c4da8858280dd6a946e9d2d83082e98a9e35156a932d12",
+  "training_rows_file": "training_rows.npy",
+  "training_rows_sha256": "8e00a3fb7728d83c9c687b55f68d665f5d27bcf92ed0f8944c0c637a26850d17",
+  "code_sha256": "bee7adda01dd94aed62edbc152687c2c319db58df2d2d0b6d79de6fe32d2dc0f",
+  "common_sha256": "1d14dbafb0873f0c2133b49dd667eff21a3cde004e882908ade6a6722758b46f",
+  "python": "3.12.4",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "versions": {
+    "catboost": "1.2.10",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1"
+  },
+  "reload_check": {
+    "n_rows": 18000,
+    "class_probabilities_exact": true
+  }
+}

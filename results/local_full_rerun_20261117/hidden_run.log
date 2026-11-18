@@ -1,0 +1,26 @@
+y_predicted_20.npy {'dataset': '20', 'method': 'sign-catboost', 'training_rows': 12000, 'hidden_rows': 10000, 'positive_predictions': 4988, 'sha256': 'b2a133cc443b9e6628645e616b3b9f2b3dd3b1d3ef47c05b2a56ce4bde8ea40c', 'fit_and_predict_seconds': 10.874}
+y_predicted_30.npy {'dataset': '30', 'method': 'sign-catboost', 'training_rows': 20000, 'hidden_rows': 10000, 'positive_predictions': 5023, 'sha256': '0997f6a0c9a3c91f23c12b8fdb6b0a3f9506f93c5f6ec7e8a898a2c531257721', 'fit_and_predict_seconds': 16.809}
+y_predicted_40.npy {'dataset': '40', 'method': 'sign-catboost', 'training_rows': 32000, 'hidden_rows': 10000, 'positive_predictions': 5037, 'sha256': '9fa840b2bcb9a7491783fcfeac0879f29f8b2ed5caeb5ec90189f1feefc0b838', 'fit_and_predict_seconds': 26.142}
+LoRA epoch 1 of 22
+LoRA epoch 2 of 22
+LoRA epoch 3 of 22
+LoRA epoch 4 of 22
+LoRA epoch 5 of 22
+LoRA epoch 6 of 22
+LoRA epoch 7 of 22
+LoRA epoch 8 of 22
+LoRA epoch 9 of 22
+LoRA epoch 10 of 22
+LoRA epoch 11 of 22
+LoRA epoch 12 of 22
+LoRA epoch 13 of 22
+LoRA epoch 14 of 22
+LoRA epoch 15 of 22
+LoRA epoch 16 of 22
+LoRA epoch 17 of 22
+LoRA epoch 18 of 22
+LoRA epoch 19 of 22
+LoRA epoch 20 of 22
+LoRA epoch 21 of 22
+LoRA epoch 22 of 22
+y_predicted_40_adapt.npy {'dataset': '40-adapt', 'method': 'lora-r1', 'training_rows': 4000, 'epochs': 22, 'hidden_rows': 10000, 'positive_predictions': 5122, 'sha256': '8d7362923c6df4107b17705fbe274ff7b0ec6d5b11cfabee9e0329f6ebb1c5b1', 'fit_and_predict_seconds': 0.87}

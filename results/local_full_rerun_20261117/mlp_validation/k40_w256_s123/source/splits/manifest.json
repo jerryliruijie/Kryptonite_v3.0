@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "seed": 67,
+  "strategy": "stratified 70/20/10; two train_test_split calls",
+  "numpy_version": "2.5.4",
+  "scikit_learn_version": "1.9.1",
+  "datasets": {
+    "20": {
+      "samples": 12000,
+      "features": 20,
+      "sizes": {
+        "train": 8400,
+        "validation": 2400,
+        "test": 1200
+      },
+      "x_sha256": "1b9af8c2642903e78b3c3e82517c77cf44932852d4fabe8301f4f45e19f6232e",
+      "y_sha256": "3ecc16611e98e624b42b36f6c3e8bdedfb120583cc5ee1f1c47c47a3b8a78037",
+      "split_sha256": "8e7ae87ecc120a896942ec9779f2c8e7cec28f9c7e4200c65705a3ccf98f3f86"
+    },
+    "30": {
+      "samples": 20000,
+      "features": 30,
+      "sizes": {
+        "train": 14000,
+        "validation": 4000,
+        "test": 2000
+      },
+      "x_sha256": "dbc08c9214902db64346c8a15eb677ac0ba4f02f78363d9a14eab619b1b42292",
+      "y_sha256": "de658c1f402016d0bdfca381673c2fb2675fb7dc10fb81d7d0f6891c58375b75",
+      "split_sha256": "f4720613364275e2f64cf47844a162222598206cecd7ad66807042c01c225709"
+    },
+    "40": {
+      "samples": 32000,
+      "features": 40,
+      "sizes": {
+        "train": 22400,
+        "validation": 6400,
+        "test": 3200
+      },
+      "x_sha256": "d365e89ea5075bb6232a184f043df415032e4ac0171e2f799efd33ebd75aaccf",
+      "y_sha256": "45721fd073e61e460f3dd03d4b9ab0b6eb4eb5729deed99b43a9567f01e76b26",
+      "split_sha256": "49fa11f5a8ddca92e6a26c044bea7352c7d5121650211b5b782a20b5a71ff7d8"
+    },
+    "40-adapt": {
+      "samples": 4000,
+      "features": 40,
+      "sizes": {
+        "train": 2800,
+        "validation": 800,
+        "test": 400
+      },
+      "x_sha256": "b27fbe9a55255c76a3a39fe5582c4dc51467266c9aaec92bf7dfd3a18bdcbe8d",
+      "y_sha256": "bbff5db6414134de6ddb3825dca063a925976d0295fdca81170d478f5fa9d608",
+      "split_sha256": "9c36547783526d515be6c835cd671d3337c11179ce72e84609aaf8448a45a81e"
+    }
+  }
+}
