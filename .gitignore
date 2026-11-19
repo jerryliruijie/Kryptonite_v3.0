@@ -14,3 +14,7 @@ results/adapt/*/trainable_state.pt
 *.out
 *.synctex.gz
 paper/*.log
+
+# Fresh notebook reruns generate new checkpoints and CSVs locally; executed
+# notebook outputs and the original paper evidence are kept in the repository.
+results/notebook_reruns/

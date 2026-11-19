@@ -22,21 +22,17 @@ sys.path.insert(0, str(ROOT))
 import joblib
 import numpy as np
 import torch
-from sklearn.dummy import DummyClassifier
 from sklearn.exceptions import ConvergenceWarning
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import PolynomialFeatures
 from threadpoolctl import threadpool_limits
 
-from adapt import build, logits, train as adapt_train
-from baselines import LOGISTIC_SETTINGS
-from catboost_pipeline import predict as cat_predict
-from catboost_pipeline import train as cat_train
+from lora.train import build, logits, train as adapt_train
+from baseline.train import build_model as baseline_model
+from catboost.pipeline import predict as cat_predict
+from catboost.pipeline import train as cat_train
 from common import ROOT as COMMON_ROOT, evaluate as metrics, load_split
-from kryptonet import load_kryptonet
-from lora import count_trainable
-from mlp_train import Config, fit as mlp_fit, predict_checkpoint
+from lora.kryptonet import load_kryptonet
+from lora.model import count_trainable
+from mlp.train import Config, fit as mlp_fit, predict_checkpoint
 
 SEEDS = (42, 123, 2026)
 DATASETS = ("20", "30", "40")
@@ -63,17 +59,6 @@ def model_key(dataset, method, seed):
     return f"{dataset}_{method}_s{seed}"
 
 
-def baseline_model(method):
-    if method == "majority":
-        return DummyClassifier(strategy="most_frequent")
-    logistic = LogisticRegression(**LOGISTIC_SETTINGS)
-    if method == "linear-logistic":
-        return logistic
-    if method == "quadratic-logistic":
-        return make_pipeline(PolynomialFeatures(degree=2, include_bias=False), logistic)
-    raise ValueError(method)
-
-
 def train_all(output):
     if COMMON_ROOT != ROOT:
         raise RuntimeError("Repository path mismatch")
@@ -88,9 +73,9 @@ def train_all(output):
                    "MLP": "train 70%, validation 20% selects checkpoint",
                    "linear-probe/LoRA": "train 70%, validation 20% selects checkpoint"},
         "source_sha256": {name: digest(ROOT / name) for name in
-                          ("paper/run_strict_87ec2ce_local_test.py", "common.py", "baselines.py",
-                           "catboost_pipeline.py", "mlp_train.py",
-                           "adapt.py", "lora.py", "kryptonet.py", "splits/manifest.json")},
+                          ("paper/run_strict_87ec2ce_local_test.py", "common.py", "baseline/train.py",
+                           "catboost/pipeline.py", "mlp/train.py",
+                           "lora/train.py", "lora/model.py", "lora/kryptonet.py", "splits/manifest.json")},
         "models": {},
     }
     write_json(output / "training_manifest.json", record)

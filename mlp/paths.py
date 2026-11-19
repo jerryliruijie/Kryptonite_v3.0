@@ -20,7 +20,7 @@ def recorded_path(relative, checksum=None):
             break
     else:
         if relative.startswith("member_c/") and relative.endswith(".py"):
-            translated = "mlp_" + Path(relative).name
+            translated = "mlp/" + Path(relative).name
     candidates = [ROOT / translated]
     if checksum is not None:
         if relative.startswith("member_c/configs/"):

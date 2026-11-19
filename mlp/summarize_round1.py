@@ -9,8 +9,8 @@ from pathlib import Path
 import numpy as np
 
 from common import ROOT, evaluate
-from mlp_train import Config
-from mlp_paths import recorded_path
+from mlp.train import Config
+from mlp.paths import recorded_path
 
 
 def digest(path):

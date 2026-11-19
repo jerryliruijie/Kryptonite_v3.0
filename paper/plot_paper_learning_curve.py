@@ -1,9 +1,10 @@
-"""Reproduce Figure 2 of MML_CW_Paper.pdf from recorded validation runs.
+"""Reproduce Figure 2 of MML_CW_Paper.pdf from validation runs.
 
 The nested 25%, 50%, and 100% subsets come from the fixed 70% training
 partition. Both methods are evaluated on the same untouched 20% validation
 partition. CatBoost has training seeds 42, 123, and 2026; quadratic logistic
-regression is deterministic. The paper plots the means without error bars.
+regression is deterministic. The paper plots the means without error bars. ``draw`` accepts freshly refitted
+runs from the CatBoost notebook or the original recorded CSV.
 """
 
 from collections import defaultdict
@@ -31,10 +32,10 @@ def read_rows(path):
         return list(csv.DictReader(stream))
 
 
-def figure_data():
+def figure_data(runs_path=RUNS, summary_path=SUMMARY):
     """Check saved run counts and recompute every point before plotting."""
     grouped = defaultdict(list)
-    for row in read_rows(RUNS):
+    for row in read_rows(Path(runs_path)):
         key = (row["dataset"], row["method"], int(row["training_percent"]))
         grouped[key].append(row)
 
@@ -57,19 +58,23 @@ def figure_data():
         values = [float(row["accuracy_pct"]) for row in rows]
         points[key] = float(np.mean(values))
 
-    for row in read_rows(SUMMARY):
-        key = (row["dataset"], row["method"], int(row["training_percent"]))
-        if not np.isclose(points[key], float(row["mean_accuracy_pct"])):
-            raise ValueError(f"Summary disagrees with recorded runs for {key}")
+    if summary_path is not None:
+        for row in read_rows(Path(summary_path)):
+            key = (row["dataset"], row["method"], int(row["training_percent"]))
+            if not np.isclose(points[key], float(row["mean_accuracy_pct"])):
+                raise ValueError(f"Summary disagrees with recorded runs for {key}")
     return points
 
 
-def draw(output=OUTPUT):
-    points = figure_data()
+def draw(output=OUTPUT, runs_path=RUNS, summary_path=SUMMARY):
+    points = figure_data(runs_path, summary_path)
     plt.rcParams.update({"font.family": "serif", "font.serif": ["Times New Roman", "Times"],
-                         "font.size": 10, "axes.labelsize": 10, "xtick.labelsize": 9,
-                         "ytick.labelsize": 9, "pdf.fonttype": 42})
-    fig, ax = plt.subplots(figsize=(6.75, 2.75), layout="constrained")
+                         "font.size": 10, "axes.labelsize": 10, "xtick.labelsize": 10,
+                         "ytick.labelsize": 10, "pdf.fonttype": 42})
+    # The figure is embedded at one 3.25-inch paper-column width. Keep the
+    # canvas at that native width so 10 pt labels do not shrink on insertion.
+    fig = plt.figure(figsize=(3.25, 2.10), facecolor="white")
+    ax = fig.add_axes([0.19, 0.22, 0.78, 0.74])
     colors = {"quadratic-logistic": "#46794c", "sign-catboost": "#256498"}
     markers = {"quadratic-logistic": "s", "sign-catboost": "o"}
     styles = {"20": "-", "30": "--", "40": ":"}
@@ -77,25 +82,36 @@ def draw(output=OUTPUT):
         for dataset in DATASETS:
             ax.plot(PERCENTS, [points[(dataset, method, percent)] for percent in PERCENTS],
                     color=colors[method], marker=markers[method], linestyle=styles[dataset],
-                    markersize=4.5, linewidth=1.2)
+                    markersize=3.8, linewidth=1.0)
     ax.axhline(90, color="#999999", linewidth=0.7, alpha=0.6)
     ax.set(xlim=(22, 103), ylim=(47, 100), xticks=PERCENTS,
+           yticks=(50, 90, 100),
            xlabel="Training data (%)", ylabel="Validation accuracy (%)")
     ax.grid(axis="y", color="#dddddd", linewidth=0.55)
-    legend = [Line2D([], [], color=colors[m], marker=markers[m], linestyle="-",
-                     label=label, markersize=4.5) for m, label in
+    methods = [Line2D([], [], color=colors[m], marker=markers[m], linestyle="-",
+                      label=label, markersize=3.8) for m, label in
               (("quadratic-logistic", "Quadratic"), ("sign-catboost", "CatBoost"))]
-    legend += [Line2D([], [], color="#444444", linestyle=styles[d], label=f"K{d}")
-               for d in DATASETS]
-    fig.legend(handles=legend, loc="outside lower center", ncol=5, frameon=False,
-               columnspacing=1.2, handlelength=1.6, fontsize=8)
+    datasets = [Line2D([], [], color="#444444", linestyle=styles[d], label=f"K{d}")
+                for d in DATASETS]
+    # Both method families leave a large unoccupied band between 55% and 80%.
+    # Place the legends there, giving the data panel most of the canvas.
+    method_legend = ax.legend(handles=methods, loc="center",
+                              bbox_to_anchor=(0.50, 0.45), ncol=2, frameon=True,
+                              facecolor="white", edgecolor="none", framealpha=1,
+                              columnspacing=0.6, handlelength=1.2, fontsize=10)
+    ax.add_artist(method_legend)
+    ax.legend(handles=datasets, loc="center", bbox_to_anchor=(0.50, 0.29),
+              ncol=3, frameon=True, facecolor="white", edgecolor="none",
+              framealpha=1, columnspacing=0.6, handlelength=1.2, fontsize=10)
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output, dpi=240, bbox_inches="tight")
+    fig.savefig(output, dpi=320, facecolor="white")
     plt.close(fig)
     return output, points
 
 
 if __name__ == "__main__":
     path, _ = draw()
+    vector_path, _ = draw(output=path.with_suffix(".pdf"))
     print(path)
+    print(vector_path)

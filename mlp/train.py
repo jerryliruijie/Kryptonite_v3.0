@@ -1,6 +1,6 @@
 """Train on shared training/validation rows only. Run from the repository root.
 
-    python -m mlp_train --config results/mlp/p2_r1_20_w256_seed42/config.json --run-id new_k20_w256_seed42
+    python -m mlp.train --config results/mlp/p2_r1_20_w256_seed42/config.json --run-id new_k20_w256_seed42
 
 This command has no test or hidden-set evaluation option.
 """
@@ -30,7 +30,7 @@ from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
 from common import ROOT, evaluate, load_split
-from mlp_model import MLP
+from mlp.model import MLP
 
 
 @dataclass(frozen=True)
@@ -262,7 +262,7 @@ def _fit(config, x_train, y_train, x_val, y_val, run_dir):
 
 def provenance(config, run_dir):
     sources = [ROOT / "common.py", ROOT / "requirements.txt", ROOT / "splits/manifest.json",
-               *sorted(ROOT.glob("mlp_*.py"))]
+               *sorted((ROOT / "mlp").glob("*.py"))]
     files = {}
     for path in sources:
         # Hash and persist the SAME bytes before loading data or training.

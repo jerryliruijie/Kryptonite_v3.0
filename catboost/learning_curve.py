@@ -12,8 +12,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from threadpoolctl import threadpool_limits
 
-from baselines import LOGISTIC_SETTINGS
-from catboost_pipeline import DATASETS, MODEL_PARAMS, sign_features
+from baseline.train import LOGISTIC_SETTINGS
+from catboost.pipeline import DATASETS, MODEL_PARAMS, sign_features
 from common import ROOT, evaluate, load_split
 from learning_subsets import load_subsets
 

@@ -1,7 +1,7 @@
 """KryptoNet-40: the pretrained model released with Kryptonite-3.0.
 
 Usage:
-    from kryptonet import load_kryptonet
+    from lora.kryptonet import load_kryptonet
     model = load_kryptonet("kryptonet40.pt")
     logits = model(torch.from_numpy(X).float())    # X: (N, 40) array from the Datasets directory
     predictions = (logits.squeeze(1) > 0).long()

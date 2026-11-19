@@ -5,7 +5,7 @@ import json
 import numpy as np
 
 from common import ROOT
-from mlp_summarize_round1 import collect
+from mlp.summarize_round1 import collect
 
 SEEDS = (42, 123, 2026)
 

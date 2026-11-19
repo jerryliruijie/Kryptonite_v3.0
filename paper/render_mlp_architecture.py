@@ -1,9 +1,13 @@
-"""Draw the member C MLP as a conventional neuron-and-connection diagram."""
+"""Render the paper's width-256 MLP at its final single-column size.
+
+The canvas is 3.25 inches wide, matching the paper column. All labels use
+10 pt or larger Times text at native size, so including the PDF at column
+width does not shrink its typography below the body text.
+"""
 
 from pathlib import Path
 
 import matplotlib
-
 matplotlib.use("Agg")
 matplotlib.rcParams.update({
     "text.usetex": True,
@@ -14,85 +18,66 @@ matplotlib.rcParams.update({
     "ps.fonttype": 42,
 })
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle, FancyArrowPatch
+from matplotlib.patches import Circle
 
-
-OUT = Path(__file__).resolve().parent / "figures"
+ROOT = Path(__file__).resolve().parent
+OUT = ROOT / "figures"
 OUT.mkdir(exist_ok=True)
 
-fig, ax = plt.subplots(figsize=(11.6, 6.0))
-fig.patch.set_facecolor("white")
-ax.set_xlim(0, 11.1)
-ax.set_ylim(0, 5.7)
+fig = plt.figure(figsize=(3.25, 2.25), facecolor="white")
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_xlim(0, 3.25)
+ax.set_ylim(0, 2.25)
 ax.set_aspect("equal")
 ax.axis("off")
 
-ink = "#253746"
-muted = "#586B78"
-connection = "#8A9AA7"
-x_input, x_hidden1, x_hidden2, x_output = 1.25, 3.55, 5.90, 8.25
-y_input = (1.15, 1.90, 3.60, 4.35)
-y_hidden = (0.70, 1.35, 2.00, 3.50, 4.15, 4.80)
-y_output = 2.75
+ink = "#243746"
+edge = "#8797a4"
+xs = (0.49, 1.27, 2.03, 2.80)
+ys = (0.52, 0.81, 1.40, 1.69)
+output_y = 1.10
+r = 0.095
 
+# Each drawn neuron connects to every drawn neuron in the following layer.
+# The vertical dots mark omitted input and hidden units.
+for left, right, src, dst in (
+    (xs[0], xs[1], ys, ys),
+    (xs[1], xs[2], ys, ys),
+    (xs[2], xs[3], ys, (output_y,)),
+):
+    for y0 in src:
+        for y1 in dst:
+            ax.plot((left + r, right - r), (y0, y1),
+                    color=edge, linewidth=0.48, alpha=0.47, zorder=1)
 
-def neuron(x, y, radius, fill, stroke, label=None, label_color=ink):
-    ax.add_patch(Circle((x, y), radius, facecolor=fill, edgecolor=stroke,
-                        linewidth=1.35, zorder=3))
-    if label is not None:
-        ax.text(x, y, label, ha="center", va="center", color=label_color,
-                fontsize=10.2, zorder=4)
+for x, fill, stroke in (
+    (xs[0], "#DCEAF6", "#5F91BC"),
+    (xs[1], "#F8DFAE", "#D2A657"),
+    (xs[2], "#E6DBF3", "#A789C4"),
+):
+    for y in ys:
+        ax.add_patch(Circle((x, y), r, facecolor=fill,
+                            edgecolor=stroke, linewidth=0.9, zorder=3))
+    ax.text(x, 1.105, r"$\vdots$", ha="center", va="center",
+            fontsize=10, color=ink, zorder=4)
 
+ax.add_patch(Circle((xs[3], output_y), 0.12, facecolor="#D7EEDD",
+                    edgecolor="#72A982", linewidth=1.0, zorder=3))
+ax.text(xs[3], output_y, r"$z$", ha="center", va="center",
+        fontsize=10, color=ink, zorder=4)
 
-def connect(x_left, ys_left, x_right, ys_right, r_left, r_right, opacity):
-    for y_left in ys_left:
-        for y_right in ys_right:
-            ax.plot((x_left + r_left, x_right - r_right), (y_left, y_right),
-                    color=connection, linewidth=0.75, alpha=opacity,
-                    solid_capstyle="round", zorder=1)
+for y, label in zip(reversed(ys),
+                    (r"$\tilde{x}_1$", r"$\tilde{x}_2$", r"$\tilde{x}_{d-1}$", r"$\tilde{x}_d$")):
+    ax.text(0.33, y, label, ha="right", va="center", fontsize=10, color=ink)
 
+for x, title in zip(xs, ("Input", "Hidden 1", "Hidden 2", "Output")):
+    ax.text(x, 2.04, title, ha="center", va="center", fontsize=10, color=ink)
+for x, detail in zip(xs, (r"$d=20,30,40$", "256 ReLU", "256 ReLU", "1 logit")):
+    ax.text(x, 0.17, detail, ha="center", va="center", fontsize=10, color=ink)
 
-# Lines sit behind the nodes. Each visible neuron connects to every visible
-# neuron in the following layer; the vertical dots denote omitted neurons.
-connect(x_input, y_input, x_hidden1, y_hidden, 0.23, 0.18, 0.43)
-connect(x_hidden1, y_hidden, x_hidden2, y_hidden, 0.18, 0.18, 0.38)
-connect(x_hidden2, y_hidden, x_output, (y_output,), 0.18, 0.26, 0.50)
-
-for y, label in zip(y_input, (r"$\tilde{x}_d$", r"$\tilde{x}_{d-1}$",
-                              r"$\tilde{x}_2$", r"$\tilde{x}_1$")):
-    neuron(x_input, y, 0.23, "#DCEAF6", "#5F91BC", label)
-for y in y_hidden:
-    neuron(x_hidden1, y, 0.18, "#F8DFAE", "#D2A657")
-    neuron(x_hidden2, y, 0.18, "#E6DBF3", "#A789C4")
-neuron(x_output, y_output, 0.27, "#D7EEDD", "#72A982", r"$z$")
-
-for x in (x_input, x_hidden1, x_hidden2):
-    ax.text(x, 2.75, r"$\vdots$", ha="center", va="center",
-            fontsize=19, color=muted)
-
-for x, title in ((x_input, "Input layer"), (x_hidden1, "Hidden layer 1"),
-                 (x_hidden2, "Hidden layer 2"), (x_output, "Output layer")):
-    ax.text(x, 5.35, title, ha="center", va="center", fontsize=12.2,
-            fontweight="bold", color=ink)
-
-ax.text(x_input, 0.18, "standardized features\n$d = 20, 30,$ or $40$",
-        ha="center", va="top", fontsize=10.3, color=muted, linespacing=1.5)
-ax.text(x_hidden1, 0.18, r"256 units $\cdot$ ReLU", ha="center", va="top",
-        fontsize=10.3, color=muted)
-ax.text(x_hidden2, 0.18, r"256 units $\cdot$ ReLU", ha="center", va="top",
-        fontsize=10.3, color=muted)
-ax.text(x_output, 0.18, r"1 logit $\cdot$ no activation", ha="center", va="top",
-        fontsize=10.3, color=muted)
-
-ax.add_patch(FancyArrowPatch((8.58, y_output), (9.15, y_output),
-                             arrowstyle="-|>", mutation_scale=13,
-                             linewidth=1.3, color=ink, zorder=2))
-ax.text(9.30, y_output, "$z>0$: class 1\notherwise: class 0",
-        ha="left", va="center", fontsize=10.4, color=ink,
-        linespacing=1.55)
-
-fig.subplots_adjust(left=0.025, right=0.99, top=0.98, bottom=0.045)
-for extension in ("png", "pdf"):
-    fig.savefig(OUT / f"mlp_architecture.{extension}", dpi=280,
-                facecolor="white", bbox_inches="tight", pad_inches=0.08)
+# Deliberately avoid bbox_inches='tight': the PDF's natural width is exactly
+# one paper column, so its 10 pt lettering stays 10 pt in the manuscript.
+for extension in ("pdf", "png"):
+    fig.savefig(OUT / f"mlp_architecture.{extension}", dpi=320,
+                facecolor="white")
 plt.close(fig)

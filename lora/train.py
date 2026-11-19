@@ -12,7 +12,7 @@ test set is not read here and is reserved for final evaluation):
 Inputs are the raw features, as in kryptonet.py and the mock paper's notebook.
 
 Example:
-    python adapt.py --method lora --rank 8 --seed 42
+    python -m lora.train --method lora --rank 8 --seed 42
 Each run appends one row to results/adapt_runs.csv.
 """
 
@@ -32,8 +32,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from common import ROOT, evaluate, load_split
-from kryptonet import load_kryptonet
-from lora import HEAD, apply_lora, count_trainable, trainable_parameters
+from lora.kryptonet import load_kryptonet
+from lora.model import HEAD, apply_lora, count_trainable, trainable_parameters
 
 
 DATASET = "40-adapt"

@@ -20,8 +20,8 @@ import numpy as np
 import torch
 
 from common import ROOT, evaluate as binary_metrics, load_split
-from mlp_train import Config, configure_runtime, load_checkpoint, predict_checkpoint, write_json
-from mlp_paths import recorded_path
+from mlp.train import Config, configure_runtime, load_checkpoint, predict_checkpoint, write_json
+from mlp.paths import recorded_path
 
 
 def digest(path):

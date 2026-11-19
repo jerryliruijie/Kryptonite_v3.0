@@ -34,6 +34,18 @@ METHODS = {
 }
 
 
+def build_model(method):
+    """Construct one of the fixed local-test baseline classifiers."""
+    if method == "majority":
+        return DummyClassifier(strategy="most_frequent")
+    logistic = LogisticRegression(**LOGISTIC_SETTINGS)
+    if method == "linear-logistic":
+        return logistic
+    if method == "quadratic-logistic":
+        return make_pipeline(PolynomialFeatures(degree=2, include_bias=False), logistic)
+    raise ValueError(method)
+
+
 def fit_and_score(method, x_train, y_train, x_val, y_val):
     """Fit one baseline and collect convergence and validation diagnostics."""
     if method == "majority":
@@ -86,7 +98,7 @@ def run(datasets, output):
         "code_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "source_sha256": json.dumps({
             name: _digest(ROOT / name)
-            for name in ("baselines.py", "common.py", "learning_subsets.py")
+            for name in ("baseline/train.py", "common.py", "learning_subsets.py")
         }, sort_keys=True),
         "subset_sha256": _digest(SUBSETS_PATH),
         "hardware": f"{platform.processor() or platform.machine()}; {platform.system()}; one numerical thread",
