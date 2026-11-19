@@ -1,4 +1,4 @@
-"""Reproduce Figure 2 of MML_CW_Paper.pdf from validation runs.
+"""Reproduce coursework Figure 2 from validation runs.
 
 The nested 25%, 50%, and 100% subsets come from the fixed 70% training
 partition. Both methods are evaluated on the same untouched 20% validation

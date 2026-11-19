@@ -1,6 +1,6 @@
-# Reproducing the current paper
+# Reproducing the coursework experiments
 
-The current paper is `paper/MML_CW_Paper.pdf`. Its training and model implementations are in `baseline/`, `mlp/`, `catboost/` and `lora/`. The four notebooks in `notebooks/` have executed outputs and cover every paper table and figure; see [notebooks/README.md](../notebooks/README.md).
+The training and model implementations are in `baseline/`, `mlp/`, `catboost/` and `lora/`. The four main notebooks in `notebooks/` have executed outputs and cover the reported tables and figures; see [notebooks/README.md](../notebooks/README.md).
 
 ## Environment and inputs
 
@@ -11,7 +11,7 @@ python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-The Code ZIP should omit the course-supplied `Datasets/` and `kryptonet40.pt`; place them at the project root before rerunning training. Figure 1 additionally requires LaTeX with the `times` package and `dvipng`. The CatBoost implementation folder shares its name with the installed library; its `__init__.py` extends the package path so both the coursework modules and the installed classifier import normally.
+The experiments require the course-supplied `Datasets/` and `kryptonet40.pt` at the project root. Figure 1 additionally requires LaTeX with the `times` package and `dvipng`. The CatBoost implementation folder shares its name with the installed library; its `__init__.py` extends the package path so both the coursework modules and the installed classifier import normally.
 
 ## Refit the paper experiments in the four notebooks
 
@@ -40,8 +40,8 @@ Each method also has a standalone CLI: `python -m baseline.train`, `python -m ml
 
 ## Submission check
 
-Run `.venv/bin/python paper/export_hidden_labels.py --verify` to check that all four submitted arrays match their recorded seed-42 checkpoints. K20/K30/K40 use sign-CatBoost, and K40-Adapt uses LoRA rank 4 with alpha 8. To regenerate them in a new directory, use `--output PATH`. Run `.venv/bin/python check_submission.py .` for the four 10,000-row binary arrays in `hiddenlabels/`. The current paper's LaTeX source is outside this repository, so this Code ZIP cannot regenerate the report PDF itself; it can regenerate all tables and figures used within it. Keep the Code ZIP free of `.venv/`, `.git/`, supplied data and pretrained weights.
+Run `.venv/bin/python paper/export_hidden_labels.py --verify` to check that all four submitted arrays match their recorded seed-42 checkpoints. K20/K30/K40 use sign-CatBoost, and K40-Adapt uses LoRA rank 4 with alpha 8. To regenerate them in a new directory, use `--output PATH`. Run `.venv/bin/python check_submission.py .` for the four 10,000-row binary arrays in `hiddenlabels/`. The separate `hiddenlabels.zip` archive contains these four prediction files for submission. The manuscript source is maintained separately from this code repository.
 
 ## Figure typography
 
-`paper/figures/mlp_architecture.pdf` and `paper/figures/paper_validation_learning_curves.pdf` are each 3.25 inches wide, the manuscript's single-column width. Their figure labels are 10 pt at native size. The CatBoost notebook draws Figure 2 directly from its own freshly fitted 36 validation runs. The current report PDF predates these assets and must be rebuilt with them for the larger type to appear in the submitted paper.
+`paper/figures/mlp_architecture.pdf` and `paper/figures/paper_validation_learning_curves.pdf` are each 3.25 inches wide, the manuscript's single-column width. Their figure labels are 10 pt at native size. The CatBoost notebook draws Figure 2 directly from its own freshly fitted 36 validation runs. Use these vector assets at single-column width when compiling the manuscript.

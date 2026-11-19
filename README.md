@@ -1,6 +1,6 @@
 # Kryptonite-3.0 coursework
 
-This repository contains the code and recorded evidence for the team's response to the supplied Kryptonite-3.0 mock paper. The current manuscript is [paper/MML_CW_Paper.pdf](paper/MML_CW_Paper.pdf). See [docs/reproduction.md](docs/reproduction.md) for the exact training and evaluation protocol.
+This repository contains the code and recorded evidence for the team's response to the supplied Kryptonite-3.0 mock paper. The manuscript is maintained separately. See [docs/reproduction.md](docs/reproduction.md) for the exact training and evaluation protocol.
 
 ## Code layout
 
