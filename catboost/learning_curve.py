@@ -14,12 +14,12 @@ from threadpoolctl import threadpool_limits
 
 from baseline.train import LOGISTIC_SETTINGS
 from catboost.pipeline import DATASETS, MODEL_PARAMS, sign_features
-from common import ROOT, evaluate, load_split
-from learning_subsets import load_subsets
+from common import evaluate, load_split
+from learning_subsets import SUBSETS_PATH, load_subsets
 
 
 SEEDS = (42, 123, 2026)
-CURVE_SUBSETS = ROOT / "results/learning_curves_20261117/learning_subsets.npz"
+CURVE_SUBSETS = SUBSETS_PATH
 
 
 def curve_runs(datasets):
