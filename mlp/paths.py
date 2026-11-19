@@ -13,8 +13,7 @@ def recorded_path(relative, checksum=None):
     relative = str(relative)
     translated = relative
     for old, new in (("member_c/results/", "results/mlp/"),
-                     ("member_c/configs/", "results/mlp/provenance/"),
-                     ("member_c/report/", "docs/mlp/")):
+                     ("member_c/configs/", "results/mlp/provenance/")):
         if translated.startswith(old):
             translated = new + translated[len(old):]
             break

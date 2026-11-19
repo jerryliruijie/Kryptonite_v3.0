@@ -1,8 +1,6 @@
 # LoRA for KryptoNet-40: definition, parameter counts and operation counts
 
-Member D's derivation for coursework section 1C, written for C's theory review before model
-selection. Every count for the whole network is checked automatically in section 5 of
-the historical adaptation notebook (available in repository history), which compares it with PyTorch's FLOP counter.
+Supporting derivation for the coursework paper's LoRA parameter and matrix-operation analysis.
 
 ## 0. Notation and conventions
 
@@ -12,7 +10,7 @@ the historical adaptation notebook (available in repository history), which comp
 * Backpropagation delivers the upstream gradient $G = \partial L / \partial Y \in \mathbb{R}^{d_\text{out} \times N}$.
 * **Cost convention (from the brief):** multiplying an $n\times m$ matrix by an $m\times k$ matrix costs $nmk$ operations.
 
-**Assumptions for counting**, for C to confirm:
+**Assumptions for counting:**
 
 1. Only matrix products are counted. Bias additions, the bias gradient $G\mathbf{1}$, activations,
    the loss, the optimiser update and multiplication by the scalar $\alpha/r$ are ignored. All are
@@ -36,7 +34,7 @@ $$
   $\operatorname{rank}(BA) \le \min(\operatorname{rank} A, \operatorname{rank} B) \le r$, the update has rank at most $r$.
 * **Initialisation:** $B = 0$ and $A$ random. We use Kaiming-uniform, as `nn.Linear` and the `peft` library do.
   * $B = 0$ gives $\Delta W = 0$, so the adapted network initially computes **exactly** the pretrained
-    function. This is checked in `tests/test_lora.py`.
+    function; this also follows directly from `lora/model.py`.
   * $A$ must be non-zero. The gradients are $\partial L/\partial B \propto G(AX)^\top$ and
     $\partial L/\partial A \propto B^\top G X^\top$. If both factors were zero, both gradients would be
     zero and training could never start. With $A \neq 0$, $B$ moves on the first step, and after that $A$ does too.
@@ -172,15 +170,8 @@ Configuration: LoRA on hidden layers 1–4, pretrained head trained, rank $r$, b
 | Full | 2,401,792 | 1 | 1 |
 
 For $N = 128$, one step costs $3.07\times10^8$ operations with full fine-tuning and $2.10\times10^8$
-with LoRA at $r=4$. These formulas are asserted equal to PyTorch's measured counts in section 5 of
-the historical adaptation notebook (available in repository history).
+with LoRA at $r=4$. These are matrix-product counts under the convention stated above.
 
 If only the **top** $k$ layers were adapted, nothing below the lowest adapted layer would need a
 backward pass. The $W^\top G$ terms for those layers would disappear and the saving would grow. That
 is a possible extension: it trades adaptation capacity for compute.
-
-## Points for C to check
-
-1. The assumptions in section 0, especially ignoring biases and the scalar $\alpha/r$.
-2. Whether the report should count the head's input gradient (it is needed whenever any lower layer is trainable).
-3. The order-of-products table in section 4, which is the brief's explicit requirement.
