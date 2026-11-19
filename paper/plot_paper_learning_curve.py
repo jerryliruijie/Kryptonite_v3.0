@@ -90,7 +90,7 @@ def draw(output=OUTPUT, runs_path=RUNS, summary_path=SUMMARY):
     ax.grid(axis="y", color="#dddddd", linewidth=0.55)
     methods = [Line2D([], [], color=colors[m], marker=markers[m], linestyle="-",
                       label=label, markersize=3.8) for m, label in
-              (("quadratic-logistic", "Quadratic"), ("sign-catboost", "CatBoost"))]
+              (("quadratic-logistic", "Quadratic"), ("sign-catboost", "Sign-CatBoost"))]
     datasets = [Line2D([], [], color="#444444", linestyle=styles[d], label=f"K{d}")
                 for d in DATASETS]
     # Both method families leave a large unoccupied band between 55% and 80%.
